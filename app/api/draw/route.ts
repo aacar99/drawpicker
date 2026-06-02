@@ -4,6 +4,7 @@ import { collectYoutube } from "@/lib/youtube";
 import { Reservoir } from "@/lib/reservoir";
 import { applyLocalFilters } from "@/lib/filters";
 import { userKey } from "@/lib/utils";
+import { supabaseAdmin } from "@/lib/supabase";
 import type { DrawRequest, User } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -50,7 +51,8 @@ export async function POST(req: Request) {
     let twitterStats: any = null;
 
     const seen = new Set<string>();
-    const dedupe = platform === "twitter" ? true : rules.uniqueComments !== false;
+    const dedupe =
+      platform === "twitter" ? true : rules.uniqueComments !== false;
 
     const onUsers = (users: User[]) => {
       if (!Array.isArray(users)) return;
@@ -61,8 +63,10 @@ export async function POST(req: Request) {
         const u = {
           ...raw,
           id: raw.id ? String(raw.id) : undefined,
-          username: raw.username ? String(raw.username).replace("@", "") : undefined,
-          name: raw.name ?? raw.username ?? "Bilinmeyen",
+          username: raw.username
+            ? String(raw.username).replace("@", "")
+            : undefined,
+          name: raw.name ?? raw.author ?? raw.username ?? "Bilinmeyen",
         } as User;
 
         if (!applyLocalFilters(u, rules, excluded)) continue;
@@ -92,17 +96,9 @@ export async function POST(req: Request) {
         return twitterStats.replyCount || total;
       }
 
-      if (rules.mustLike) {
-        return twitterStats.likeCount || total;
-      }
-
-      if (rules.mustFollow) {
-        return twitterStats.authorFollowers || total;
-      }
-
-      if (rules.mustRetweet) {
-        return twitterStats.retweetCount || total;
-      }
+      if (rules.mustLike) return twitterStats.likeCount || total;
+      if (rules.mustFollow) return twitterStats.authorFollowers || total;
+      if (rules.mustRetweet) return twitterStats.retweetCount || total;
 
       return total;
     }
@@ -131,7 +127,6 @@ export async function POST(req: Request) {
       }
 
       twitterStats = await getTwitterTweetStats(input, apiKey);
-
       truncated = await collectTwitter(input, rules, apiKey, onUsers, deadline);
     }
 
@@ -150,13 +145,42 @@ export async function POST(req: Request) {
       );
     }
 
+    const drawId = crypto.randomUUID();
+
+    const mainWinners = picked.slice(0, winnerNum);
+    const backupWinners = picked.slice(winnerNum, winnerNum + backupNum);
+
+    const certCode =
+      "DP-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+    const shareUrl = `https://drawpicker.io/result/${drawId}`;
+
+    const { error: saveError } = await supabaseAdmin
+      .from("draw_results")
+      .insert({
+        id: drawId,
+        platform,
+        total: displayTotal(),
+        winners: mainWinners,
+        backups: backupWinners,
+        cert_code: certCode,
+      });
+
+    if (saveError) {
+      console.error("SUPABASE SAVE ERROR:", saveError);
+    }
+
     return NextResponse.json({
       success: true,
+      drawId,
+      shareUrl,
+      resultUrl: shareUrl,
+      certCode,
       truncated,
       totalParticipants: displayTotal(),
       eligibleCount: eligible,
-      mainWinners: picked.slice(0, winnerNum),
-      backupWinners: picked.slice(winnerNum, winnerNum + backupNum),
+      mainWinners,
+      backupWinners,
     });
   } catch (err: any) {
     console.error("DRAW API ERROR:", err);
