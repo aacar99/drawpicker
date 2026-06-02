@@ -8,8 +8,8 @@ type Winner = {
 };
 
 type Props = {
-  winners: Winner[];
-  backups: Winner[];
+  winners: any[];
+  backups: any[];
   total: number;
   certCode: string;
   onRedraw?: () => void;
