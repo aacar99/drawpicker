@@ -1,12 +1,17 @@
 export type Platform = "twitter" | "youtube";
 
 export type User = {
-  id: string;
-  userId: string;
-  username: string;
-  author: string;
-  text: string;
+  id?: string;
+  userId?: string;
+  username?: string;
+  author?: string;
+  name?: string;
+  text?: string;
   profilePicture?: string;
+  avatar?: string;
+  profileImage?: string;
+  profile_image_url?: string;
+  image?: string;
   isPrivate?: boolean;
   followers?: number;
 };
@@ -18,33 +23,22 @@ export type Rules = {
   mustComment?: boolean;
   mustMention?: boolean;
   mustKeyword?: boolean;
-  keyword?: string;
   mustMinLength?: boolean;
-  minLen?: number;
   mustProfile?: boolean;
   mustMinFollowers?: boolean;
-  minFollowers?: number;
   blockHidden?: boolean;
-  blockPrevious?: boolean;
   aiSafe?: boolean;
   uniqueComments?: boolean;
+  keyword?: string;
+  minLen?: number;
+  minFollowers?: number;
 };
 
 export type DrawRequest = {
   platform: Platform;
   input: string;
-  winnerCount: number;
-  backupCount: number;
-  rules: Rules;
+  winnerCount?: number;
+  backupCount?: number;
+  rules?: Rules;
   excluded?: string[];
-};
-
-export type DrawResult = {
-  success: boolean;
-  truncated: boolean;
-  totalParticipants: number;
-  eligibleCount: number;
-  mainWinners: User[];
-  backupWinners: User[];
-  error?: string;
 };
