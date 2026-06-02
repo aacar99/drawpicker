@@ -1,34 +1,33 @@
 "use client";
 
-import GiveawayPage, { GiveawayConfig } from "@/components/GiveawayPage";
+import GiveawayPage from "@/components/GiveawayPage";
 
-const config: GiveawayConfig = {
+const config = {
   platform: "twitter",
   accent: "sky",
   icon: "𝕏",
+
   titleKey: "tw_title",
   subKey: "tw_sub",
-  inputKey: "tw_input",
-  inputPhKey: "tw_inputPh",
+
+  inputKey: "tweetUrl",
+  inputPhKey: "tweetPlaceholder",
+
   ruleDefs: [
     { key: "mustLike" },
+    { key: "mustRetweet" },
+    { key: "mustComment", default: true },
     { key: "mustFollow" },
-    { key: "mustRetweet", default: true },
-    { key: "mustComment" },
-    { key: "aiSafe", default: true },
-    { key: "uniqueComments", default: true },
-    { key: "mustMention" },
     { key: "mustKeyword" },
+    { key: "mustMention" },
     { key: "mustMinLength" },
-    { key: "mustProfile" },
-    { key: "mustMinFollowers" },
-    { key: "blockHidden" },
+    { key: "aiSafe" },
   ],
+
   showKeyword: true,
   showMinLen: true,
-  showMinFollowers: true,
 };
 
-export default function Page() {
+export default function TwitterPage() {
   return <GiveawayPage config={config} />;
 }

@@ -1,23 +1,21 @@
 "use client";
 
-import GiveawayPage, { GiveawayConfig } from "@/components/GiveawayPage";
+import GiveawayPage from "@/components/GiveawayPage";
 
-const config: GiveawayConfig = {
+const config = {
   platform: "youtube",
   accent: "purple",
   icon: "▶️",
+
   titleKey: "yt_title",
   subKey: "yt_sub",
-  inputKey: "yt_input",
-  inputPhKey: "yt_inputPh",
+
+  inputKey: "videoUrl",
+  inputPhKey: "videoPlaceholder",
 
   ruleDefs: [
-    { key: "mustComment", fixed: true },
-    { key: "uniqueComments", default: true },
-    { key: "aiSafe", default: true },
-
+    { key: "mustComment", default: true },
     { key: "mustKeyword" },
-    { key: "mustMention" },
     { key: "mustMinLength" },
   ],
 
@@ -25,6 +23,6 @@ const config: GiveawayConfig = {
   showMinLen: true,
 };
 
-export default function Page() {
+export default function YoutubePage() {
   return <GiveawayPage config={config} />;
 }
