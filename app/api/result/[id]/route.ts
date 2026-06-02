@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -9,7 +9,9 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { data, error } = await supabaseAdmin
+    const supabase = getSupabaseAdmin();
+
+    const { data, error } = await supabase
       .from("draw_results")
       .select("*")
       .eq("id", params.id)
@@ -17,10 +19,7 @@ export async function GET(
 
     if (error || !data) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "Result not found",
-        },
+        { success: false, error: "Result not found" },
         { status: 404 }
       );
     }
@@ -31,10 +30,7 @@ export async function GET(
     });
   } catch (err: any) {
     return NextResponse.json(
-      {
-        success: false,
-        error: err?.message || "Unknown error",
-      },
+      { success: false, error: err?.message || "Unknown error" },
       { status: 500 }
     );
   }

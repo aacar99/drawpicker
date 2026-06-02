@@ -1,12 +1,18 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl =
-  process.env.NEXT_PUBLIC_SUPABASE_URL ||
-  "https://wncfzddwhczgnuknjnpz.supabase.co";
+export function getSupabaseAdmin() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const supabaseKey =
-  process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  "dummy-key";
+  if (!supabaseUrl) {
+    throw new Error("NEXT_PUBLIC_SUPABASE_URL eksik");
+  }
 
-export const supabaseAdmin = createClient(supabaseUrl, supabaseKey);
+  if (!supabaseKey) {
+    throw new Error("SUPABASE KEY eksik");
+  }
+
+  return createClient(supabaseUrl, supabaseKey);
+}

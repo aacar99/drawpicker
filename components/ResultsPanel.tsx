@@ -16,7 +16,6 @@ type Props = {
 
 export default function ResultsPanel({
   t,
-  accent,
   winners,
   backups,
   total,
@@ -30,19 +29,24 @@ export default function ResultsPanel({
 
   async function shareResult() {
     const url = resultUrl || "https://drawpicker.io";
-
     const text = `🎉 DrawPicker çekiliş sonucu hazır!\n\n${url}`;
 
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "DrawPicker Çekiliş Sonucu",
+          text,
+          url,
+        });
+        return;
+      } catch {}
+    }
+
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {}
-
-    const shareUrl =
-      "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text);
-
-    window.open(shareUrl, "_blank", "noopener,noreferrer");
   }
 
   function exportCSV() {
@@ -69,9 +73,7 @@ export default function ResultsPanel({
           <div className="text-2xl font-black text-cyan-300">
             {total.toLocaleString()}
           </div>
-          <div className="text-xs text-zinc-500 mt-1">
-            {tr("total")}
-          </div>
+          <div className="text-xs text-zinc-500 mt-1">{tr("total")}</div>
         </div>
 
         <div className="bg-[#1d1d2b] border border-white/10 rounded-2xl p-4 text-center">
@@ -142,9 +144,7 @@ export default function ResultsPanel({
       )}
 
       <div className="bg-[#1d1d2b] border border-cyan-400/20 rounded-2xl p-4 text-center mb-6">
-        <div className="text-zinc-400 text-sm mb-2">
-          📜 {tr("cert")}
-        </div>
+        <div className="text-zinc-400 text-sm mb-2">📜 {tr("cert")}</div>
         <div className="text-cyan-300 font-black text-xl tracking-widest">
           {certCode}
         </div>
