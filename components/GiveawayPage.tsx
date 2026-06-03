@@ -41,7 +41,10 @@ const PLAN_LEVEL: Record<string, number> = {
 };
 
 function canUse(userPlan: string, rulePlan?: string) {
-  return PLAN_LEVEL[userPlan || "free"] >= PLAN_LEVEL[rulePlan || "free"];
+  const up = String(userPlan || "free").toLowerCase().trim();
+  const rp = String(rulePlan || "free").toLowerCase().trim();
+
+  return (PLAN_LEVEL[up] ?? 0) >= (PLAN_LEVEL[rp] ?? 0);
 }
 
 function getRuleInput(key: string) {
@@ -120,7 +123,7 @@ export default function GiveawayPage({ config }: any) {
           .eq("id", data.user.id)
           .single();
 
-        setPlan(dbUser?.plan || "free");
+        setPlan(String(dbUser?.plan || "free").toLowerCase().trim());
       }
     });
   }, []);
@@ -134,7 +137,21 @@ export default function GiveawayPage({ config }: any) {
       return;
     }
 
-    setRules((p: any) => ({ ...p, [key]: !p[key] }));
+    setRules((p: any) => {
+      const next = !p[key];
+
+      const updated = {
+        ...p,
+        [key]: next,
+      };
+
+      if (!next) {
+        const inputDef = getRuleInput(key);
+        if (inputDef) delete updated[inputDef.field];
+      }
+
+      return updated;
+    });
   }
 
   function setRuleValue(field: string, value: string) {
