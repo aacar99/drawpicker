@@ -19,8 +19,6 @@ const ACCENT: Record<string, any> = {
     ruleOn: "border-sky-500 bg-sky-500/10",
     chk: "bg-sky-500",
     check: "text-sky-400",
-    cardFrom: "from-sky-500/10 to-cyan-500/5 border border-sky-500/40",
-    certBorder: "border-sky-500/40",
   },
   purple: {
     text: "text-purple-400",
@@ -32,10 +30,19 @@ const ACCENT: Record<string, any> = {
     ruleOn: "border-purple-500 bg-purple-500/10",
     chk: "bg-purple-500",
     check: "text-purple-400",
-    cardFrom: "from-purple-500/10 to-cyan-500/5 border border-purple-500/40",
-    certBorder: "border-purple-500/40",
   },
 };
+
+const PLAN_LEVEL: Record<string, number> = {
+  free: 0,
+  starter: 1,
+  pro: 2,
+  business: 3,
+};
+
+function canUse(userPlan: string, rulePlan?: string) {
+  return PLAN_LEVEL[userPlan || "free"] >= PLAN_LEVEL[rulePlan || "free"];
+}
 
 export default function GiveawayPage({ config }: any) {
   const a = ACCENT[config.accent] || ACCENT.sky;
@@ -58,13 +65,35 @@ export default function GiveawayPage({ config }: any) {
   const [error, setError] = useState("");
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [plan, setPlan] = useState("free");
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+
+    supabase.auth.getUser().then(async ({ data }) => {
+      setUser(data.user);
+
+      if (data.user) {
+        const { data: dbUser } = await supabase
+          .from("users")
+          .select("plan")
+          .eq("id", data.user.id)
+          .single();
+
+        setPlan(dbUser?.plan || "free");
+      }
+    });
   }, []);
 
-  function toggle(key: string) {
+  function toggle(rule: any) {
+    const key = rule.key;
+    const locked = !canUse(plan, rule.plan);
+
+    if (locked) {
+      setShowUpgrade(true);
+      return;
+    }
+
     setRules((p: any) => ({ ...p, [key]: !p[key] }));
   }
 
@@ -128,6 +157,10 @@ export default function GiveawayPage({ config }: any) {
     }
   }
 
+  const quickRules = config.quickRules || config.ruleDefs?.slice(0, 4) || [];
+  const advancedRules =
+    config.advancedRules || config.ruleDefs?.slice(4) || [];
+
   return (
     <main className="min-h-screen bg-[#080812] text-white px-4 py-10 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#0ea5e933,transparent_35%),radial-gradient(circle_at_bottom_right,#a855f733,transparent_35%)]" />
@@ -142,6 +175,32 @@ export default function GiveawayPage({ config }: any) {
         </div>
       )}
 
+      {showUpgrade && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
+          <div className="bg-[#16161f] border border-white/10 rounded-3xl p-8 max-w-md w-full text-center">
+            <div className="text-5xl mb-4">🚀</div>
+            <h2 className="text-2xl font-black mb-2">Paket yükseltmeniz gerekiyor</h2>
+            <p className="text-zinc-400 text-sm mb-6">
+              Bu özellik mevcut paketinizde yok. Devam etmek için Starter, Pro veya Business paketine geçin.
+            </p>
+
+            <a
+              href="/pricing"
+              className={`block w-full bg-gradient-to-r ${a.btn} py-3 rounded-xl font-bold text-sm mb-3 hover:opacity-90 transition`}
+            >
+              Paketleri Gör →
+            </a>
+
+            <button
+              onClick={() => setShowUpgrade(false)}
+              className="text-zinc-500 text-sm hover:text-white transition"
+            >
+              Şimdi değil
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="relative max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8 gap-4">
           <a
@@ -151,12 +210,18 @@ export default function GiveawayPage({ config }: any) {
             {t("back")}
           </a>
 
-          <LangPicker
-            lang={lang}
-            setLang={setLang}
-            accentHover={a.hover}
-            accentCheck={a.check}
-          />
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:block text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-300">
+              Plan: <span className={a.text}>{plan.toUpperCase()}</span>
+            </div>
+
+            <LangPicker
+              lang={lang}
+              setLang={setLang}
+              accentHover={a.hover}
+              accentCheck={a.check}
+            />
+          </div>
         </div>
 
         <div className="text-center mb-8">
@@ -177,37 +242,6 @@ export default function GiveawayPage({ config }: any) {
                 Giriş Yap →
               </a>
             </p>
-          </div>
-        )}
-
-        {showUpgrade && (
-          <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
-            <div className="bg-[#16161f] border border-white/10 rounded-3xl p-8 max-w-md w-full text-center">
-              <div className="text-5xl mb-4">🚀</div>
-
-              <h2 className="text-2xl font-black mb-2">
-                Ücretsiz hakkınız doldu
-              </h2>
-
-              <p className="text-zinc-400 text-sm mb-6">
-                1 ücretsiz çekiliş hakkınızı kullandınız. Devam etmek için bir
-                paket satın alın.
-              </p>
-
-              <a
-                href="/pricing"
-                className="block w-full bg-gradient-to-r from-sky-600 to-sky-500 py-3 rounded-xl font-bold text-sm mb-3 hover:opacity-90 transition"
-              >
-                Paketleri Gör →
-              </a>
-
-              <button
-                onClick={() => setShowUpgrade(false)}
-                className="text-zinc-500 text-sm hover:text-white transition"
-              >
-                Şimdi değil
-              </button>
-            </div>
           </div>
         )}
 
@@ -232,20 +266,26 @@ export default function GiveawayPage({ config }: any) {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-                {config.ruleDefs?.slice(0, 4).map((r: any) => (
-                  <Rule
-                    key={r.key}
-                    label={t("r_" + r.key)}
-                    val={Boolean(rules[r.key])}
-                    toggle={() => toggle(r.key)}
-                    fixed={r.fixed}
-                    onClass={a.ruleOn}
-                    chkClass={a.chk}
-                  />
-                ))}
+                {quickRules.map((r: any) => {
+                  const locked = !canUse(plan, r.plan);
+
+                  return (
+                    <Rule
+                      key={r.key}
+                      label={`${r.icon || ""} ${t("r_" + r.key)}`}
+                      val={Boolean(rules[r.key])}
+                      toggle={() => toggle(r)}
+                      fixed={r.fixed}
+                      locked={locked}
+                      plan={r.plan || "free"}
+                      onClass={a.ruleOn}
+                      chkClass={a.chk}
+                    />
+                  );
+                })}
               </div>
 
-              {config.ruleDefs?.length > 4 && (
+              {advancedRules.length > 0 && (
                 <div className="bg-[#101018] border border-white/10 rounded-2xl overflow-hidden">
                   <button
                     type="button"
@@ -260,17 +300,23 @@ export default function GiveawayPage({ config }: any) {
 
                   {showGeneralRules && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 pt-0">
-                      {config.ruleDefs.slice(4).map((r: any) => (
-                        <Rule
-                          key={r.key}
-                          label={t("r_" + r.key)}
-                          val={Boolean(rules[r.key])}
-                          toggle={() => toggle(r.key)}
-                          fixed={r.fixed}
-                          onClass={a.ruleOn}
-                          chkClass={a.chk}
-                        />
-                      ))}
+                      {advancedRules.map((r: any) => {
+                        const locked = !canUse(plan, r.plan);
+
+                        return (
+                          <Rule
+                            key={r.key}
+                            label={`${r.icon || ""} ${t("r_" + r.key)}`}
+                            val={Boolean(rules[r.key])}
+                            toggle={() => toggle(r)}
+                            fixed={r.fixed}
+                            locked={locked}
+                            plan={r.plan || "free"}
+                            onClass={a.ruleOn}
+                            chkClass={a.chk}
+                          />
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -303,9 +349,18 @@ export default function GiveawayPage({ config }: any) {
                   min={0}
                   max={50}
                   value={backupCount}
+                  disabled={plan === "free"}
                   onChange={(e) => setBackupCount(Number(e.target.value))}
-                  className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition`}
+                  className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition ${
+                    plan === "free" ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
                 />
+
+                {plan === "free" && (
+                  <p className="text-[11px] text-amber-400 mt-1">
+                    Yedek kazanan Starter ve üzeri paketlerde aktif.
+                  </p>
+                )}
               </div>
             </div>
 
