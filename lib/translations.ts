@@ -1,3 +1,35 @@
+const base = {
+  hero: {
+    badge: "🛡️ 100% Fair • Transparent • Secure",
+    title1: "The Fair Giveaway",
+    title2: "Platform!",
+    desc: "Create secure, transparent and professional giveaways on X and YouTube.",
+    start: "Start Giveaway →",
+    how: "▶ How It Works?",
+    free: "Free",
+    noCard: "No credit card required",
+    limit: "Free up to 200 participants",
+  },
+  lastDraw: {
+    title: "Last Giveaway",
+    winner: "Winner",
+    congrats: "Congratulations! 🎉",
+    view: "View Result",
+    comments: "Total Comments",
+    eligible: "Eligible Participants",
+    winners: "Winner",
+    cert: "Giveaway Certificate",
+  },
+  features: {
+    fastTitle: "Fast Results",
+    fastText: "Get giveaway results in seconds.",
+    certTitle: "Certified",
+    certText: "A verifiable giveaway certificate is generated.",
+    secureTitle: "Secure",
+    secureText: "Results are stored and can be shared.",
+  },
+};
+
 export const translations = {
   tr: {
     nav: {
@@ -9,6 +41,35 @@ export const translations = {
       contact: "İletişim",
       login: "Giriş Yap",
       logout: "Çıkış",
+    },
+    hero: {
+      badge: "🛡️ %100 Adil • Şeffaf • Güvenilir",
+      title1: "Adil Çekilişin",
+      title2: "Tek Adresi!",
+      desc: "X ve YouTube’da güvenilir, şeffaf ve profesyonel çekilişler düzenleyin.",
+      start: "Hemen Çekiliş Yap →",
+      how: "▶ Nasıl Çalışır?",
+      free: "Ücretsiz",
+      noCard: "Kredi kartı gerekmez",
+      limit: "200 katılımcıya kadar ücretsiz",
+    },
+    lastDraw: {
+      title: "Son Çekiliş",
+      winner: "Kazanan",
+      congrats: "Tebrikler! 🎉",
+      view: "Sonucu Görüntüle",
+      comments: "Toplam Yorum",
+      eligible: "Uygun Katılımcı",
+      winners: "Kazanan",
+      cert: "Çekiliş Sertifikası",
+    },
+    features: {
+      fastTitle: "Hızlı Sonuç",
+      fastText: "Saniyeler içinde çekiliş sonucu alın.",
+      certTitle: "Sertifikalı",
+      certText: "Doğrulanabilir çekiliş sertifikası oluşturulur.",
+      secureTitle: "Güvenli",
+      secureText: "Sonuçlar kayıt altında tutulur ve paylaşılabilir.",
     },
   },
 
@@ -23,6 +84,7 @@ export const translations = {
       login: "Login",
       logout: "Logout",
     },
+    ...base,
   },
 
   de: {
@@ -36,6 +98,7 @@ export const translations = {
       login: "Anmelden",
       logout: "Abmelden",
     },
+    ...base,
   },
 
   zh: {
@@ -49,6 +112,7 @@ export const translations = {
       login: "登录",
       logout: "退出",
     },
+    ...base,
   },
 
   ru: {
@@ -62,6 +126,7 @@ export const translations = {
       login: "Войти",
       logout: "Выйти",
     },
+    ...base,
   },
 
   ko: {
@@ -75,6 +140,7 @@ export const translations = {
       login: "로그인",
       logout: "로그아웃",
     },
+    ...base,
   },
 
   es: {
@@ -88,6 +154,7 @@ export const translations = {
       login: "Iniciar sesión",
       logout: "Cerrar sesión",
     },
+    ...base,
   },
 
   it: {
@@ -101,6 +168,7 @@ export const translations = {
       login: "Accedi",
       logout: "Esci",
     },
+    ...base,
   },
 
   fr: {
@@ -114,6 +182,7 @@ export const translations = {
       login: "Connexion",
       logout: "Déconnexion",
     },
+    ...base,
   },
 
   el: {
@@ -127,6 +196,7 @@ export const translations = {
       login: "Σύνδεση",
       logout: "Αποσύνδεση",
     },
+    ...base,
   },
 
   pl: {
@@ -140,6 +210,7 @@ export const translations = {
       login: "Zaloguj się",
       logout: "Wyloguj",
     },
+    ...base,
   },
 
   ro: {
@@ -153,5 +224,8 @@ export const translations = {
       login: "Autentificare",
       logout: "Ieșire",
     },
+    ...base,
   },
 };
+
+export type TranslationLang = keyof typeof translations;
