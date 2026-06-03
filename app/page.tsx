@@ -20,11 +20,13 @@ type LastDraw = {
   cert_code?: string;
 };
 
+type PricingInterval = "monthly" | "yearly";
+
 export default function Home() {
   const [lang, setLang] = useState("tr");
   const [lastDraw, setLastDraw] = useState<LastDraw | null>(null);
   const [user, setUser] = useState<any>(null);
-  const [pricingInterval, setPricingInterval] = useState<"monthly" | "yearly">("monthly");
+  const [pricingInterval, setPricingInterval] = useState<PricingInterval>("monthly");
 
   const t = translations[lang as keyof typeof translations] || translations.tr;
 
@@ -48,12 +50,6 @@ export default function Home() {
 
   const lastWinner = lastDraw?.winners?.[0];
 
-  const paidPlans = [
-    { key: "starter", ...PLANS.starter, color: "sky", badge: null },
-    { key: "pro", ...PLANS.pro, color: "purple", badge: "EN POPÜLER" },
-    { key: "business", ...PLANS.business, color: "cyan", badge: null },
-  ];
-
   return (
     <main className="min-h-screen bg-[#080812] text-white overflow-hidden relative">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,#0ea5e933,transparent_32%),radial-gradient(circle_at_85%_45%,#a855f733,transparent_35%),linear-gradient(180deg,#080812,#0b0b14)]" />
@@ -64,7 +60,6 @@ export default function Home() {
         <a href="/" className="text-2xl font-black tracking-tight">
           🎁 Draw<span className="text-pink-400">Picker</span>
         </a>
-
         <div className="hidden md:flex items-center gap-8 text-sm font-bold text-zinc-300">
           <a href="/" className="text-white border-b-2 border-cyan-400 pb-2">{t.nav.home}</a>
           <a href="#platforms" className="hover:text-white">{t.nav.features}</a>
@@ -73,7 +68,6 @@ export default function Home() {
           <a href="#sss" className="hover:text-white">{t.nav.faq}</a>
           <a href="#iletisim" className="hover:text-white">{t.nav.contact}</a>
         </div>
-
         <div className="relative z-[10000] flex items-center gap-3">
           <LangPicker lang={lang} setLang={setLang} accentHover="hover:border-sky-500" accentCheck="text-sky-400" />
           {user ? (
@@ -113,7 +107,6 @@ export default function Home() {
       <section id="platforms" className="relative z-10 max-w-7xl mx-auto px-5 pb-14">
         <div className="grid lg:grid-cols-[1fr_380px] gap-6">
           <div className="grid md:grid-cols-2 gap-6">
-            {/* YOUTUBE */}
             <div className="relative overflow-hidden bg-[#141421]/90 border border-red-500/30 rounded-3xl p-7 shadow-2xl">
               <div className="absolute right-8 top-16 text-[9rem] text-white/[0.04]">▶</div>
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center text-3xl mb-5">▶</div>
@@ -130,7 +123,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* TWITTER */}
             <div className="relative overflow-hidden bg-[#141421]/90 border border-sky-500/30 rounded-3xl p-7 shadow-2xl">
               <div className="absolute right-8 top-10 text-[10rem] text-white/[0.04]">𝕏</div>
               <div className="w-14 h-14 rounded-2xl bg-black border border-white/10 flex items-center justify-center text-3xl mb-5">𝕏</div>
@@ -177,7 +169,7 @@ export default function Home() {
               <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 text-center">
                 <div className="text-2xl mb-1">👥</div>
                 <div className="font-black text-xl">{lastDraw?.winners?.length || 0}</div>
-                <div className="text-[11px] text-zinc-500">{t.lastDraw.winners}</div>
+                <div className="text-[11px] text-zinc-500">{t.lastDraw.eligible}</div>
               </div>
               <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 text-center">
                 <div className="text-2xl mb-1">🏆</div>
@@ -193,7 +185,7 @@ export default function Home() {
       </section>
 
       {/* FEATURES */}
-      <section id="ozellikler" className="relative z-10 max-w-7xl mx-auto px-5 pb-20">
+      <section className="relative z-10 max-w-7xl mx-auto px-5 pb-20">
         <div className="grid sm:grid-cols-3 gap-4">
           <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5">
             <div className="text-2xl mb-2">⚡</div>
@@ -213,7 +205,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRICING SECTION */}
+      {/* PRICING */}
       <section id="pricing" className="relative z-10 max-w-7xl mx-auto px-5 pb-24">
         <div className="text-center mb-12">
           <h2 className="text-4xl sm:text-5xl font-black mb-4">
@@ -222,8 +214,6 @@ export default function Home() {
             </span>
           </h2>
           <p className="text-zinc-400 mb-8">İhtiyacına göre plan seç. İstediğin zaman iptal et.</p>
-
-          {/* Toggle */}
           <div className="inline-flex bg-[#16161f] border border-white/10 rounded-2xl p-1">
             <button
               onClick={() => setPricingInterval("monthly")}
@@ -240,30 +230,32 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Free plan */}
+        {/* Free */}
         <div className="bg-[#141421]/90 border border-white/10 rounded-3xl p-6 mb-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <div className="font-black text-xl mb-1">🆓 Free</div>
-            <div className="text-zinc-400 text-sm">Tek seferlik deneme — kayıt gerekli</div>
+            <div className="text-zinc-400 text-sm">Tek seferlik deneme</div>
           </div>
           <div className="text-3xl font-black">$0</div>
           <ul className="text-zinc-400 text-sm space-y-1">
             {PLANS.free.features.map((f, i) => <li key={i}>✓ {f}</li>)}
           </ul>
           <a href="/auth/login" className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-bold text-sm transition">
-            {user ? "Mevcut Plan" : "Ücretsiz Başla →"}
+            Ücretsiz Başla →
           </a>
         </div>
 
-        {/* Paid plans */}
+        {/* Paid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          {paidPlans.map((plan) => {
+          {(["starter", "pro", "business"] as const).map((key) => {
+            const plan = PLANS[key];
             const price = pricingInterval === "yearly" ? plan.yearlyPrice : plan.monthlyPrice;
+            const isPopular = key === "pro";
             return (
-              <div key={plan.key} className={`relative bg-[#141421]/90 border rounded-3xl p-6 flex flex-col ${plan.badge ? "border-purple-500 shadow-lg shadow-purple-500/20" : "border-white/10"}`}>
-                {plan.badge && (
+              <div key={key} className={`relative bg-[#141421]/90 border rounded-3xl p-6 flex flex-col ${isPopular ? "border-purple-500 shadow-lg shadow-purple-500/20" : "border-white/10"}`}>
+                {isPopular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-xs font-black px-4 py-1 rounded-full whitespace-nowrap">
-                    {plan.badge}
+                    EN POPÜLER
                   </div>
                 )}
                 <div className="font-black text-2xl mb-1">{plan.name}</div>
@@ -281,17 +273,13 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                
-                  href="/pricing"
-                  className={`block w-full text-center py-3 rounded-xl font-bold text-sm transition ${plan.badge ? "bg-purple-600 hover:bg-purple-500" : "bg-sky-600 hover:bg-sky-500"}`}
-                >
+                <a href="/pricing" className={`block w-full text-center py-3 rounded-xl font-bold text-sm transition ${isPopular ? "bg-purple-600 hover:bg-purple-500" : "bg-sky-600 hover:bg-sky-500"}`}>
                   Satın Al →
                 </a>
               </div>
             );
           })}
         </div>
-
         <div className="text-center">
           <a href="/pricing" className="text-zinc-400 hover:text-white text-sm underline transition">
             Tüm plan detaylarını gör →
