@@ -23,8 +23,8 @@ export const PLANS = {
     maxParticipants: 2000,
     monthlyPrice: 9,
     yearlyPrice: 75,
-    dodoMonthlyId: "STARTER_MONTHLY_ID", // Dodo'dan aldığın Product ID
-    dodoYearlyId: "STARTER_YEARLY_ID",
+    dodoMonthlyId: "pdt_0NgG5U0kp4o6A0gY11X6H", // Dodo'dan aldığın Product ID
+    dodoYearlyId: "pdt_0NgG7MLWkcZetxB1Iabvg",
     features: [
       "Ayda 15 çekiliş",
       "2.000 katılımcıya kadar",
@@ -38,8 +38,8 @@ export const PLANS = {
     maxParticipants: 20000,
     monthlyPrice: 24,
     yearlyPrice: 199,
-    dodoMonthlyId: "PRO_MONTHLY_ID",
-    dodoYearlyId: "PRO_YEARLY_ID",
+    dodoMonthlyId: "pdt_0NgG7hDSAhJlPT8wqC8Be",
+    dodoYearlyId: "pdt_0NgG8CoAcTJo4YvlBa3Jw",
     features: [
       "Ayda 60 çekiliş",
       "20.000 katılımcıya kadar",
@@ -53,8 +53,8 @@ export const PLANS = {
     maxParticipants: 999999,
     monthlyPrice: 59,
     yearlyPrice: 490,
-    dodoMonthlyId: "BUSINESS_MONTHLY_ID",
-    dodoYearlyId: "BUSINESS_YEARLY_ID",
+    dodoMonthlyId: "pdt_0NgG8R5pz4qs9SgFBZN1s",
+    dodoYearlyId: "pdt_0NgG8vSR1omLndnKZ7pF2",
     features: [
       "Sınırsız çekiliş",
       "Sınırsız katılımcı",
