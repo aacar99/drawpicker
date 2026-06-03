@@ -34,7 +34,7 @@ export function mapComment(t: any): User {
     userId,
     username,
     author: t.user?.name || t.author?.name || username || "Unknown",
-    text: t.text || t.full_text || "",
+    text: t.text || t.full_text || t.tweet_text || t.legacy?.full_text || t.legacy?.text || t.note_tweet?.note_tweet_results?.result?.text || "yorum",
     profilePicture:
       t.user?.profile_image_url_https || t.author?.profile_image_url || "",
     isPrivate: Boolean(t.user?.protected || t.author?.protected),
