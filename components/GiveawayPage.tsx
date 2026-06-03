@@ -220,7 +220,6 @@ export default function GiveawayPage({ config }: any) {
                 t={t}
                 accent={a}
                 total={total}
-                eligible={total}
                 winners={winners}
                 backups={backups}
                 certCode={certCode}
