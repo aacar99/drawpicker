@@ -45,27 +45,41 @@ export default function Home() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,#0ea5e933,transparent_32%),radial-gradient(circle_at_85%_45%,#a855f733,transparent_35%),linear-gradient(180deg,#080812,#0b0b14)]" />
       <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:48px_48px]" />
 
-      <nav className="relative z-10 max-w-7xl mx-auto flex items-center justify-between px-5 py-5">
+      <nav className="relative z-[9999] max-w-7xl mx-auto flex items-center justify-between px-5 py-5">
         <a href="/" className="text-2xl font-black tracking-tight">
           draw<span className="text-pink-400">picker</span>
         </a>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-bold text-zinc-300">
-          <a href="/" className="text-white border-b-2 border-cyan-400 pb-2">Ana Sayfa</a>
-          <a href="#ozellikler" className="hover:text-white">Özellikler</a>
-          <a href="#nasil" className="hover:text-white">Nasıl Çalışır?</a>
-          <a href="#fiyat" className="hover:text-white">Fiyatlandırma</a>
-          <a href="#sss" className="hover:text-white">SSS</a>
-          <a href="#iletisim" className="hover:text-white">İletişim</a>
+          <a href="/" className="text-white border-b-2 border-cyan-400 pb-2">
+            Ana Sayfa
+          </a>
+          <a href="#ozellikler" className="hover:text-white">
+            Özellikler
+          </a>
+          <a href="#nasil" className="hover:text-white">
+            Nasıl Çalışır?
+          </a>
+          <a href="#fiyat" className="hover:text-white">
+            Fiyatlandırma
+          </a>
+          <a href="#sss" className="hover:text-white">
+            SSS
+          </a>
+          <a href="#iletisim" className="hover:text-white">
+            İletişim
+          </a>
         </div>
 
-        <div className="flex items-center gap-3">
-          <LangPicker
-            lang={lang}
-            setLang={setLang}
-            accentHover="hover:border-sky-500"
-            accentCheck="text-sky-400"
-          />
+        <div className="relative z-[10000] flex items-center gap-3">
+          <div className="relative z-[10000]">
+            <LangPicker
+              lang={lang}
+              setLang={setLang}
+              accentHover="hover:border-sky-500"
+              accentCheck="text-sky-400"
+            />
+          </div>
 
           {user ? (
             <div className="flex items-center gap-2">
@@ -133,7 +147,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative">
+        <div className="relative z-0">
           <div className="absolute -inset-6 bg-gradient-to-r from-pink-500/20 to-sky-500/20 blur-3xl" />
 
           <div className="relative bg-[#141421]/90 border border-white/10 rounded-[2rem] p-6 shadow-2xl">
@@ -155,7 +169,7 @@ export default function Home() {
               </div>
 
               <a
-                href={lastDraw?.cert_code ? "#" : "#"}
+                href="#"
                 className="inline-block mt-4 text-xs font-black bg-white/10 hover:bg-white/15 px-4 py-2 rounded-lg transition"
               >
                 Sonucu Görüntüle
