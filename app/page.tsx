@@ -183,7 +183,9 @@ export default function Home() {
                 href="/youtube"
                 className="block w-full text-center bg-gradient-to-r from-red-500 to-pink-500 hover:opacity-90 py-4 rounded-xl font-black transition"
               >
-                {t.hero.startYoutube}
+                {lang === "tr"
+                  ? "YouTube Çekilişi Yap →"
+                  : "Start YouTube Giveaway →"}
               </a>
             </div>
 
@@ -217,7 +219,9 @@ export default function Home() {
                 href="/twitter"
                 className="block w-full text-center bg-gradient-to-r from-cyan-400 to-blue-600 hover:opacity-90 py-4 rounded-xl font-black transition"
               >
-                {t.hero.startTwitter}
+                {lang === "tr"
+                  ? "X Çekilişi Yap →"
+                  : "Start X Giveaway →"}
               </a>
             </div>
           </div>
