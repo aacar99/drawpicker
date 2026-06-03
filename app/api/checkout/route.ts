@@ -55,7 +55,7 @@ export async function POST(req: Request) {
             quantity: 1,
           },
         ],
-        allowed_payment_method_types: ["credit", "debit", "crypto"],
+        allowed_payment_method_types: ["credit", "debit", "crypto_currency"],
         customer: {
           email: user.email,
           name: user.email?.split("@")[0] || "Customer",
