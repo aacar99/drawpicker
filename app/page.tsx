@@ -18,9 +18,7 @@ export default function Home() {
   const [lastDraw, setLastDraw] = useState<LastDraw | null>(null);
   const [user, setUser] = useState<any>(null);
 
-  const t =
-    translations[lang as keyof typeof translations] ||
-    translations.tr;
+  const t = translations[lang as keyof typeof translations] || translations.tr;
 
   useEffect(() => {
     const supabase = createClient();
@@ -51,27 +49,21 @@ export default function Home() {
 
       <nav className="relative z-[9999] max-w-7xl mx-auto flex items-center justify-between px-5 py-5">
         <a href="/" className="text-2xl font-black tracking-tight">
-          draw<span className="text-pink-400">picker</span>
+          🎁 Draw<span className="text-pink-400">Picker</span>
         </a>
 
         <div className="hidden md:flex items-center gap-8 text-sm font-bold text-zinc-300">
           <a href="/" className="text-white border-b-2 border-cyan-400 pb-2">
             {t.nav.home}
           </a>
+          <a href="#platforms" className="hover:text-white">
+            Çekiliş Yap
+          </a>
           <a href="#ozellikler" className="hover:text-white">
             {t.nav.features}
           </a>
-          <a href="#nasil" className="hover:text-white">
-            {t.nav.how}
-          </a>
-          <a href="#fiyat" className="hover:text-white">
-            {t.nav.pricing}
-          </a>
           <a href="#sss" className="hover:text-white">
             {t.nav.faq}
-          </a>
-          <a href="#iletisim" className="hover:text-white">
-            {t.nav.contact}
           </a>
         </div>
 
@@ -106,137 +98,129 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="relative z-10 max-w-7xl mx-auto px-5 pt-14 pb-20 grid lg:grid-cols-2 gap-12 items-center">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-bold text-zinc-300 mb-7">
-            {t.hero.badge}
-          </div>
-
-          <h1 className="text-5xl sm:text-7xl font-black leading-[0.95] tracking-tight mb-7">
-            {t.hero.title1}
-            <br />
-            <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-sky-400 bg-clip-text text-transparent">
-              {t.hero.title2}
-            </span>
-          </h1>
-
-          <p className="text-zinc-300 text-lg max-w-xl leading-relaxed mb-8">
-            {t.hero.desc}
-          </p>
-
-          <div className="flex flex-wrap gap-4 mb-6">
-            <a
-              href={user ? "/twitter" : "/auth/login"}
-              className="bg-gradient-to-r from-pink-500 via-purple-500 to-sky-500 hover:opacity-90 text-white font-black px-7 py-4 rounded-xl transition shadow-lg shadow-sky-500/20"
-            >
-              {t.hero.start}
-            </a>
-
-            <a
-              href="#nasil"
-              className="border border-white/10 bg-white/5 hover:border-white/30 text-zinc-200 font-black px-7 py-4 rounded-xl transition"
-            >
-              {t.hero.how}
-            </a>
-          </div>
-
-          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-zinc-400 font-semibold">
-            <span>▣ {t.hero.free}</span>
-            <span>•</span>
-            <span>{t.hero.noCard}</span>
-            <span>•</span>
-            <span>{t.hero.limit}</span>
-          </div>
+      <section className="relative z-10 max-w-7xl mx-auto px-5 pt-12 pb-12 text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-bold text-zinc-300 mb-7">
+          🛡️ %100 Adil • Şeffaf • Güvenilir
         </div>
 
-        <div className="relative z-0">
-          <div className="absolute -inset-6 bg-gradient-to-r from-pink-500/20 to-sky-500/20 blur-3xl" />
+        <h1 className="text-5xl sm:text-7xl font-black leading-[0.95] tracking-tight mb-7">
+          Sosyal Medya Çekilişlerinde
+          <br />
+          <span className="bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-400 bg-clip-text text-transparent">
+            Adil Kazananı Seçin
+          </span>
+        </h1>
 
-          <div className="relative bg-[#141421]/90 border border-white/10 rounded-[2rem] p-6 shadow-2xl">
-            <div className="text-sm text-zinc-400 font-bold mb-4">
-              {t.lastDraw.title}
+        <p className="text-zinc-300 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+          Gelişmiş filtreleme sistemi ile botları engelleyin, gerçek katılımcıları seçin.
+          Sertifikalı ve güvenilir çekiliş deneyimi.
+        </p>
+      </section>
+
+      <section id="platforms" className="relative z-10 max-w-5xl mx-auto px-5 pb-14">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="relative overflow-hidden bg-[#141421]/90 border border-red-500/30 rounded-3xl p-7 shadow-2xl">
+            <div className="absolute right-8 top-16 text-[9rem] text-white/[0.04]">▶</div>
+
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center text-3xl mb-5">
+              ▶
             </div>
 
-            <div className="border border-white/10 bg-white/[0.03] rounded-2xl p-5 mb-5">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-400 to-sky-400 flex items-center justify-center text-3xl">
-                  🏆
-                </div>
+            <h2 className="text-3xl font-black mb-3">YouTube Çekilişi</h2>
+            <p className="text-zinc-400 text-sm mb-6">
+              YouTube yorumlarından adil ve rastgele kazanan seçin.
+            </p>
 
-                <div>
-                  <div className="text-zinc-400 text-sm">
-                    {t.lastDraw.winner}
-                  </div>
-                  <div className="text-2xl font-black">
-                    @{lastDraw?.winners?.[0]?.username || "kerem.demir"}
-                  </div>
-                  <div className="text-zinc-500 text-sm">
-                    {t.lastDraw.congrats}
-                  </div>
-                </div>
-              </div>
-
-              <a
-                href={lastDraw?.id ? `/result/${lastDraw.id}` : "#"}
-                className="inline-block mt-4 text-xs font-black bg-white/10 hover:bg-white/15 px-4 py-2 rounded-lg transition"
-              >
-                {t.lastDraw.view}
-              </a>
+            <div className="space-y-3 text-sm text-zinc-300 mb-7">
+              <div>✓ Yorum filtreleme</div>
+              <div>✓ Çoklu kazanan belirleme</div>
+              <div>✓ Yedek kazanan seçimi</div>
+              <div>✓ Sertifika ile kanıt</div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 mb-5">
-              <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 text-center">
-                <div className="text-2xl mb-1">💬</div>
-                <div className="font-black text-xl">
-                  {(lastDraw?.total || 2142).toLocaleString()}
-                </div>
-                <div className="text-[11px] text-zinc-500">
-                  {t.lastDraw.comments}
-                </div>
-              </div>
+            <a
+              href="/youtube"
+              className="block w-full text-center bg-gradient-to-r from-red-500 to-pink-500 hover:opacity-90 py-4 rounded-xl font-black transition"
+            >
+              YouTube Çekilişi Yap →
+            </a>
+          </div>
 
-              <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 text-center">
-                <div className="text-2xl mb-1">👥</div>
-                <div className="font-black text-xl">1.356</div>
-                <div className="text-[11px] text-zinc-500">
-                  {t.lastDraw.eligible}
-                </div>
-              </div>
+          <div className="relative overflow-hidden bg-[#141421]/90 border border-sky-500/30 rounded-3xl p-7 shadow-2xl">
+            <div className="absolute right-8 top-10 text-[10rem] text-white/[0.04]">𝕏</div>
 
-              <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-4 text-center">
-                <div className="text-2xl mb-1">🏆</div>
-                <div className="font-black text-xl">1</div>
-                <div className="text-[11px] text-zinc-500">
-                  {t.lastDraw.winners}
-                </div>
-              </div>
+            <div className="w-14 h-14 rounded-2xl bg-black border border-white/10 flex items-center justify-center text-3xl mb-5">
+              𝕏
             </div>
 
-            <div className="border border-white/10 bg-white/[0.03] rounded-xl px-4 py-3 text-center text-xs font-mono text-zinc-300">
-              {t.lastDraw.cert}: {lastDraw?.cert_code || "DP-A7F3K9L2B1"}
+            <h2 className="text-3xl font-black mb-3">X (Twitter) Çekilişi</h2>
+            <p className="text-zinc-400 text-sm mb-6">
+              X gönderilerinizden adil ve rastgele kazanan seçin.
+            </p>
+
+            <div className="space-y-3 text-sm text-zinc-300 mb-7">
+              <div>✓ Yorum filtreleme</div>
+              <div>✓ Çoklu kazanan belirleme</div>
+              <div>✓ Yedek kazanan seçimi</div>
+              <div>✓ Sertifika ile kanıt</div>
             </div>
+
+            <a
+              href="/twitter"
+              className="block w-full text-center bg-gradient-to-r from-cyan-400 to-blue-600 hover:opacity-90 py-4 rounded-xl font-black transition"
+            >
+              X Çekilişi Yap →
+            </a>
           </div>
         </div>
       </section>
 
-      <section id="ozellikler" className="relative z-10 max-w-7xl mx-auto px-5 pb-20">
-        <div className="grid sm:grid-cols-3 gap-4">
-          <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5">
-            <div className="text-2xl mb-2">⚡</div>
-            <div className="font-black mb-1">{t.features.fastTitle}</div>
-            <p className="text-sm text-zinc-400">{t.features.fastText}</p>
-          </div>
+      <section id="ozellikler" className="relative z-10 max-w-5xl mx-auto px-5 pb-20">
+        <div className="bg-[#141421]/80 border border-white/10 rounded-3xl p-6">
+          <h2 className="text-center text-3xl font-black mb-8">
+            Neden DrawPicker?
+          </h2>
 
-          <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5">
-            <div className="text-2xl mb-2">📜</div>
-            <div className="font-black mb-1">{t.features.certTitle}</div>
-            <p className="text-sm text-zinc-400">{t.features.certText}</p>
-          </div>
+          <div className="grid sm:grid-cols-5 gap-4 text-center">
+            <div className="p-4">
+              <div className="text-3xl mb-3">🛡️</div>
+              <div className="font-black mb-2">%100 Adil</div>
+              <p className="text-xs text-zinc-400">
+                Rastgele algoritmamız ile her çekiliş tamamen adildir.
+              </p>
+            </div>
 
-          <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-5">
-            <div className="text-2xl mb-2">🔒</div>
-            <div className="font-black mb-1">{t.features.secureTitle}</div>
-            <p className="text-sm text-zinc-400">{t.features.secureText}</p>
+            <div className="p-4">
+              <div className="text-3xl mb-3">🔒</div>
+              <div className="font-black mb-2">Güvenilir</div>
+              <p className="text-xs text-zinc-400">
+                Verileriniz güvenli şekilde işlenir ve saklanmaz.
+              </p>
+            </div>
+
+            <div className="p-4">
+              <div className="text-3xl mb-3">🏅</div>
+              <div className="font-black mb-2">Sertifikalı</div>
+              <p className="text-xs text-zinc-400">
+                Tüm sonuçlar sertifika ile kanıtlanabilir.
+              </p>
+            </div>
+
+            <div className="p-4">
+              <div className="text-3xl mb-3">⚡</div>
+              <div className="font-black mb-2">Hızlı</div>
+              <p className="text-xs text-zinc-400">
+                Saniyeler içinde çekilişinizi tamamlayın.
+              </p>
+            </div>
+
+            <div className="p-4">
+              <div className="text-3xl mb-3">📱</div>
+              <div className="font-black mb-2">Mobil Uyumlu</div>
+              <p className="text-xs text-zinc-400">
+                Tüm cihazlarda kusursuz deneyim.
+              </p>
+            </div>
           </div>
         </div>
       </section>
