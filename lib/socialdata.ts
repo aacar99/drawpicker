@@ -27,6 +27,39 @@ function getTweetText(tweet: any) {
   );
 }
 
+function getAuthorName(user: any) {
+  return (
+    user?.name ||
+    user?.display_name ||
+    user?.full_name ||
+    user?.legacy?.name ||
+    ""
+  );
+}
+
+function getAuthorUsername(user: any) {
+  return String(
+    user?.username ||
+      user?.screen_name ||
+      user?.handle ||
+      user?.legacy?.screen_name ||
+      ""
+  ).replace("@", "");
+}
+
+function getAuthorAvatar(user: any) {
+  return (
+    user?.profile_image_url_https ||
+    user?.profile_image_url ||
+    user?.avatar ||
+    user?.image ||
+    user?.profilePicture ||
+    user?.legacy?.profile_image_url_https ||
+    user?.legacy?.profile_image_url ||
+    ""
+  );
+}
+
 async function fetchJson(url: string, apiKey: string, attempt = 0): Promise<any> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 20000);
@@ -108,6 +141,10 @@ export async function getTwitterTweetStats(input: string, apiKey: string) {
     text,
     title: text,
     tweetText: text,
+
+    authorName: getAuthorName(user),
+    authorUsername: getAuthorUsername(user),
+    authorAvatar: getAuthorAvatar(user),
 
     retweetCount:
       Number(

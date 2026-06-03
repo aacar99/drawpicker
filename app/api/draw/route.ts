@@ -177,13 +177,11 @@ export async function POST(req: Request) {
     }
 
     const winnerNum = Math.max(Number(winnerCount) || 1, 1);
-
     const backupNum =
       userPlanKey === "free" ? 0 : Math.max(Number(backupCount) || 0, 0);
 
     const need = Math.max(winnerNum + backupNum, 1);
     const reservoir = new Reservoir(need);
-
     const deadline = Date.now() + 30000;
 
     let total = 0;
@@ -193,7 +191,6 @@ export async function POST(req: Request) {
     let participantLimitReached = false;
 
     const seen = new Set<string>();
-
     const dedupe = platform === "twitter" ? true : rules.uniqueComments !== false;
 
     const onUsers = (users: User[]) => {
@@ -310,6 +307,11 @@ export async function POST(req: Request) {
         platform,
         input_url: input,
         title: drawTitle,
+
+        author_name: twitterStats?.authorName || null,
+        author_username: twitterStats?.authorUsername || null,
+        author_avatar: twitterStats?.authorAvatar || null,
+
         total: displayTotal(),
         winners: mainWinners,
         backups: backupWinners,
@@ -339,6 +341,9 @@ export async function POST(req: Request) {
       mainWinners,
       backupWinners,
       title: drawTitle,
+      authorName: twitterStats?.authorName || null,
+      authorUsername: twitterStats?.authorUsername || null,
+      authorAvatar: twitterStats?.authorAvatar || null,
     });
   } catch (err: any) {
     console.error("DRAW API ERROR:", err);
