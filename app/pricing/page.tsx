@@ -23,11 +23,14 @@ const PT: Record<string, any> = {
     loading: "Yükleniyor...",
     buy: "Satın Al →",
     secure: "Güvenli ödeme · Dodo Payments · İstediğin zaman iptal",
-    errors: {
-      generic: "Hata oluştu",
-      network: "Bağlantı hatası",
+    features: {
+      free: ["1 ücretsiz çekiliş", "200 katılımcıya kadar", "Tweet beğeni kontrolü", "Retweet kontrolü", "Sonuç sertifikası"],
+      starter: ["Ayda 50 çekiliş", "5.000 katılımcıya kadar", "Beğeni ve retweet kontrolü", "Yorum ve takip kontrolü", "Etiketleme ve anahtar kelime", "Yedek kazanan", "CSV export", "Sonuç sertifikası"],
+      pro: ["Sınırsız çekiliş", "20.000 katılımcıya kadar", "Starter özellikleri", "Ek X hesabı takibi", "Profil fotoğrafı kontrolü", "Minimum takipçi", "Minimum yorum uzunluğu", "Bot / spam filtresi", "Öncelikli tarama"],
+      business: ["Sınırsız çekiliş", "100.000 katılımcıya kadar", "Pro özellikleri", "Hesap yaşı kontrolü", "Gizli hesap filtreleme", "Gelişmiş bot analizi", "Çoklu kullanıcı", "API erişimi", "White Label", "Özel destek"],
     },
   },
+
   en: {
     back: "← Home",
     title: "Pricing",
@@ -45,11 +48,14 @@ const PT: Record<string, any> = {
     loading: "Loading...",
     buy: "Buy Now →",
     secure: "Secure payment · Dodo Payments · Cancel anytime",
-    errors: {
-      generic: "Something went wrong",
-      network: "Connection error",
+    features: {
+      free: ["1 free giveaway", "Up to 200 participants", "Tweet like check", "Retweet check", "Result certificate"],
+      starter: ["50 giveaways per month", "Up to 5,000 participants", "Like and retweet check", "Comment and follow check", "Mention and keyword rules", "Backup winners", "CSV export", "Result certificate"],
+      pro: ["Unlimited giveaways", "Up to 20,000 participants", "Starter features", "Extra X account follow", "Profile picture check", "Minimum followers", "Minimum comment length", "Bot / spam filter", "Priority scanning"],
+      business: ["Unlimited giveaways", "Up to 100,000 participants", "Pro features", "Account age check", "Private account filtering", "Advanced bot analysis", "Multiple users", "API access", "White Label", "Priority support"],
     },
   },
+
   de: {
     back: "← Startseite",
     title: "Preise",
@@ -67,11 +73,14 @@ const PT: Record<string, any> = {
     loading: "Lädt...",
     buy: "Kaufen →",
     secure: "Sichere Zahlung · Dodo Payments · Jederzeit kündbar",
-    errors: {
-      generic: "Ein Fehler ist aufgetreten",
-      network: "Verbindungsfehler",
+    features: {
+      free: ["1 kostenloses Gewinnspiel", "Bis zu 200 Teilnehmer", "Like-Prüfung", "Retweet-Prüfung", "Ergebniszertifikat"],
+      starter: ["50 Gewinnspiele pro Monat", "Bis zu 5.000 Teilnehmer", "Like- und Retweet-Prüfung", "Kommentar- und Follow-Prüfung", "Markierung und Keyword", "Ersatzgewinner", "CSV Export", "Ergebniszertifikat"],
+      pro: ["Unbegrenzte Gewinnspiele", "Bis zu 20.000 Teilnehmer", "Starter-Funktionen", "Zusätzliches X-Konto folgen", "Profilbild-Prüfung", "Mindestanzahl Follower", "Min. Kommentarlänge", "Bot-/Spam-Filter", "Priorisierte Prüfung"],
+      business: ["Unbegrenzte Gewinnspiele", "Bis zu 100.000 Teilnehmer", "Pro-Funktionen", "Account-Alter-Prüfung", "Private Konten filtern", "Erweiterte Bot-Analyse", "Mehrere Benutzer", "API-Zugriff", "White Label", "Premium-Support"],
     },
   },
+
   es: {
     back: "← Inicio",
     title: "Precios",
@@ -89,11 +98,14 @@ const PT: Record<string, any> = {
     loading: "Cargando...",
     buy: "Comprar →",
     secure: "Pago seguro · Dodo Payments · Cancela cuando quieras",
-    errors: {
-      generic: "Ocurrió un error",
-      network: "Error de conexión",
+    features: {
+      free: ["1 sorteo gratis", "Hasta 200 participantes", "Comprobación de like", "Comprobación de retweet", "Certificado de resultado"],
+      starter: ["50 sorteos al mes", "Hasta 5.000 participantes", "Like y retweet", "Comentario y seguimiento", "Mención y palabra clave", "Ganadores suplentes", "Exportar CSV", "Certificado de resultado"],
+      pro: ["Sorteos ilimitados", "Hasta 20.000 participantes", "Funciones Starter", "Seguimiento de cuenta X extra", "Comprobación de foto de perfil", "Mínimo de seguidores", "Longitud mínima de comentario", "Filtro bot/spam", "Escaneo prioritario"],
+      business: ["Sorteos ilimitados", "Hasta 100.000 participantes", "Funciones Pro", "Edad de cuenta", "Filtro de cuentas privadas", "Análisis avanzado de bots", "Múltiples usuarios", "Acceso API", "White Label", "Soporte prioritario"],
     },
   },
+
   fr: {
     back: "← Accueil",
     title: "Tarifs",
@@ -111,11 +123,14 @@ const PT: Record<string, any> = {
     loading: "Chargement...",
     buy: "Acheter →",
     secure: "Paiement sécurisé · Dodo Payments · Annulez à tout moment",
-    errors: {
-      generic: "Une erreur est survenue",
-      network: "Erreur de connexion",
+    features: {
+      free: ["1 tirage gratuit", "Jusqu’à 200 participants", "Vérification du like", "Vérification du retweet", "Certificat de résultat"],
+      starter: ["50 tirages par mois", "Jusqu’à 5.000 participants", "Like et retweet", "Commentaire et suivi", "Mention et mot-clé", "Gagnants suppléants", "Export CSV", "Certificat de résultat"],
+      pro: ["Tirages illimités", "Jusqu’à 20.000 participants", "Fonctions Starter", "Suivi d’un compte X supplémentaire", "Vérification photo de profil", "Minimum d’abonnés", "Longueur minimale du commentaire", "Filtre bot/spam", "Scan prioritaire"],
+      business: ["Tirages illimités", "Jusqu’à 100.000 participants", "Fonctions Pro", "Âge du compte", "Filtrage comptes privés", "Analyse bot avancée", "Utilisateurs multiples", "Accès API", "White Label", "Support prioritaire"],
     },
   },
+
   it: {
     back: "← Home",
     title: "Prezzi",
@@ -133,11 +148,14 @@ const PT: Record<string, any> = {
     loading: "Caricamento...",
     buy: "Acquista →",
     secure: "Pagamento sicuro · Dodo Payments · Annulla quando vuoi",
-    errors: {
-      generic: "Si è verificato un errore",
-      network: "Errore di connessione",
+    features: {
+      free: ["1 estrazione gratuita", "Fino a 200 partecipanti", "Controllo like", "Controllo retweet", "Certificato risultato"],
+      starter: ["50 estrazioni al mese", "Fino a 5.000 partecipanti", "Like e retweet", "Commento e follow", "Menzione e parola chiave", "Vincitori di riserva", "Export CSV", "Certificato risultato"],
+      pro: ["Estrazioni illimitate", "Fino a 20.000 partecipanti", "Funzioni Starter", "Follow account X extra", "Controllo foto profilo", "Follower minimi", "Lunghezza minima commento", "Filtro bot/spam", "Scansione prioritaria"],
+      business: ["Estrazioni illimitate", "Fino a 100.000 partecipanti", "Funzioni Pro", "Età account", "Filtro account privati", "Analisi bot avanzata", "Utenti multipli", "Accesso API", "White Label", "Supporto prioritario"],
     },
   },
+
   zh: {
     back: "← 首页",
     title: "价格",
@@ -155,11 +173,14 @@ const PT: Record<string, any> = {
     loading: "加载中...",
     buy: "购买 →",
     secure: "安全支付 · Dodo Payments · 可随时取消",
-    errors: {
-      generic: "发生错误",
-      network: "连接错误",
+    features: {
+      free: ["1 次免费抽奖", "最多 200 名参与者", "点赞检查", "转推检查", "结果证书"],
+      starter: ["每月 50 次抽奖", "最多 5,000 名参与者", "点赞和转推检查", "评论和关注检查", "提及和关键词规则", "候补获奖者", "CSV 导出", "结果证书"],
+      pro: ["无限抽奖", "最多 20,000 名参与者", "Starter 功能", "额外 X 账号关注", "头像检查", "最低粉丝数", "最短评论长度", "机器人/垃圾过滤", "优先扫描"],
+      business: ["无限抽奖", "最多 100,000 名参与者", "Pro 功能", "账号年龄检查", "私密账号过滤", "高级机器人分析", "多用户", "API 访问", "白标", "优先支持"],
     },
   },
+
   ru: {
     back: "← Главная",
     title: "Цены",
@@ -177,11 +198,14 @@ const PT: Record<string, any> = {
     loading: "Загрузка...",
     buy: "Купить →",
     secure: "Безопасная оплата · Dodo Payments · Отмена в любое время",
-    errors: {
-      generic: "Произошла ошибка",
-      network: "Ошибка соединения",
+    features: {
+      free: ["1 бесплатный розыгрыш", "До 200 участников", "Проверка лайка", "Проверка ретвита", "Сертификат результата"],
+      starter: ["50 розыгрышей в месяц", "До 5.000 участников", "Проверка лайка и ретвита", "Проверка комментария и подписки", "Упоминание и ключевое слово", "Запасные победители", "CSV экспорт", "Сертификат результата"],
+      pro: ["Безлимитные розыгрыши", "До 20.000 участников", "Функции Starter", "Подписка на дополнительный X аккаунт", "Проверка аватара", "Минимум подписчиков", "Мин. длина комментария", "Фильтр ботов/спама", "Приоритетное сканирование"],
+      business: ["Безлимитные розыгрыши", "До 100.000 участников", "Функции Pro", "Проверка возраста аккаунта", "Фильтр закрытых аккаунтов", "Расширенный анализ ботов", "Несколько пользователей", "API доступ", "White Label", "Приоритетная поддержка"],
     },
   },
+
   ko: {
     back: "← 홈",
     title: "요금제",
@@ -199,11 +223,14 @@ const PT: Record<string, any> = {
     loading: "로딩 중...",
     buy: "구매 →",
     secure: "안전 결제 · Dodo Payments · 언제든 취소 가능",
-    errors: {
-      generic: "오류가 발생했습니다",
-      network: "연결 오류",
+    features: {
+      free: ["무료 추첨 1회", "참가자 최대 200명", "좋아요 확인", "리트윗 확인", "결과 인증서"],
+      starter: ["월 50회 추첨", "참가자 최대 5,000명", "좋아요 및 리트윗 확인", "댓글 및 팔로우 확인", "멘션 및 키워드 규칙", "예비 당첨자", "CSV 내보내기", "결과 인증서"],
+      pro: ["무제한 추첨", "참가자 최대 20,000명", "Starter 기능", "추가 X 계정 팔로우", "프로필 사진 확인", "최소 팔로워", "최소 댓글 길이", "봇/스팸 필터", "우선 스캔"],
+      business: ["무제한 추첨", "참가자 최대 100,000명", "Pro 기능", "계정 나이 확인", "비공개 계정 필터", "고급 봇 분석", "다중 사용자", "API 접근", "화이트 라벨", "우선 지원"],
     },
   },
+
   el: {
     back: "← Αρχική",
     title: "Τιμές",
@@ -221,11 +248,14 @@ const PT: Record<string, any> = {
     loading: "Φόρτωση...",
     buy: "Αγορά →",
     secure: "Ασφαλής πληρωμή · Dodo Payments · Ακύρωση οποιαδήποτε στιγμή",
-    errors: {
-      generic: "Παρουσιάστηκε σφάλμα",
-      network: "Σφάλμα σύνδεσης",
+    features: {
+      free: ["1 δωρεάν κλήρωση", "Έως 200 συμμετέχοντες", "Έλεγχος like", "Έλεγχος retweet", "Πιστοποιητικό αποτελέσματος"],
+      starter: ["50 κληρώσεις τον μήνα", "Έως 5.000 συμμετέχοντες", "Έλεγχος like και retweet", "Έλεγχος σχολίου και follow", "Mention και λέξη-κλειδί", "Αναπληρωματικοί νικητές", "Εξαγωγή CSV", "Πιστοποιητικό αποτελέσματος"],
+      pro: ["Απεριόριστες κληρώσεις", "Έως 20.000 συμμετέχοντες", "Λειτουργίες Starter", "Follow επιπλέον X λογαριασμού", "Έλεγχος φωτογραφίας προφίλ", "Ελάχιστοι ακόλουθοι", "Ελάχιστο μήκος σχολίου", "Φίλτρο bot/spam", "Προτεραιότητα σάρωσης"],
+      business: ["Απεριόριστες κληρώσεις", "Έως 100.000 συμμετέχοντες", "Λειτουργίες Pro", "Έλεγχος ηλικίας λογαριασμού", "Φίλτρο ιδιωτικών λογαριασμών", "Προηγμένη ανάλυση bot", "Πολλαπλοί χρήστες", "Πρόσβαση API", "White Label", "Προτεραιότητα υποστήριξης"],
     },
   },
+
   pl: {
     back: "← Strona główna",
     title: "Cennik",
@@ -243,11 +273,14 @@ const PT: Record<string, any> = {
     loading: "Ładowanie...",
     buy: "Kup →",
     secure: "Bezpieczna płatność · Dodo Payments · Anuluj w dowolnym momencie",
-    errors: {
-      generic: "Wystąpił błąd",
-      network: "Błąd połączenia",
+    features: {
+      free: ["1 darmowe losowanie", "Do 200 uczestników", "Sprawdzenie polubienia", "Sprawdzenie retweetu", "Certyfikat wyniku"],
+      starter: ["50 losowań miesięcznie", "Do 5.000 uczestników", "Sprawdzenie polubienia i retweetu", "Sprawdzenie komentarza i obserwacji", "Oznaczenie i słowo kluczowe", "Zwycięzcy rezerwowi", "Eksport CSV", "Certyfikat wyniku"],
+      pro: ["Nielimitowane losowania", "Do 20.000 uczestników", "Funkcje Starter", "Obserwacja dodatkowego konta X", "Sprawdzenie zdjęcia profilowego", "Minimum obserwujących", "Minimalna długość komentarza", "Filtr bot/spam", "Priorytetowe skanowanie"],
+      business: ["Nielimitowane losowania", "Do 100.000 uczestników", "Funkcje Pro", "Sprawdzenie wieku konta", "Filtrowanie prywatnych kont", "Zaawansowana analiza botów", "Wielu użytkowników", "Dostęp API", "White Label", "Priorytetowe wsparcie"],
     },
   },
+
   ro: {
     back: "← Acasă",
     title: "Prețuri",
@@ -265,9 +298,11 @@ const PT: Record<string, any> = {
     loading: "Se încarcă...",
     buy: "Cumpără →",
     secure: "Plată securizată · Dodo Payments · Anulezi oricând",
-    errors: {
-      generic: "A apărut o eroare",
-      network: "Eroare de conexiune",
+    features: {
+      free: ["1 extragere gratuită", "Până la 200 participanți", "Verificare like", "Verificare retweet", "Certificat rezultat"],
+      starter: ["50 extrageri pe lună", "Până la 5.000 participanți", "Verificare like și retweet", "Verificare comentariu și follow", "Mențiune și cuvânt cheie", "Câștigători de rezervă", "Export CSV", "Certificat rezultat"],
+      pro: ["Extrageri nelimitate", "Până la 20.000 participanți", "Funcții Starter", "Follow cont X suplimentar", "Verificare poză profil", "Minim urmăritori", "Lungime minimă comentariu", "Filtru bot/spam", "Scanare prioritară"],
+      business: ["Extrageri nelimitate", "Până la 100.000 participanți", "Funcții Pro", "Verificare vârstă cont", "Filtrare conturi private", "Analiză bot avansată", "Utilizatori multipli", "Acces API", "White Label", "Suport prioritar"],
     },
   },
 };
@@ -319,19 +354,19 @@ export default function PricingPage() {
       if (data.checkoutUrl) {
         window.location.href = data.checkoutUrl;
       } else {
-        alert(data.error || txt.errors.generic);
+        alert(data.error || "Error");
       }
     } catch {
-      alert(txt.errors.network);
+      alert("Connection error");
     }
 
     setLoading(null);
   }
 
   const plans = [
-    { key: "starter", ...PLANS.starter, color: "sky", popular: false },
-    { key: "pro", ...PLANS.pro, color: "purple", popular: true },
-    { key: "business", ...PLANS.business, color: "cyan", popular: false },
+    { key: "starter", ...PLANS.starter, popular: false },
+    { key: "pro", ...PLANS.pro, popular: true },
+    { key: "business", ...PLANS.business, popular: false },
   ];
 
   return (
@@ -396,7 +431,7 @@ export default function PricingPage() {
           <div className="text-3xl font-black">$0</div>
 
           <ul className="text-zinc-400 text-sm space-y-1">
-            {PLANS.free.features.map((f, i) => (
+            {txt.features.free.map((f: string, i: number) => (
               <li key={i}>✓ {f}</li>
             ))}
           </ul>
@@ -410,8 +445,8 @@ export default function PricingPage() {
           {plans.map((plan) => {
             const price =
               interval === "yearly" ? plan.yearlyPrice : plan.monthlyPrice;
-
             const isCurrentPlan = userPlan === plan.key;
+            const featureList = txt.features[plan.key] || plan.features;
 
             return (
               <div
@@ -444,7 +479,7 @@ export default function PricingPage() {
                 )}
 
                 <ul className="space-y-2 mb-6 flex-1">
-                  {plan.features.map((f, i) => (
+                  {featureList.map((f: string, i: number) => (
                     <li
                       key={i}
                       className="text-zinc-400 text-sm flex items-center gap-2"
@@ -476,9 +511,7 @@ export default function PricingPage() {
           })}
         </div>
 
-        <p className="text-center text-zinc-600 text-sm mt-8">
-          {txt.secure}
-        </p>
+        <p className="text-center text-zinc-600 text-sm mt-8">{txt.secure}</p>
       </div>
     </main>
   );

@@ -18,24 +18,31 @@ export default function LangPicker({
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const selected =
-    LANGS.find((l) => l.code === lang) || LANGS[0];
+  const selected = LANGS.find((l) => l.code === lang) || LANGS[0];
+
+  useEffect(() => {
+    const saved = localStorage.getItem("drawpicker_lang");
+    if (saved && LANGS.some((l) => l.code === saved)) {
+      setLang(saved);
+    }
+  }, [setLang]);
 
   useEffect(() => {
     function click(e: MouseEvent) {
-      if (
-        ref.current &&
-        !ref.current.contains(e.target as Node)
-      ) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
         setOpen(false);
       }
     }
 
     window.addEventListener("click", click);
-
-    return () =>
-      window.removeEventListener("click", click);
+    return () => window.removeEventListener("click", click);
   }, []);
+
+  function changeLang(code: string) {
+    localStorage.setItem("drawpicker_lang", code);
+    setLang(code);
+    setOpen(false);
+  }
 
   return (
     <div className="relative z-50" ref={ref}>
@@ -55,10 +62,7 @@ export default function LangPicker({
             <button
               key={l.code}
               type="button"
-              onClick={() => {
-                setLang(l.code);
-                setOpen(false);
-              }}
+              onClick={() => changeLang(l.code)}
               className="w-full flex items-center justify-between px-3 py-3 rounded-2xl hover:bg-white/5 text-sm transition"
             >
               <span className="flex items-center gap-3">
@@ -66,9 +70,7 @@ export default function LangPicker({
                 {l.name}
               </span>
 
-              {lang === l.code && (
-                <span className={accentCheck}>✓</span>
-              )}
+              {lang === l.code && <span className={accentCheck}>✓</span>}
             </button>
           ))}
         </div>
