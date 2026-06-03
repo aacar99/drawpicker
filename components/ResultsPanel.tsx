@@ -16,6 +16,7 @@ type Props = {
 
 export default function ResultsPanel({
   t,
+  accent,
   winners,
   backups,
   total,
@@ -26,6 +27,12 @@ export default function ResultsPanel({
   const [copied, setCopied] = useState(false);
 
   const tr = (key: string) => (t ? t(key) : key);
+  const a = accent || {
+    text: "text-cyan-300",
+    solid: "bg-cyan-500 hover:bg-cyan-400",
+    hover: "hover:border-cyan-500",
+    certBorder: "border-cyan-400/20",
+  };
 
   async function shareResult() {
     const url = resultUrl || "https://drawpicker.io";
@@ -52,32 +59,41 @@ export default function ResultsPanel({
   function exportCSV() {
     const rows = [
       ["Type", "Username", "Author"],
-      ...winners.map((w) => ["Winner", w.username || "", w.author || w.name || ""]),
-      ...backups.map((w) => ["Backup", w.username || "", w.author || w.name || ""]),
+      ...winners.map((w) => [
+        "Winner",
+        w.username || "",
+        w.author || w.name || "",
+      ]),
+      ...backups.map((w) => [
+        "Backup",
+        w.username || "",
+        w.author || w.name || "",
+      ]),
     ];
 
     const csv = rows.map((r) => r.map((v) => `"${v}"`).join(",")).join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "drawpicker-results.csv";
-    a.click();
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "drawpicker-results.csv";
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   return (
-    <div className="bg-[#16161f]/90 border border-cyan-500/30 rounded-3xl p-6 mt-6">
+    <div className="bg-[#16161f]/90 border border-cyan-500/30 rounded-3xl p-6">
       <div className="grid grid-cols-2 gap-3 mb-5">
         <div className="bg-[#1d1d2b] border border-white/10 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-black text-cyan-300">
+          <div className={`text-2xl font-black ${a.text}`}>
             {total.toLocaleString()}
           </div>
           <div className="text-xs text-zinc-500 mt-1">{tr("total")}</div>
         </div>
 
         <div className="bg-[#1d1d2b] border border-white/10 rounded-2xl p-4 text-center">
-          <div className="text-2xl font-black text-cyan-300">
+          <div className={`text-2xl font-black ${a.text}`}>
             {winners.length}
           </div>
           <div className="text-xs text-zinc-500 mt-1">
@@ -88,8 +104,9 @@ export default function ResultsPanel({
 
       <div className="text-center mb-6">
         <div className="text-5xl mb-3">🎉</div>
-        <div className="text-cyan-300 font-black tracking-widest mb-3">
-          {tr("winner")}
+
+        <div className={`${a.text} font-black tracking-widest mb-3`}>
+          {tr("mainWinner")}
         </div>
 
         {winners.map((w, i) => (
@@ -124,7 +141,7 @@ export default function ResultsPanel({
       {backups.length > 0 && (
         <div className="mb-6">
           <div className="font-bold mb-3 text-zinc-300">
-            🥈 {tr("backups")}
+            🥈 {tr("backupWinner")}
           </div>
 
           {backups.map((w, i) => (
@@ -145,28 +162,28 @@ export default function ResultsPanel({
 
       <div className="bg-[#1d1d2b] border border-cyan-400/20 rounded-2xl p-4 text-center mb-6">
         <div className="text-zinc-400 text-sm mb-2">📜 {tr("cert")}</div>
-        <div className="text-cyan-300 font-black text-xl tracking-widest">
+        <div className={`${a.text} font-black text-xl tracking-widest`}>
           {certCode}
         </div>
       </div>
 
       {copied && (
         <p className="text-green-400 text-sm text-center mb-3">
-          ✅ Link kopyalandı
+          ✅ {tr("copyDone")}
         </p>
       )}
 
       <div className="grid grid-cols-2 gap-3 mb-3">
         <button
           onClick={onRedraw}
-          className="border border-white/10 hover:border-cyan-500 py-3 rounded-xl font-bold text-sm transition"
+          className={`border border-white/10 ${a.hover} py-3 rounded-xl font-bold text-sm transition`}
         >
           🔄 {tr("redraw")}
         </button>
 
         <button
           onClick={shareResult}
-          className="bg-cyan-500 hover:bg-cyan-400 text-black py-3 rounded-xl font-black text-sm transition"
+          className={`${a.solid} text-white py-3 rounded-xl font-black text-sm transition`}
         >
           📤 {tr("share")}
         </button>
@@ -174,7 +191,7 @@ export default function ResultsPanel({
 
       <button
         onClick={exportCSV}
-        className="w-full border border-white/10 hover:border-cyan-500 py-3 rounded-xl font-bold text-sm transition"
+        className={`w-full border border-white/10 ${a.hover} py-3 rounded-xl font-bold text-sm transition`}
       >
         📥 {tr("export")}
       </button>

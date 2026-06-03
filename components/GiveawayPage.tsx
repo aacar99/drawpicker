@@ -6,29 +6,40 @@ import Rule from "./Rule";
 import ResultsPanel from "./ResultsPanel";
 import { tr } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase-client";
-import type { Platform, Rules, User } from "@/lib/types";
+import type { User } from "@/lib/types";
 
 const ACCENT: Record<string, any> = {
   sky: {
-    text: "text-sky-400", ring: "focus:border-sky-500", btn: "from-sky-600 to-sky-500",
-    shadow: "shadow-sky-500/20", solid: "bg-sky-600 hover:bg-sky-500",
-    hover: "hover:border-sky-500", ruleOn: "border-sky-500 bg-sky-500/10",
-    chk: "bg-sky-500", check: "text-sky-400",
+    text: "text-sky-400",
+    ring: "focus:border-sky-500",
+    btn: "from-sky-600 to-sky-500",
+    shadow: "shadow-sky-500/20",
+    solid: "bg-sky-600 hover:bg-sky-500",
+    hover: "hover:border-sky-500",
+    ruleOn: "border-sky-500 bg-sky-500/10",
+    chk: "bg-sky-500",
+    check: "text-sky-400",
     cardFrom: "from-sky-500/10 to-cyan-500/5 border border-sky-500/40",
     certBorder: "border-sky-500/40",
   },
   purple: {
-    text: "text-purple-400", ring: "focus:border-purple-500", btn: "from-purple-600 to-purple-500",
-    shadow: "shadow-purple-500/20", solid: "bg-purple-600 hover:bg-purple-500",
-    hover: "hover:border-purple-500", ruleOn: "border-purple-500 bg-purple-500/10",
-    chk: "bg-purple-500", check: "text-purple-400",
+    text: "text-purple-400",
+    ring: "focus:border-purple-500",
+    btn: "from-purple-600 to-purple-500",
+    shadow: "shadow-purple-500/20",
+    solid: "bg-purple-600 hover:bg-purple-500",
+    hover: "hover:border-purple-500",
+    ruleOn: "border-purple-500 bg-purple-500/10",
+    chk: "bg-purple-500",
+    check: "text-purple-400",
     cardFrom: "from-purple-500/10 to-cyan-500/5 border border-purple-500/40",
     certBorder: "border-purple-500/40",
   },
 };
 
 export default function GiveawayPage({ config }: any) {
-  const a = ACCENT[config.accent];
+  const a = ACCENT[config.accent] || ACCENT.sky;
+
   const [lang, setLang] = useState("tr");
   const t = tr(lang);
 
@@ -36,6 +47,8 @@ export default function GiveawayPage({ config }: any) {
   const [winnerCount, setWinnerCount] = useState(1);
   const [backupCount, setBackupCount] = useState(0);
   const [rules, setRules] = useState<any>({});
+  const [showGeneralRules, setShowGeneralRules] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [winners, setWinners] = useState<User[]>([]);
   const [backups, setBackups] = useState<User[]>([]);
@@ -98,7 +111,7 @@ export default function GiveawayPage({ config }: any) {
       }
 
       if (!res.ok || !data.success) {
-        setError(data.error || "API Error");
+        setError(data.error || t("apiErr"));
         setLoading(false);
         return;
       }
@@ -109,7 +122,7 @@ export default function GiveawayPage({ config }: any) {
       setCertCode(data.certCode || "");
       setResultUrl(data.resultUrl || data.shareUrl || "");
     } catch (e: any) {
-      setError(e?.message || "Unknown Error");
+      setError(e?.message || t("apiErr"));
     } finally {
       setLoading(false);
     }
@@ -119,43 +132,79 @@ export default function GiveawayPage({ config }: any) {
     <main className="min-h-screen bg-[#080812] text-white px-4 py-10 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#0ea5e933,transparent_35%),radial-gradient(circle_at_bottom_right,#a855f733,transparent_35%)]" />
 
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
+          <div className="bg-[#16161f] border border-sky-500/30 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl shadow-sky-500/20">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full border-4 border-sky-500/20 border-t-sky-400 animate-spin" />
+            <h2 className="text-2xl font-black mb-2">{t("drawRunning")}</h2>
+            <p className="text-zinc-400 text-sm">{t("drawRunningSub")}</p>
+          </div>
+        </div>
+      )}
+
       <div className="relative max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8 gap-4">
-          <a href="/" className="text-zinc-400 text-sm hover:text-white transition whitespace-nowrap">← {t("back")}</a>
-          <LangPicker lang={lang} setLang={setLang} accentHover={a.hover} accentCheck={a.check} />
+          <a
+            href="/"
+            className="text-zinc-400 text-sm hover:text-white transition whitespace-nowrap"
+          >
+            {t("back")}
+          </a>
+
+          <LangPicker
+            lang={lang}
+            setLang={setLang}
+            accentHover={a.hover}
+            accentCheck={a.check}
+          />
         </div>
 
         <div className="text-center mb-8">
           <div className="text-6xl mb-3">{config.icon}</div>
+
           <h1 className="text-4xl sm:text-5xl font-black mb-3">
             <span className={a.text}>{t(config.titleKey)}</span>
           </h1>
+
           <p className="text-zinc-400 text-sm">{t(config.subKey)}</p>
         </div>
 
-        {/* GİRİŞ YAPILMAMIŞSA UYARI */}
         {!user && (
           <div className="mb-6 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
             <p className="text-amber-400 text-sm font-medium">
               ⚠️ Çekiliş yapabilmek için giriş yapmalısınız.{" "}
-              <a href="/auth/login" className="underline font-bold">Giriş Yap →</a>
+              <a href="/auth/login" className="underline font-bold">
+                Giriş Yap →
+              </a>
             </p>
           </div>
         )}
 
-        {/* UPGRADE MODAL */}
         {showUpgrade && (
           <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
             <div className="bg-[#16161f] border border-white/10 rounded-3xl p-8 max-w-md w-full text-center">
               <div className="text-5xl mb-4">🚀</div>
-              <h2 className="text-2xl font-black mb-2">Ücretsiz hakkınız doldu</h2>
+
+              <h2 className="text-2xl font-black mb-2">
+                Ücretsiz hakkınız doldu
+              </h2>
+
               <p className="text-zinc-400 text-sm mb-6">
-                1 ücretsiz çekiliş hakkınızı kullandınız. Devam etmek için bir paket satın alın.
+                1 ücretsiz çekiliş hakkınızı kullandınız. Devam etmek için bir
+                paket satın alın.
               </p>
-              <a href="/pricing" className="block w-full bg-gradient-to-r from-sky-600 to-sky-500 py-3 rounded-xl font-bold text-sm mb-3 hover:opacity-90 transition">
+
+              <a
+                href="/pricing"
+                className="block w-full bg-gradient-to-r from-sky-600 to-sky-500 py-3 rounded-xl font-bold text-sm mb-3 hover:opacity-90 transition"
+              >
                 Paketleri Gör →
               </a>
-              <button onClick={() => setShowUpgrade(false)} className="text-zinc-500 text-sm hover:text-white transition">
+
+              <button
+                onClick={() => setShowUpgrade(false)}
+                className="text-zinc-500 text-sm hover:text-white transition"
+              >
                 Şimdi değil
               </button>
             </div>
@@ -164,7 +213,10 @@ export default function GiveawayPage({ config }: any) {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           <div className="bg-[#16161f]/90 border border-white/10 rounded-3xl p-6">
-            <div className="font-bold mb-4 text-sm">🔗 {t(config.inputKey)}</div>
+            <div className="font-bold mb-4 text-sm">
+              🔗 {t(config.inputKey)}
+            </div>
+
             <input
               type="text"
               placeholder={t(config.inputPhKey)}
@@ -173,39 +225,93 @@ export default function GiveawayPage({ config }: any) {
               className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition mb-6`}
             />
 
-            <div className="font-bold mb-3 text-sm">⚡ {t("rules")}</div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-              {config.ruleDefs?.map((r: any) => (
-                <Rule
-                  key={r.key}
-                  label={t("r_" + r.key)}
-                  val={Boolean(rules[r.key])}
-                  toggle={() => toggle(r.key)}
-                  fixed={r.fixed}
-                  onClass={a.ruleOn}
-                  chkClass={a.chk}
-                />
-              ))}
+            <div className="mb-6">
+              <div className="font-black mb-3 text-sm flex items-center gap-2">
+                <span>⚡</span>
+                <span>{t("quickRules")}</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                {config.ruleDefs?.slice(0, 4).map((r: any) => (
+                  <Rule
+                    key={r.key}
+                    label={t("r_" + r.key)}
+                    val={Boolean(rules[r.key])}
+                    toggle={() => toggle(r.key)}
+                    fixed={r.fixed}
+                    onClass={a.ruleOn}
+                    chkClass={a.chk}
+                  />
+                ))}
+              </div>
+
+              {config.ruleDefs?.length > 4 && (
+                <div className="bg-[#101018] border border-white/10 rounded-2xl overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setShowGeneralRules(!showGeneralRules)}
+                    className="w-full flex items-center justify-between px-4 py-4 text-sm font-black hover:bg-white/5 transition"
+                  >
+                    <span>⚙️ {t("generalRules")}</span>
+                    <span className={`${a.text} text-xl leading-none`}>
+                      {showGeneralRules ? "−" : "+"}
+                    </span>
+                  </button>
+
+                  {showGeneralRules && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 pt-0">
+                      {config.ruleDefs.slice(4).map((r: any) => (
+                        <Rule
+                          key={r.key}
+                          label={t("r_" + r.key)}
+                          val={Boolean(rules[r.key])}
+                          toggle={() => toggle(r.key)}
+                          fixed={r.fixed}
+                          onClass={a.ruleOn}
+                          chkClass={a.chk}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div>
-                <label className="text-xs text-zinc-400 mb-1.5 block">{t("winnerCount")}</label>
-                <input type="number" min={1} max={50} value={winnerCount}
+                <label className="text-xs text-zinc-400 mb-1.5 block">
+                  {t("winnerCount")}
+                </label>
+
+                <input
+                  type="number"
+                  min={1}
+                  max={50}
+                  value={winnerCount}
                   onChange={(e) => setWinnerCount(Number(e.target.value))}
                   className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition`}
                 />
               </div>
+
               <div>
-                <label className="text-xs text-zinc-400 mb-1.5 block">{t("backupCount")}</label>
-                <input type="number" min={0} max={50} value={backupCount}
+                <label className="text-xs text-zinc-400 mb-1.5 block">
+                  {t("backupCount")}
+                </label>
+
+                <input
+                  type="number"
+                  min={0}
+                  max={50}
+                  value={backupCount}
                   onChange={(e) => setBackupCount(Number(e.target.value))}
                   className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition`}
                 />
               </div>
             </div>
 
-            <button onClick={startDraw} disabled={loading}
+            <button
+              onClick={startDraw}
+              disabled={loading}
               className={`w-full bg-gradient-to-r ${a.btn} hover:opacity-90 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-50 shadow-lg ${a.shadow}`}
             >
               {loading ? `⏳ ${t("loading")}...` : `🎯 ${t("draw")}`}
@@ -228,7 +334,11 @@ export default function GiveawayPage({ config }: any) {
               />
             ) : (
               <div className="bg-[#16161f]/70 border border-white/10 rounded-3xl p-8 text-center text-zinc-500">
-                🎁 {t("noElig") ? "Çekiliş sonucu burada görünecek" : "Draw result will appear here"}
+                <div className="text-5xl mb-3">🎁</div>
+                <div className="font-black text-white mb-1">
+                  {t("resultHere")}
+                </div>
+                <div className="text-sm text-zinc-500">{t(config.subKey)}</div>
               </div>
             )}
           </div>

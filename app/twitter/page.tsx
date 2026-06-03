@@ -10,8 +10,8 @@ const config = {
   titleKey: "tw_title",
   subKey: "tw_sub",
 
-  inputKey: "tweetUrl",
-  inputPhKey: "tweetPlaceholder",
+  inputKey: "tw_input",
+  inputPhKey: "tw_inputPh",
 
   ruleDefs: [
     { key: "mustLike" },
