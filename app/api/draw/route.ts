@@ -19,7 +19,31 @@ function makeCertCode() {
 }
 
 function normalizePlan(plan: string) {
-  return plan || "free";
+  return String(plan || "free").toLowerCase().trim();
+}
+
+function isRuleKey(key: string) {
+  return (
+    key.startsWith("must") ||
+    key.startsWith("block") ||
+    key === "aiSafe" ||
+    key === "uniqueComments" ||
+    key === "advancedBotFilter"
+  );
+}
+
+function makeDrawTitle(platform: string, input: string, twitterStats: any) {
+  if (platform === "twitter") {
+    return (
+      twitterStats?.text ||
+      twitterStats?.fullText ||
+      twitterStats?.tweetText ||
+      twitterStats?.title ||
+      input
+    );
+  }
+
+  return input;
 }
 
 export async function POST(req: Request) {
@@ -133,7 +157,7 @@ export async function POST(req: Request) {
     }
 
     const selectedRules = Object.entries(rules)
-      .filter(([, value]) => Boolean(value))
+      .filter(([key, value]) => isRuleKey(key) && Boolean(value))
       .map(([key]) => key);
 
     const lockedRule = selectedRules.find(
@@ -155,9 +179,7 @@ export async function POST(req: Request) {
     const winnerNum = Math.max(Number(winnerCount) || 1, 1);
 
     const backupNum =
-      userPlanKey === "free"
-        ? 0
-        : Math.max(Number(backupCount) || 0, 0);
+      userPlanKey === "free" ? 0 : Math.max(Number(backupCount) || 0, 0);
 
     const need = Math.max(winnerNum + backupNum, 1);
     const reservoir = new Reservoir(need);
@@ -172,8 +194,7 @@ export async function POST(req: Request) {
 
     const seen = new Set<string>();
 
-    const dedupe =
-      platform === "twitter" ? true : rules.uniqueComments !== false;
+    const dedupe = platform === "twitter" ? true : rules.uniqueComments !== false;
 
     const onUsers = (users: User[]) => {
       if (!Array.isArray(users)) return;
@@ -183,10 +204,7 @@ export async function POST(req: Request) {
 
         total++;
 
-        if (
-          total > plan.maxParticipants &&
-          plan.maxParticipants < 999999
-        ) {
+        if (total > plan.maxParticipants && plan.maxParticipants < 999999) {
           participantLimitReached = true;
           truncated = true;
           return;
@@ -284,11 +302,14 @@ export async function POST(req: Request) {
     const backupWinners = picked.slice(winnerNum, winnerNum + backupNum);
     const certCode = makeCertCode();
     const resultUrl = `https://drawpicker.io/result/${drawId}`;
+    const drawTitle = makeDrawTitle(platform, input, twitterStats);
 
     try {
       await admin.from("draw_results").insert({
         id: drawId,
         platform,
+        input_url: input,
+        title: drawTitle,
         total: displayTotal(),
         winners: mainWinners,
         backups: backupWinners,
@@ -317,6 +338,7 @@ export async function POST(req: Request) {
       eligibleCount: eligible,
       mainWinners,
       backupWinners,
+      title: drawTitle,
     });
   } catch (err: any) {
     console.error("DRAW API ERROR:", err);

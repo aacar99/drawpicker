@@ -12,6 +12,21 @@ export function getTweetId(input: string) {
   return null;
 }
 
+function getTweetText(tweet: any) {
+  return (
+    tweet?.full_text ||
+    tweet?.text ||
+    tweet?.tweet_text ||
+    tweet?.content ||
+    tweet?.body ||
+    tweet?.legacy?.full_text ||
+    tweet?.legacy?.text ||
+    tweet?.note_tweet?.text ||
+    tweet?.note_tweet?.note_tweet_results?.result?.text ||
+    ""
+  );
+}
+
 async function fetchJson(url: string, apiKey: string, attempt = 0): Promise<any> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 20000);
@@ -28,7 +43,11 @@ async function fetchJson(url: string, apiKey: string, attempt = 0): Promise<any>
 
     if (res.status === 429 && attempt < 6) {
       const retryAfter = Number(res.headers.get("retry-after")) || 0;
-      const wait = retryAfter > 0 ? retryAfter * 1000 : Math.min(1000 * 2 ** attempt, 8000);
+      const wait =
+        retryAfter > 0
+          ? retryAfter * 1000
+          : Math.min(1000 * 2 ** attempt, 8000);
+
       await sleep(wait);
       return fetchJson(url, apiKey, attempt + 1);
     }
@@ -42,8 +61,17 @@ async function fetchJson(url: string, apiKey: string, attempt = 0): Promise<any>
       throw new Error("API bozuk cevap döndürdü.");
     }
 
-    if (res.status === 429) throw new Error("API limiti aşıldı. Biraz bekleyip tekrar deneyin.");
-    if (!res.ok) throw new Error(data?.message || data?.error || `SocialData API hatası (${res.status})`);
+    if (res.status === 429) {
+      throw new Error("API limiti aşıldı. Biraz bekleyip tekrar deneyin.");
+    }
+
+    if (!res.ok) {
+      throw new Error(
+        data?.message ||
+          data?.error ||
+          `SocialData API hatası (${res.status})`
+      );
+    }
 
     return data;
   } catch (err: any) {
@@ -52,6 +80,7 @@ async function fetchJson(url: string, apiKey: string, attempt = 0): Promise<any>
         await sleep(1000 * (attempt + 1));
         return fetchJson(url, apiKey, attempt + 1);
       }
+
       throw new Error("API çok geç cevap verdi. Lütfen tekrar deneyin.");
     }
 
@@ -65,12 +94,21 @@ export async function getTwitterTweetStats(input: string, apiKey: string) {
   const tweetId = getTweetId(input);
   if (!tweetId) throw new Error("Geçerli bir Tweet linki veya ID girin.");
 
-  const tweetData = await fetchJson(`${BASE}/twitter/tweets/${tweetId}`, apiKey);
-  const tweet = tweetData.tweet || tweetData.data || tweetData.result || tweetData;
+  const tweetData = await fetchJson(
+    `${BASE}/twitter/tweets/${tweetId}`,
+    apiKey
+  );
 
+  const tweet = tweetData.tweet || tweetData.data || tweetData.result || tweetData;
   const user = tweet?.user || tweet?.author || {};
 
+  const text = getTweetText(tweet);
+
   return {
+    text,
+    title: text,
+    tweetText: text,
+
     retweetCount:
       Number(
         tweet?.retweet_count ??
@@ -130,7 +168,11 @@ async function streamPaged(
 
     const url =
       baseUrl +
-      (cursor ? `${baseUrl.includes("?") ? "&" : "?"}cursor=${encodeURIComponent(cursor)}` : "");
+      (cursor
+        ? `${baseUrl.includes("?") ? "&" : "?"}cursor=${encodeURIComponent(
+            cursor
+          )}`
+        : "");
 
     const data = await fetchJson(url, apiKey);
 
@@ -196,7 +238,11 @@ export async function collectTwitter(
   }
 
   if (rules.mustFollow || rules.mustLike) {
-    const tweetData = await fetchJson(`${BASE}/twitter/tweets/${tweetId}`, apiKey);
+    const tweetData = await fetchJson(
+      `${BASE}/twitter/tweets/${tweetId}`,
+      apiKey
+    );
+
     const tweet = tweetData.tweet || tweetData.data || tweetData.result || tweetData;
 
     const authorId = String(
