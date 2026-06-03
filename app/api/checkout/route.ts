@@ -33,8 +33,8 @@ export async function POST(req: Request) {
     }
 
     const productId = interval === "yearly" ? planData.dodoYearlyId : planData.dodoMonthlyId;
-    if (!productId || productId.includes("_ID")) {
-      return NextResponse.json({ error: "Dodo Product ID henüz girilmemiş. lib/plans.ts dosyasını güncelle." }, { status: 500 });
+    if (!productId) {
+      return NextResponse.json({ error: "Dodo Product ID eksik" }, { status: 500 });
     }
 
     const apiKey = process.env.DODO_API_KEY;
@@ -42,29 +42,25 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "DODO_API_KEY eksik" }, { status: 500 });
     }
 
-    // Dodo Payments checkout session oluştur
-    const dodoRes = await fetch("https://api.dodopayments.com/subscriptions", {
+    const dodoRes = await fetch("https://live.dodopayments.com/checkouts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        billing: {
-          city: "",
-          country: "TR",
-          state: "",
-          street: "",
-          zipcode: "",
-        },
+        product_cart: [
+          {
+            product_id: productId,
+            quantity: 1,
+          },
+        ],
         customer: {
           email: user.email,
           name: user.email?.split("@")[0] || "Customer",
           create_new_customer: false,
         },
-        product_id: productId,
-        quantity: 1,
-        return_url: `https://drawpicker.io/dashboard?payment=success`,
+        return_url: "https://drawpicker.io/dashboard?payment=success",
         metadata: {
           user_id: user.id,
           plan: plan,
@@ -77,12 +73,12 @@ export async function POST(req: Request) {
 
     if (!dodoRes.ok) {
       console.error("DODO ERROR:", dodoData);
-      return NextResponse.json({ error: "Ödeme sistemi hatası" }, { status: 500 });
+      return NextResponse.json({ error: "Ödeme sistemi hatası: " + JSON.stringify(dodoData) }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
-      checkoutUrl: dodoData.payment_link || dodoData.url || dodoData.checkout_url,
+      checkoutUrl: dodoData.checkout_url || dodoData.payment_link || dodoData.url,
     });
   } catch (err: any) {
     console.error("CHECKOUT ERROR:", err);
