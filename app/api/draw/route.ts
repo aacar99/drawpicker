@@ -5,6 +5,8 @@ import { Reservoir } from "@/lib/reservoir";
 import { applyLocalFilters } from "@/lib/filters";
 import { userKey } from "@/lib/utils";
 import { getSupabaseAdmin } from "@/lib/supabase";
+import { createServerClient } from "@supabase/ssr";
+import { cookies } from "next/headers";
 import type { DrawRequest, User } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -17,6 +19,65 @@ function makeCertCode() {
 
 export async function POST(req: Request) {
   try {
+    // ---- AUTH KONTROLÜ ----
+    const cookieStore = cookies();
+    const supabaseAuth = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return cookieStore.getAll(); },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          },
+        },
+      }
+    );
+
+    const { data: { user } } = await supabaseAuth.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: "login_required" },
+        { status: 401 }
+      );
+    }
+
+    const admin = getSupabaseAdmin();
+
+    // Kullanıcı DB kaydı — yoksa oluştur
+    let { data: dbUser } = await admin
+      .from("users")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (!dbUser) {
+      const { data: newUser } = await admin
+        .from("users")
+        .insert({
+          id: user.id,
+          email: user.email,
+          plan: "free",
+          credits: 0,
+          free_used: false,
+        })
+        .select()
+        .single();
+      dbUser = newUser;
+    }
+
+    // Ücretsiz hak kontrolü
+    if (dbUser.free_used && dbUser.plan === "free" && dbUser.credits <= 0) {
+      return NextResponse.json(
+        { success: false, error: "upgrade_required" },
+        { status: 403 }
+      );
+    }
+
+    // ---- MEVCUT ÇEKİLİŞ MANTIĞI (DEĞİŞMEDİ) ----
     const body = (await req.json()) as DrawRequest;
 
     const {
@@ -109,27 +170,23 @@ export async function POST(req: Request) {
 
     if (platform === "youtube") {
       const apiKey = process.env.YOUTUBE_API_KEY;
-
       if (!apiKey) {
         return NextResponse.json(
           { success: false, error: "YOUTUBE_API_KEY bulunamadı" },
           { status: 500 }
         );
       }
-
       truncated = await collectYoutube(input, apiKey, onUsers, deadline);
     }
 
     if (platform === "twitter") {
       const apiKey = process.env.SOCIALDATA_API_KEY;
-
       if (!apiKey) {
         return NextResponse.json(
           { success: false, error: "SOCIALDATA_API_KEY bulunamadı" },
           { status: 500 }
         );
       }
-
       twitterStats = await getTwitterTweetStats(input, apiKey);
       truncated = await collectTwitter(input, rules, apiKey, onUsers, deadline);
     }
@@ -155,10 +212,9 @@ export async function POST(req: Request) {
     const certCode = makeCertCode();
     const resultUrl = `https://drawpicker.io/result/${drawId}`;
 
+    // Supabase'e kaydet
     try {
-      const supabase = getSupabaseAdmin();
-
-      const { error: saveError } = await supabase
+      const { error: saveError } = await admin
         .from("draw_results")
         .insert({
           id: drawId,
@@ -169,11 +225,16 @@ export async function POST(req: Request) {
           cert_code: certCode,
         });
 
-      if (saveError) {
-        console.error("SUPABASE SAVE ERROR:", saveError);
-      }
+      if (saveError) console.error("SUPABASE SAVE ERROR:", saveError);
     } catch (e) {
       console.error("SUPABASE ERROR:", e);
+    }
+
+    // Ücretsiz hakkı kullan
+    if (dbUser.credits > 0) {
+      await admin.from("users").update({ credits: dbUser.credits - 1 }).eq("id", user.id);
+    } else {
+      await admin.from("users").update({ free_used: true }).eq("id", user.id);
     }
 
     return NextResponse.json({
@@ -190,12 +251,8 @@ export async function POST(req: Request) {
     });
   } catch (err: any) {
     console.error("DRAW API ERROR:", err);
-
     return NextResponse.json(
-      {
-        success: false,
-        error: err?.message || "Bilinmeyen hata",
-      },
+      { success: false, error: err?.message || "Bilinmeyen hata" },
       { status: 500 }
     );
   }
