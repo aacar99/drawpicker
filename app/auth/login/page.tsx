@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase-client";
 
 const T: any = {
   tr: { title: "Giriş Yap", signUp: "Kayıt Ol", login: "Giriş Yap", google: "Google ile devam et", or: "veya", email: "Email", password: "Şifre", forgot: "Şifremi Unuttum?", noAccount: "Hesabın yok mu?", hasAccount: "Zaten hesabın var mı?", register: "Kayıt ol", verified: "Email adresinize doğrulama linki gönderildi!" },
-  en: { title: "Login", signUp: "Sign Up", login: "Login", google: "Continue with Google", or: "or", email: "Email", password: "Password", forgot: "Forgot password?", noAccount: "No account?", hasAccount: "Already have an account?", register: "Register", verified: "Verification link sent to your email!" },
-  de: { title: "Anmelden", signUp: "Registrieren", login: "Anmelden", google: "Mit Google fortfahren", or: "oder", email: "E-Mail", password: "Passwort", forgot: "Passwort vergessen?", noAccount: "Kein Konto?", hasAccount: "Bereits ein Konto?", register: "Registrieren", verified: "Bestätigungslink wurde gesendet!" },
-  fr: { title: "Connexion", signUp: "S'inscrire", login: "Se connecter", google: "Continuer avec Google", or: "ou", email: "Email", password: "Mot de passe", forgot: "Mot de passe oublié?", noAccount: "Pas de compte?", hasAccount: "Déjà un compte?", register: "S'inscrire", verified: "Lien de vérification envoyé!" },
-  es: { title: "Iniciar sesión", signUp: "Registrarse", login: "Iniciar sesión", google: "Continuar con Google", or: "o", email: "Correo", password: "Contraseña", forgot: "¿Olvidaste tu contraseña?", noAccount: "¿Sin cuenta?", hasAccount: "¿Ya tienes cuenta?", register: "Registrarse", verified: "¡Enlace de verificación enviado!" },
-  it: { title: "Accedi", signUp: "Registrati", login: "Accedi", google: "Continua con Google", or: "o", email: "Email", password: "Password", forgot: "Password dimenticata?", noAccount: "Nessun account?", hasAccount: "Hai già un account?", register: "Registrati", verified: "Link di verifica inviato!" },
-  ru: { title: "Войти", signUp: "Регистрация", login: "Войти", google: "Продолжить с Google", or: "или", email: "Email", password: "Пароль", forgot: "Забыли пароль?", noAccount: "Нет аккаунта?", hasAccount: "Уже есть аккаунт?", register: "Зарегистрироваться", verified: "Ссылка подтверждения отправлена!" },
+  en: { title: "Login", signUp: "Sign Up", login: "Login", google: "Continue with Google", or: "or", email: "Email", password: "Password", forgot: "Forgot password?", noAccount: "No account?", hasAccount: "Already have an account?", register: "Register", verified: "Verification link sent!" },
+  de: { title: "Anmelden", signUp: "Registrieren", login: "Anmelden", google: "Mit Google fortfahren", or: "oder", email: "E-Mail", password: "Passwort", forgot: "Passwort vergessen?", noAccount: "Kein Konto?", hasAccount: "Bereits ein Konto?", register: "Registrieren", verified: "Bestätigungslink gesendet!" },
+  fr: { title: "Connexion", signUp: "S'inscrire", login: "Se connecter", google: "Continuer avec Google", or: "ou", email: "Email", password: "Mot de passe", forgot: "Mot de passe oublié?", noAccount: "Pas de compte?", hasAccount: "Déjà un compte?", register: "S'inscrire", verified: "Lien envoyé!" },
+  es: { title: "Iniciar sesión", signUp: "Registrarse", login: "Iniciar sesión", google: "Continuar con Google", or: "o", email: "Correo", password: "Contraseña", forgot: "¿Olvidaste tu contraseña?", noAccount: "¿Sin cuenta?", hasAccount: "¿Ya tienes cuenta?", register: "Registrarse", verified: "¡Enlace enviado!" },
+  it: { title: "Accedi", signUp: "Registrati", login: "Accedi", google: "Continua con Google", or: "o", email: "Email", password: "Password", forgot: "Password dimenticata?", noAccount: "Nessun account?", hasAccount: "Hai già un account?", register: "Registrati", verified: "Link inviato!" },
+  ru: { title: "Войти", signUp: "Регистрация", login: "Войти", google: "Продолжить с Google", or: "или", email: "Email", password: "Пароль", forgot: "Забыли пароль?", noAccount: "Нет аккаунта?", hasAccount: "Уже есть аккаунт?", register: "Зарегистрироваться", verified: "Ссылка отправлена!" },
   zh: { title: "登录", signUp: "注册", login: "登录", google: "使用 Google 继续", or: "或", email: "邮箱", password: "密码", forgot: "忘记密码?", noAccount: "没有账户?", hasAccount: "已有账户?", register: "注册", verified: "验证链接已发送!" },
-  ko: { title: "로그인", signUp: "회원가입", login: "로그인", google: "Google로 계속", or: "또는", email: "이메일", password: "비밀번호", forgot: "비밀번호 찾기", noAccount: "계정이 없으신가요?", hasAccount: "이미 계정이 있으신가요?", register: "회원가입", verified: "인증 링크가 전송되었습니다!" },
-  pl: { title: "Zaloguj się", signUp: "Zarejestruj się", login: "Zaloguj się", google: "Kontynuuj z Google", or: "lub", email: "Email", password: "Hasło", forgot: "Zapomniałeś hasła?", noAccount: "Brak konta?", hasAccount: "Masz już konto?", register: "Zarejestruj się", verified: "Link weryfikacyjny wysłany!" },
-  ro: { title: "Autentificare", signUp: "Înregistrare", login: "Autentificare", google: "Continuă cu Google", or: "sau", email: "Email", password: "Parolă", forgot: "Ai uitat parola?", noAccount: "Nu ai cont?", hasAccount: "Ai deja cont?", register: "Înregistrează-te", verified: "Link de verificare trimis!" },
-  el: { title: "Σύνδεση", signUp: "Εγγραφή", login: "Σύνδεση", google: "Συνέχεια με Google", or: "ή", email: "Email", password: "Κωδικός", forgot: "Ξεχάσατε τον κωδικό;", noAccount: "Δεν έχετε λογαριασμό;", hasAccount: "Έχετε ήδη λογαριασμό;", register: "Εγγραφή", verified: "Ο σύνδεσμος επαλήθευσης εστάλη!" },
+  ko: { title: "로그인", signUp: "회원가입", login: "로그인", google: "Google로 계속", or: "또는", email: "이메일", password: "비밀번호", forgot: "비밀번호 찾기", noAccount: "계정이 없으신가요?", hasAccount: "이미 계정이 있으신가요?", register: "회원가입", verified: "인증 링크 전송됨!" },
+  pl: { title: "Zaloguj się", signUp: "Zarejestruj się", login: "Zaloguj się", google: "Kontynuuj z Google", or: "lub", email: "Email", password: "Hasło", forgot: "Zapomniałeś hasła?", noAccount: "Brak konta?", hasAccount: "Masz już konto?", register: "Zarejestruj się", verified: "Link wysłany!" },
+  ro: { title: "Autentificare", signUp: "Înregistrare", login: "Autentificare", google: "Continuă cu Google", or: "sau", email: "Email", password: "Parolă", forgot: "Ai uitat parola?", noAccount: "Nu ai cont?", hasAccount: "Ai deja cont?", register: "Înregistrează-te", verified: "Link trimis!" },
+  el: { title: "Σύνδεση", signUp: "Εγγραφή", login: "Σύνδεση", google: "Συνέχεια με Google", or: "ή", email: "Email", password: "Κωδικός", forgot: "Ξεχάσατε τον κωδικό;", noAccount: "Δεν έχετε λογαριασμό;", hasAccount: "Έχετε ήδη λογαριασμό;", register: "Εγγραφή", verified: "Ο σύνδεσμος εστάλη!" },
 };
 
 export default function LoginPage() {
@@ -26,12 +26,18 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [lang, setLang] = useState("en");
 
-  const lang = typeof navigator !== "undefined"
-    ? navigator.language.slice(0, 2)
-    : "en";
+  useEffect(() => {
+    const saved = localStorage.getItem("dp_lang");
+    if (saved && T[saved]) setLang(saved);
+    else {
+      const browser = navigator.language.slice(0, 2);
+      if (T[browser]) setLang(browser);
+    }
+  }, []);
+
   const t = T[lang] || T.en;
-
   const supabase = createClient();
 
   async function handleEmail() {
