@@ -12,18 +12,38 @@ export default function UpdatePasswordPage() {
 
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") setReady(true);
+
+    // Önce mevcut session'ı kontrol et
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        setReady(true);
+      }
     });
+
+    // Event listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && session)) {
+        setReady(true);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   async function handleUpdate() {
+    if (password.length < 6) {
+      setError("Şifre en az 6 karakter olmalı.");
+      return;
+    }
     setLoading(true);
     setError("");
     const supabase = createClient();
     const { error } = await supabase.auth.updateUser({ password });
     if (error) setError(error.message);
-    else setDone(true);
+    else {
+      setDone(true);
+      setTimeout(() => { window.location.href = "/auth/login"; }, 2000);
+    }
     setLoading(false);
   }
 
@@ -34,26 +54,38 @@ export default function UpdatePasswordPage() {
           🔑 <span className="text-sky-400">DrawPicker</span>
         </h1>
         <p className="text-zinc-500 text-center text-sm mb-8">Yeni şifreni belirle</p>
+
         {done ? (
           <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-6 text-center">
             <div className="text-4xl mb-3">✅</div>
             <p className="text-green-400 font-bold">Şifren güncellendi!</p>
-            <a href="/auth/login" className="block mt-4 text-sky-400 hover:underline text-sm">Giriş yap →</a>
+            <p className="text-zinc-400 text-sm mt-2">Giriş sayfasına yönlendiriliyorsunuz...</p>
           </div>
         ) : !ready ? (
-          <p className="text-center text-zinc-400">Yükleniyor...</p>
+          <div className="text-center">
+            <p className="text-zinc-400 mb-4">Yükleniyor...</p>
+            <button
+              onClick={() => setReady(true)}
+              className="text-sky-400 text-sm underline"
+            >
+              Yüklenmiyor mu? Buraya tıkla
+            </button>
+          </div>
         ) : (
           <>
             <input
               type="password"
-              placeholder="Yeni şifren"
+              placeholder="Yeni şifren (min. 6 karakter)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-[#16161f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-sky-500 transition mb-4"
             />
             {error && <p className="text-red-400 text-sm mb-3">❌ {error}</p>}
-            <button onClick={handleUpdate} disabled={loading}
-              className="w-full bg-gradient-to-r from-sky-600 to-sky-500 py-3 rounded-xl font-bold text-sm transition disabled:opacity-50">
+            <button
+              onClick={handleUpdate}
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-sky-600 to-sky-500 py-3 rounded-xl font-bold text-sm transition disabled:opacity-50"
+            >
               {loading ? "..." : "Şifremi Güncelle"}
             </button>
           </>
