@@ -85,6 +85,7 @@ export default function LoginPage() {
         >
           {loading ? "..." : isSignUp ? "Kayit Ol" : "Giris Yap"}
         </button>
+        <p className="text-center text-zinc-500 text-sm mt-2 mb-2"><a href="/auth/reset" className="text-sky-400 hover:underline text-sm">Şifremi Unuttum?</a></p>
         <p className="text-center text-zinc-500 text-sm mt-4">
           {isSignUp ? "Zaten hesabin var mi?" : "Hesabin yok mu?"}{" "}
           <button onClick={() => setIsSignUp(!isSignUp)} className="text-sky-400 hover:underline">
