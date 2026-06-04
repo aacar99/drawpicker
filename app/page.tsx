@@ -26,9 +26,9 @@ const HOME_TEXT: Record<string, any> = {
   tr: {
     account: "👤 Hesabım",
     youtubeTitle: "YouTube Çekilişi",
-    youtubeSub: "YouTube yorumlarından adil ve rastgele kazanan seçin.",
+    youtubeSub: "YouTube yorumlarından  rastgele kazanan seçin.",
     twitterTitle: "X (Twitter) Çekilişi",
-    twitterSub: "X gönderilerinden adil ve rastgele kazanan seçin.",
+    twitterSub: "X gönderilerinden rastgele kazanan seçin.",
     commentFiltering: "Yorum filtreleme",
     multipleWinners: "Çoklu kazanan",
     backupWinners: "Yedek kazanan",

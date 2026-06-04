@@ -11,8 +11,8 @@ export const translations = {
       logout: "Çıkış",
     },
     hero: {
-      badge: "🛡️ %100 Adil • Şeffaf • Güvenilir",
-      title1: "Adil Çekilişin",
+      badge: "🛡️ %100  Şeffaf • Güvenilir",
+      title1: "Sosyal Medya Çekilişin",
       title2: "Tek Adresi!",
       desc: "X ve YouTube’da güvenilir, şeffaf ve profesyonel çekilişler düzenleyin.",
       start: "Hemen Çekiliş Yap →",
