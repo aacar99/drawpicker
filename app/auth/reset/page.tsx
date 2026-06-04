@@ -4,18 +4,18 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase-client";
 
 const T: any = {
-  tr: { title: "Şifreni Sıfırla", sub: "Email adresini gir, sıfırlama linki gönderelim.", placeholder: "Email adresin", btn: "Şifre Sıfırlama Linki Gönder", sent: "Email gönderildi!", sentSub: "Emailini kontrol et ve linke tıkla.", back: "← Giriş sayfasına dön" },
-  en: { title: "Reset Password", sub: "Enter your email and we'll send a reset link.", placeholder: "Your email", btn: "Send Reset Link", sent: "Email sent!", sentSub: "Check your email and click the link.", back: "← Back to login" },
-  de: { title: "Passwort zurücksetzen", sub: "Gib deine E-Mail ein.", placeholder: "Deine E-Mail", btn: "Reset-Link senden", sent: "E-Mail gesendet!", sentSub: "Überprüfe deine E-Mail.", back: "← Zurück zur Anmeldung" },
-  fr: { title: "Réinitialiser", sub: "Entrez votre email.", placeholder: "Votre email", btn: "Envoyer le lien", sent: "Email envoyé!", sentSub: "Vérifiez votre email.", back: "← Retour" },
-  es: { title: "Restablecer", sub: "Ingresa tu email.", placeholder: "Tu email", btn: "Enviar enlace", sent: "¡Email enviado!", sentSub: "Revisa tu email.", back: "← Volver" },
-  it: { title: "Reimposta", sub: "Inserisci la tua email.", placeholder: "La tua email", btn: "Invia link", sent: "Email inviata!", sentSub: "Controlla la tua email.", back: "← Torna" },
-  ru: { title: "Сброс пароля", sub: "Введите ваш email.", placeholder: "Ваш email", btn: "Отправить ссылку", sent: "Email отправлен!", sentSub: "Проверьте почту.", back: "← Назад" },
-  zh: { title: "重置密码", sub: "输入您的邮箱。", placeholder: "您的邮箱", btn: "发送重置链接", sent: "邮件已发送!", sentSub: "请检查您的邮箱。", back: "← 返回" },
-  ko: { title: "비밀번호 재설정", sub: "이메일을 입력하세요.", placeholder: "이메일", btn: "재설정 링크 보내기", sent: "이메일 전송됨!", sentSub: "이메일을 확인하세요.", back: "← 돌아가기" },
-  pl: { title: "Resetuj hasło", sub: "Podaj swój email.", placeholder: "Twój email", btn: "Wyślij link", sent: "Email wysłany!", sentSub: "Sprawdź emaila.", back: "← Powrót" },
-  ro: { title: "Resetare parolă", sub: "Introduceți emailul.", placeholder: "Emailul tău", btn: "Trimite link", sent: "Email trimis!", sentSub: "Verificați emailul.", back: "← Înapoi" },
-  el: { title: "Επαναφορά", sub: "Εισάγετε το email σας.", placeholder: "Το email σας", btn: "Αποστολή", sent: "Email στάλθηκε!", sentSub: "Ελέγξτε το email σας.", back: "← Πίσω" },
+  tr: { sub: "Email adresini gir, sıfırlama linki gönderelim.", placeholder: "Email adresin", btn: "Şifre Sıfırlama Linki Gönder", sent: "Email gönderildi!", sentSub: "Emailini kontrol et ve linke tıkla.", back: "← Giriş sayfasına dön" },
+  en: { sub: "Enter your email and we'll send a reset link.", placeholder: "Your email", btn: "Send Reset Link", sent: "Email sent!", sentSub: "Check your email and click the link.", back: "← Back to login" },
+  de: { sub: "Gib deine E-Mail ein.", placeholder: "Deine E-Mail", btn: "Reset-Link senden", sent: "E-Mail gesendet!", sentSub: "Überprüfe deine E-Mail.", back: "← Zurück" },
+  fr: { sub: "Entrez votre email.", placeholder: "Votre email", btn: "Envoyer le lien", sent: "Email envoyé!", sentSub: "Vérifiez votre email.", back: "← Retour" },
+  es: { sub: "Ingresa tu email.", placeholder: "Tu email", btn: "Enviar enlace", sent: "¡Email enviado!", sentSub: "Revisa tu email.", back: "← Volver" },
+  it: { sub: "Inserisci la tua email.", placeholder: "La tua email", btn: "Invia link", sent: "Email inviata!", sentSub: "Controlla la tua email.", back: "← Torna" },
+  ru: { sub: "Введите ваш email.", placeholder: "Ваш email", btn: "Отправить ссылку", sent: "Email отправлен!", sentSub: "Проверьте почту.", back: "← Назад" },
+  zh: { sub: "输入您的邮箱。", placeholder: "您的邮箱", btn: "发送重置链接", sent: "邮件已发送!", sentSub: "请检查您的邮箱。", back: "← 返回" },
+  ko: { sub: "이메일을 입력하세요.", placeholder: "이메일", btn: "재설정 링크 보내기", sent: "이메일 전송됨!", sentSub: "이메일을 확인하세요.", back: "← 돌아가기" },
+  pl: { sub: "Podaj swój email.", placeholder: "Twój email", btn: "Wyślij link", sent: "Email wysłany!", sentSub: "Sprawdź emaila.", back: "← Powrót" },
+  ro: { sub: "Introduceți emailul.", placeholder: "Emailul tău", btn: "Trimite link", sent: "Email trimis!", sentSub: "Verificați emailul.", back: "← Înapoi" },
+  el: { sub: "Εισάγετε το email σας.", placeholder: "Το email σας", btn: "Αποστολή", sent: "Email στάλθηκε!", sentSub: "Ελέγξτε το email σας.", back: "← Πίσω" },
 };
 
 export default function ResetPage() {
@@ -28,10 +28,6 @@ export default function ResetPage() {
   useEffect(() => {
     const saved = localStorage.getItem("dp_lang");
     if (saved && T[saved]) setLang(saved);
-    else {
-      const browser = navigator.language.slice(0, 2);
-      if (T[browser]) setLang(browser);
-    }
   }, []);
 
   const t = T[lang] || T.en;

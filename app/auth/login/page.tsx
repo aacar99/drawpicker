@@ -31,10 +31,6 @@ export default function LoginPage() {
   useEffect(() => {
     const saved = localStorage.getItem("dp_lang");
     if (saved && T[saved]) setLang(saved);
-    else {
-      const browser = navigator.language.slice(0, 2);
-      if (T[browser]) setLang(browser);
-    }
   }, []);
 
   const t = T[lang] || T.en;
