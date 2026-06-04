@@ -97,6 +97,8 @@ export async function POST(req: Request) {
           free_used: false,
           draws_this_month: 0,
           draws_reset_at: new Date().toISOString(),
+          participants_used_this_month: 0,
+          participants_reset_at: new Date().toISOString(),
         })
         .select()
         .single();
@@ -116,10 +118,13 @@ export async function POST(req: Request) {
         .update({
           draws_this_month: 0,
           draws_reset_at: now.toISOString(),
+          participants_used_this_month: 0,
+          participants_reset_at: now.toISOString(),
         })
         .eq("id", user.id);
 
       dbUser.draws_this_month = 0;
+      dbUser.participants_used_this_month = 0;
     }
 
     const userPlanKey = normalizePlan(dbUser.plan);
@@ -128,6 +133,22 @@ export async function POST(req: Request) {
     if (dbUser.draws_this_month >= plan.drawsPerMonth) {
       return NextResponse.json(
         { success: false, error: "upgrade_required", reason: "monthly_limit" },
+        { status: 403 }
+      );
+    }
+
+    const usedParticipants = Number(dbUser.participants_used_this_month || 0);
+    let remainingParticipants = Number(plan.maxParticipants || 0) - usedParticipants;
+
+    if (remainingParticipants <= 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "upgrade_required",
+          reason: "participant_limit",
+          message:
+            "Aylık katılımcı işleme limitiniz doldu. Paketinizi yükseltin veya limit yenilenmesini bekleyin.",
+        },
         { status: 403 }
       );
     }
@@ -199,13 +220,14 @@ export async function POST(req: Request) {
       for (const raw of users) {
         if (participantLimitReached) return;
 
-        total++;
-
-        if (total > plan.maxParticipants && plan.maxParticipants < 999999) {
+        if (remainingParticipants <= 0) {
           participantLimitReached = true;
           truncated = true;
           return;
         }
+
+        total++;
+        remainingParticipants--;
 
         const u = {
           ...raw,
@@ -230,7 +252,9 @@ export async function POST(req: Request) {
     };
 
     function displayTotal() {
-      if (participantLimitReached) return plan.maxParticipants;
+      if (participantLimitReached) {
+        return Number(plan.maxParticipants || 0);
+      }
 
       if (platform !== "twitter" || !twitterStats) return total;
 
@@ -324,7 +348,9 @@ export async function POST(req: Request) {
     await admin
       .from("users")
       .update({
-        draws_this_month: (dbUser.draws_this_month || 0) + 1,
+        draws_this_month: Number(dbUser.draws_this_month || 0) + 1,
+        participants_used_this_month:
+          Number(dbUser.participants_used_this_month || 0) + total,
         free_used: true,
       })
       .eq("id", user.id);
@@ -338,6 +364,9 @@ export async function POST(req: Request) {
       truncated,
       totalParticipants: displayTotal(),
       eligibleCount: eligible,
+      usedParticipantsThisDraw: total,
+      remainingParticipants,
+      monthlyParticipantLimit: plan.maxParticipants,
       mainWinners,
       backupWinners,
       title: drawTitle,
