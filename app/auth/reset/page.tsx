@@ -14,7 +14,7 @@ export default function ResetPage() {
     setError("");
     const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${location.origin}/auth/update-password`,
+      redirectTo: `https://drawpicker.io/auth/callback?type=recovery`,
     });
     if (error) setError(error.message);
     else setSent(true);

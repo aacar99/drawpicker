@@ -29,7 +29,9 @@ export async function GET(request: Request) {
     if (type === "recovery") {
       return NextResponse.redirect(`${origin}/auth/update-password`);
     }
+
+    return NextResponse.redirect(`${origin}/`);
   }
 
-  return NextResponse.redirect(`${origin}/`);
+  return NextResponse.redirect(`${origin}/auth/login?error=callback`);
 }
