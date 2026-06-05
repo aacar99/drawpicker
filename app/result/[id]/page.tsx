@@ -1,55 +1,108 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 
 type Winner = {
   username?: string;
   author?: string;
   profilePicture?: string;
-  avatar?: string;
-  image?: string;
 };
 
 export default function ResultPage() {
   const params = useParams();
   const id = params?.id as string;
-
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     if (!id) return;
-
     fetch(`/api/result/${id}`)
       .then((r) => r.json())
-      .then((data) => {
-        setResult(data.result || null);
-        setLoading(false);
-      })
+      .then((data) => { setResult(data.result || null); setLoading(false); })
       .catch(() => setLoading(false));
   }, [id]);
 
+  // Konfeti animasyonu
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !result) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces: any[] = [];
+    const colors = ["#60a5fa","#a78bfa","#f472b6","#34d399","#fbbf24","#f87171","#e879f9"];
+
+    for (let i = 0; i < 120; i++) {
+      pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 2 + 1,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.2,
+        opacity: Math.random() * 0.7 + 0.3,
+      });
+    }
+
+    let animId: number;
+    function draw() {
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height);
+      pieces.forEach((p) => {
+        ctx!.save();
+        ctx!.globalAlpha = p.opacity;
+        ctx!.fillStyle = p.color;
+        ctx!.translate(p.x, p.y);
+        ctx!.rotate(p.angle);
+        ctx!.fillRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.5);
+        ctx!.restore();
+        p.y += p.speed;
+        p.angle += p.spin;
+        if (p.y > canvas!.height) {
+          p.y = -10;
+          p.x = Math.random() * canvas!.width;
+        }
+      });
+      animId = requestAnimationFrame(draw);
+    }
+    draw();
+    return () => cancelAnimationFrame(animId);
+  }, [result]);
+
+  async function handleShare() {
+    const url = `${window.location.origin}/result/${id}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "DrawPicker Çekiliş Sonucu", url });
+        return;
+      } catch {}
+    }
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  }
+
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#080812] text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-4xl mb-4">⏳</div>
-          <p className="text-zinc-400">Yükleniyor...</p>
-        </div>
+      <main className="min-h-screen flex items-center justify-center" style={{background:"linear-gradient(135deg,#1d4ed8,#7c3aed,#be185d)"}}>
+        <div className="text-white text-xl font-black animate-pulse">⏳ Yükleniyor...</div>
       </main>
     );
   }
 
   if (!result) {
     return (
-      <main className="min-h-screen bg-[#080812] text-white flex items-center justify-center">
-        <div className="text-center">
+      <main className="min-h-screen flex items-center justify-center" style={{background:"linear-gradient(135deg,#1d4ed8,#7c3aed,#be185d)"}}>
+        <div className="text-center text-white">
           <div className="text-5xl mb-4">❌</div>
           <h1 className="text-3xl font-black mb-2">Sonuç Bulunamadı</h1>
-          <a href="/" className="text-sky-400 hover:underline text-sm">
-            ← Ana Sayfa
-          </a>
+          <a href="/" className="text-white/70 hover:text-white text-sm underline">← Ana Sayfa</a>
         </div>
       </main>
     );
@@ -58,272 +111,129 @@ export default function ResultPage() {
   const winners: Winner[] = result.winners || [];
   const backups: Winner[] = result.backups || [];
   const isTwitter = result.platform === "twitter";
-  const platformName = isTwitter ? "Twitter / X" : "YouTube";
-
-  const date = result.created_at
-    ? new Date(result.created_at).toLocaleDateString("tr-TR")
-    : "";
-
-  const drawTitle =
-    result.title ||
-    result.giveaway_title ||
-    result.tweet_text ||
-    result.video_title ||
-    result.input_url ||
-    "Çekiliş";
-
-  const shortDrawTitle = String(drawTitle)
-    .replace(/\r/g, "")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .slice(0, 3);
-
-  const hasMoreTitle =
-    String(drawTitle)
-      .replace(/\r/g, "")
-      .split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean).length > 3;
-
-  const authorName =
-    result.author_name ||
-    result.authorName ||
-    result.tweet_author_name ||
-    result.username ||
-    "";
-
-  const authorUsername =
-    result.author_username ||
-    result.authorUsername ||
-    result.tweet_author_username ||
-    result.screen_name ||
-    "";
-
-  const authorAvatar =
-    result.author_avatar ||
-    result.authorAvatar ||
-    result.profilePicture ||
-    result.profile_image_url ||
-    "";
+  const date = result.created_at ? new Date(result.created_at).toLocaleDateString("tr-TR") : "";
+  const shareUrl = `${typeof window !== "undefined" ? window.location.origin : "https://drawpicker.io"}/result/${id}`;
 
   return (
-    <main className="min-h-screen bg-[#080812] text-white px-4 py-8 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#0ea5e933,transparent_35%),radial-gradient(circle_at_bottom_right,#a855f733,transparent_40%)]" />
+    <main className="min-h-screen relative overflow-hidden" style={{background:"linear-gradient(135deg,#1d4ed8,#7c3aed,#be185d)"}}>
+      {/* Konfeti canvas */}
+      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-10" />
 
-      <div className="relative max-w-5xl mx-auto">
-        {/* BRAND */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-5 mb-10">
-          <a href="/" className="text-3xl font-black tracking-tight">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              Draper.ai
-            </span>
+      {/* Blob arka planlar */}
+      <div className="fixed -top-20 -left-20 w-80 h-80 rounded-full blur-3xl opacity-50 pointer-events-none" style={{background:"#60a5fa"}} />
+      <div className="fixed -bottom-20 -right-20 w-96 h-96 rounded-full blur-3xl opacity-50 pointer-events-none" style={{background:"#f472b6"}} />
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl opacity-30 pointer-events-none" style={{background:"#a78bfa"}} />
+
+      <div className="relative z-20 max-w-6xl mx-auto px-4 py-8 min-h-screen flex flex-col">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <a href="/" className="text-white/70 hover:text-white text-sm transition px-3 py-2 rounded-xl" style={{background:"rgba(255,255,255,0.1)",backdropFilter:"blur(10px)"}}>
+            ← DrawPicker.io
           </a>
-
-          <div className="text-right text-sm text-zinc-400 leading-relaxed hidden sm:block">
-            Sosyal medya çekilişlerinde
-            <br />
-            adil sonuçların adresi
-          </div>
+          <div className="text-2xl font-black text-white">🎉 Çekiliş Sonucu</div>
+          <div className="w-28" />
         </div>
 
-        <div className="text-center mb-8">
-          <div className="text-6xl mb-3">🎉</div>
+        {/* Ana Grid */}
+        <div className="grid lg:grid-cols-2 gap-6 flex-1">
+          {/* SOL — Çekiliş Bilgisi */}
+          <div className="rounded-3xl p-6 flex flex-col gap-4" style={{background:"rgba(255,255,255,0.12)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.25)"}}>
+            <div>
+              <div className="text-white/60 text-xs uppercase tracking-widest mb-1">Platform</div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{isTwitter ? "𝕏" : "▶️"}</span>
+                <span className="text-white font-black text-lg">{isTwitter ? "Twitter / X" : "YouTube"}</span>
+              </div>
+            </div>
 
-          <h1 className="text-5xl font-black bg-gradient-to-r from-sky-400 to-purple-400 bg-clip-text text-transparent">
-            Çekiliş Sonucu
-          </h1>
-        </div>
-
-        {/* POST / GIVEAWAY CARD */}
-        <div className="bg-[#101827]/80 border border-white/10 rounded-3xl p-6 mb-5 shadow-2xl">
-          {(authorName || authorUsername || authorAvatar) && (
-            <div className="flex items-center gap-4 mb-5">
-              {authorAvatar ? (
-                <img
-                  src={authorAvatar}
-                  alt={authorUsername || authorName}
-                  className="w-16 h-16 rounded-full object-cover border border-cyan-500/40"
-                />
-              ) : (
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sky-500 to-purple-500 flex items-center justify-center text-white font-black text-xl">
-                  {(authorName || authorUsername || "?")[0].toUpperCase()}
-                </div>
-              )}
-
+            {date && (
               <div>
-                {authorName && (
-                  <div className="text-2xl font-black">{authorName}</div>
-                )}
+                <div className="text-white/60 text-xs uppercase tracking-widest mb-1">Tarih</div>
+                <div className="text-white font-bold">{date}</div>
+              </div>
+            )}
 
-                {authorUsername && (
-                  <div className="text-zinc-400 text-lg">
-                    @{String(authorUsername).replace("@", "")}
-                  </div>
-                )}
+            {/* İstatistikler */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded-2xl p-4 text-center" style={{background:"rgba(255,255,255,0.15)"}}>
+                <div className="text-white font-black text-2xl">{result.total?.toLocaleString() || "—"}</div>
+                <div className="text-white/60 text-xs mt-1">Katılımcı</div>
+              </div>
+              <div className="rounded-2xl p-4 text-center" style={{background:"rgba(255,255,255,0.15)"}}>
+                <div className="text-white font-black text-2xl">{winners.length}</div>
+                <div className="text-white/60 text-xs mt-1">Kazanan</div>
+              </div>
+              <div className="rounded-2xl p-4 text-center" style={{background:"rgba(255,255,255,0.15)"}}>
+                <div className="text-white font-black text-2xl">{backups.length}</div>
+                <div className="text-white/60 text-xs mt-1">Yedek</div>
               </div>
             </div>
-          )}
 
-          <div className="flex gap-4">
-            <div className="text-5xl shrink-0">🎁</div>
-
-            <div className="flex-1">
-              <div className="text-zinc-500 text-sm font-bold mb-1">
-                Çekiliş
-              </div>
-
-              <div className="text-lg sm:text-xl font-black leading-relaxed">
-                {shortDrawTitle.map((line, i) => (
-                  <div key={i}>{line}</div>
-                ))}
-
-                {hasMoreTitle && (
-                  <div className="text-zinc-500">.....</div>
-                )}
-              </div>
-
-              <div className="flex flex-wrap gap-3 mt-5">
-                <span className="bg-[#080812] border border-white/10 rounded-xl px-4 py-2 text-sm font-bold">
-                  Platform: {platformName}
-                </span>
-
-                {date && (
-                  <span className="bg-[#080812] border border-white/10 rounded-xl px-4 py-2 text-sm font-bold text-zinc-300">
-                    Tarih: {date}
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* STATS */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="bg-[#101827]/80 border border-white/10 rounded-2xl p-5 text-center">
-            <div className="text-3xl font-black text-cyan-400">
-              {result.total?.toLocaleString() || "—"}
-            </div>
-            <div className="text-sm text-zinc-400 mt-1">Katılımcı</div>
-          </div>
-
-          <div className="bg-[#101827]/80 border border-white/10 rounded-2xl p-5 text-center">
-            <div className="text-3xl font-black text-cyan-400">
-              {winners.length}
-            </div>
-            <div className="text-sm text-zinc-400 mt-1">Kazanan</div>
-          </div>
-
-          <div className="bg-[#101827]/80 border border-white/10 rounded-2xl p-5 text-center">
-            <div className="text-3xl font-black text-cyan-400">
-              {backups.length}
-            </div>
-            <div className="text-sm text-zinc-400 mt-1">Yedek</div>
-          </div>
-        </div>
-
-        <div className="text-center mb-8">
-          <div className="font-mono text-cyan-400 bg-[#101827]/80 border border-dashed border-cyan-500/30 rounded-xl py-3 px-5 text-sm inline-block">
-            Sertifika: {result.cert_code}
-          </div>
-        </div>
-
-        {/* WINNERS */}
-        <div className="bg-[#101827]/80 border border-cyan-500/20 rounded-3xl p-6 mb-4">
-          <div className="text-cyan-300 font-black text-2xl mb-5">
-            🏆 Kazananlar
-          </div>
-
-          <div className="space-y-3">
-            {winners.map((w, i) => {
-              const img = w.profilePicture || w.avatar || w.image;
-
-              return (
-                <div
-                  key={i}
-                  className="bg-[#182033] rounded-2xl p-5 border border-white/10 flex items-center gap-4"
-                >
-                  {img ? (
-                    <img
-                      src={img}
-                      alt={w.username}
-                      className="w-16 h-16 rounded-full object-cover border-2 border-cyan-500/40"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sky-500 to-purple-500 flex items-center justify-center text-white font-black text-xl">
-                      {(w.username || "?")[0].toUpperCase()}
-                    </div>
-                  )}
-
-                  <div className="flex-1">
-                    <div className="font-black text-2xl">@{w.username}</div>
-
-                    {w.author && (
-                      <div className="text-zinc-400 text-base">
-                        {w.author}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="text-3xl">🏆</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {backups.length > 0 && (
-          <div className="bg-[#101827]/80 border border-white/10 rounded-3xl p-6 mb-4">
-            <div className="text-zinc-300 font-black text-2xl mb-5">
-              🥈 Yedek Kazananlar
+            {/* Sertifika */}
+            <div className="rounded-2xl p-4 text-center" style={{background:"rgba(255,255,255,0.1)",border:"1px dashed rgba(255,255,255,0.3)"}}>
+              <div className="text-white/60 text-xs mb-1">📜 Çekiliş Sertifikası</div>
+              <div className="text-white font-black text-xl tracking-widest">{result.cert_code}</div>
             </div>
 
-            <div className="space-y-3">
-              {backups.map((w, i) => {
-                const img = w.profilePicture || w.avatar || w.image;
+            {/* Paylaş Butonu */}
+            <button onClick={handleShare} className="w-full py-4 rounded-2xl font-black text-base transition hover:opacity-90 active:scale-95" style={{background:"rgba(255,255,255,0.25)",backdropFilter:"blur(10px)",border:"1px solid rgba(255,255,255,0.3)",color:"white"}}>
+              {copied ? "✅ Link Kopyalandı!" : "📤 Çekilişi Paylaş"}
+            </button>
 
-                return (
-                  <div
-                    key={i}
-                    className="bg-[#182033] rounded-2xl p-5 border border-white/10 flex items-center gap-4"
-                  >
-                    {img ? (
-                      <img
-                        src={img}
-                        alt={w.username}
-                        className="w-14 h-14 rounded-full object-cover"
-                      />
+            <a href="/" className="w-full py-3 rounded-2xl font-bold text-sm text-center transition hover:opacity-90" style={{background:"rgba(255,255,255,0.1)",border:"1px solid rgba(255,255,255,0.2)",color:"rgba(255,255,255,0.8)"}}>
+              🎯 Yeni Çekiliş Başlat
+            </a>
+          </div>
+
+          {/* SAĞ — Kazananlar */}
+          <div className="flex flex-col gap-4">
+            {/* Kazananlar */}
+            <div className="rounded-3xl p-6" style={{background:"rgba(255,255,255,0.12)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.25)"}}>
+              <div className="text-white font-black text-xl mb-4">🏆 Kazananlar</div>
+              <div className="space-y-3">
+                {winners.map((w, i) => (
+                  <div key={i} className="rounded-2xl p-4 flex items-center gap-4" style={{background:"rgba(255,255,255,0.15)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,0.2)"}}>
+                    {w.profilePicture ? (
+                      <img src={w.profilePicture} alt={w.username} className="w-14 h-14 rounded-full object-cover flex-shrink-0" style={{border:"2px solid rgba(255,255,255,0.4)"}} />
                     ) : (
-                      <div className="w-14 h-14 rounded-full bg-gradient-to-br from-zinc-600 to-zinc-500 flex items-center justify-center text-white font-black text-lg">
+                      <div className="w-14 h-14 rounded-full flex-shrink-0 flex items-center justify-center text-white font-black text-xl" style={{background:`linear-gradient(135deg,hsl(${i*80+200},70%,60%),hsl(${i*80+240},70%,50%))`}}>
                         {(w.username || "?")[0].toUpperCase()}
                       </div>
                     )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white font-black text-lg">@{w.username}</div>
+                      {w.author && <div className="text-white/60 text-sm truncate">{w.author}</div>}
+                    </div>
+                    <div className="text-2xl">🏆</div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                    <div className="flex-1">
-                      <div className="font-bold text-zinc-300">
-                        @{w.username}
-                      </div>
-
-                      {w.author && (
-                        <div className="text-zinc-500 text-sm">
-                          {w.author}
+            {/* Yedek Kazananlar */}
+            {backups.length > 0 && (
+              <div className="rounded-3xl p-6" style={{background:"rgba(255,255,255,0.08)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.15)"}}>
+                <div className="text-white/80 font-black text-lg mb-4">🥈 Yedek Kazananlar</div>
+                <div className="space-y-2">
+                  {backups.map((w, i) => (
+                    <div key={i} className="rounded-xl p-3 flex items-center gap-3" style={{background:"rgba(255,255,255,0.1)",border:"1px solid rgba(255,255,255,0.15)"}}>
+                      {w.profilePicture ? (
+                        <img src={w.profilePicture} alt={w.username} className="w-10 h-10 rounded-full object-cover flex-shrink-0" />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white font-black" style={{background:"rgba(255,255,255,0.2)"}}>
+                          {(w.username || "?")[0].toUpperCase()}
                         </div>
                       )}
+                      <div>
+                        <div className="text-white font-bold">@{w.username}</div>
+                        {w.author && <div className="text-white/50 text-xs">{w.author}</div>}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-        )}
-
-        <div className="text-center mt-8">
-          <a
-            href="/"
-            className="text-zinc-500 text-sm hover:text-white transition"
-          >
-            ← Draper.ai
-          </a>
         </div>
       </div>
     </main>
