@@ -9,93 +9,45 @@ import { createClient } from "@/lib/supabase-client";
 import type { User } from "@/lib/types";
 
 const ACCENT: Record<string, any> = {
-  sky: {
-    text: "text-sky-400",
-    ring: "focus:border-sky-500",
-    btn: "from-sky-600 to-sky-500",
-    shadow: "shadow-sky-500/20",
-    solid: "bg-sky-600 hover:bg-sky-500",
-    hover: "hover:border-sky-500",
-    ruleOn: "border-sky-500 bg-sky-500/10",
-    chk: "bg-sky-500",
-    check: "text-sky-400",
-  },
-  purple: {
-    text: "text-purple-400",
-    ring: "focus:border-purple-500",
-    btn: "from-purple-600 to-purple-500",
-    shadow: "shadow-purple-500/20",
-    solid: "bg-purple-600 hover:bg-purple-500",
-    hover: "hover:border-purple-500",
-    ruleOn: "border-purple-500 bg-purple-500/10",
-    chk: "bg-purple-500",
-    check: "text-purple-400",
-  },
+  sky: { text: "text-sky-400", ring: "focus:border-sky-500", btn: "from-sky-600 to-sky-500", shadow: "shadow-sky-500/20", solid: "bg-sky-600 hover:bg-sky-500", hover: "hover:border-sky-500", ruleOn: "border-sky-500 bg-sky-500/10", chk: "bg-sky-500", check: "text-sky-400" },
+  purple: { text: "text-purple-400", ring: "focus:border-purple-500", btn: "from-purple-600 to-purple-500", shadow: "shadow-purple-500/20", solid: "bg-purple-600 hover:bg-purple-500", hover: "hover:border-purple-500", ruleOn: "border-purple-500 bg-purple-500/10", chk: "bg-purple-500", check: "text-purple-400" },
 };
 
-const PLAN_LEVEL: Record<string, number> = {
-  free: 0,
-  starter: 1,
-  pro: 2,
-  business: 3,
-};
+const PLAN_LEVEL: Record<string, number> = { free: 0, starter: 1, pro: 2, business: 3 };
 
 function canUse(userPlan: string, rulePlan?: string) {
   const up = String(userPlan || "free").toLowerCase().trim();
   const rp = String(rulePlan || "free").toLowerCase().trim();
-
   return (PLAN_LEVEL[up] ?? 0) >= (PLAN_LEVEL[rp] ?? 0);
 }
 
 function getRuleInput(key: string) {
   const map: Record<string, any> = {
-    mustMention: {
-      field: "mentionUsername",
-      type: "text",
-      placeholder: "@kullanici",
-    },
-    mustKeyword: {
-      field: "keyword",
-      type: "text",
-      placeholder: "örn: çekiliş",
-    },
-    mustExtraFollow: {
-      field: "extraFollowAccount",
-      type: "text",
-      placeholder: "@hesapadi",
-    },
-    mustMinFollowers: {
-      field: "minFollowers",
-      type: "number",
-      placeholder: "örn: 100",
-    },
-    mustMinLength: {
-      field: "minLength",
-      type: "number",
-      placeholder: "örn: 10",
-    },
-    mustAccountAge: {
-      field: "accountAgeDays",
-      type: "number",
-      placeholder: "örn: 30 gün",
-    },
+    mustMention: { field: "mentionUsername", type: "text", placeholder: "@kullanici" },
+    mustKeyword: { field: "keyword", type: "text", placeholder: "örn: çekiliş" },
+    mustExtraFollow: { field: "extraFollowAccount", type: "text", placeholder: "@hesapadi" },
+    mustMinFollowers: { field: "minFollowers", type: "number", placeholder: "örn: 100" },
+    mustMinLength: { field: "minLength", type: "number", placeholder: "örn: 10" },
+    mustAccountAge: { field: "accountAgeDays", type: "number", placeholder: "örn: 30 gün" },
   };
-
   return map[key] || null;
 }
 
+const NEW_DRAW_LABELS: Record<string, string> = {
+  tr: "🎯 Yeni Çekiliş Başlat", en: "🎯 Start New Giveaway", de: "🎯 Neues Gewinnspiel", fr: "🎯 Nouveau tirage",
+  es: "🎯 Nuevo sorteo", it: "🎯 Nuovo sorteggio", ru: "🎯 Новый розыгрыш", zh: "🎯 新抽奖",
+  ko: "🎯 새 추첨 시작", pl: "🎯 Nowe losowanie", ro: "🎯 Extragere nouă", el: "🎯 Νέα κλήρωση",
+};
+
 export default function GiveawayPage({ config }: any) {
   const a = ACCENT[config.accent] || ACCENT.sky;
-
   const [lang, setLang] = useState("tr");
   const t = tr(lang);
-
   const [input, setInput] = useState("");
   const [winnerCount, setWinnerCount] = useState(1);
   const [backupCount, setBackupCount] = useState(0);
   const [rules, setRules] = useState<any>({});
   const [showGeneralRules, setShowGeneralRules] = useState(false);
-
   const [loading, setLoading] = useState(false);
   const [winners, setWinners] = useState<User[]>([]);
   const [backups, setBackups] = useState<User[]>([]);
@@ -108,48 +60,39 @@ export default function GiveawayPage({ config }: any) {
   const [plan, setPlan] = useState("free");
 
   useEffect(() => {
-    const saved = localStorage.getItem("drawpicker_lang");
+    const saved = localStorage.getItem("dp_lang") || localStorage.getItem("drawpicker_lang");
     if (saved) setLang(saved);
-
     const supabase = createClient();
-
     supabase.auth.getUser().then(async ({ data }) => {
       setUser(data.user);
-
       if (data.user) {
-        const { data: dbUser } = await supabase
-          .from("users")
-          .select("plan")
-          .eq("id", data.user.id)
-          .single();
-
+        const { data: dbUser } = await supabase.from("users").select("plan").eq("id", data.user.id).single();
         setPlan(String(dbUser?.plan || "free").toLowerCase().trim());
       }
     });
   }, []);
 
+  function resetDraw() {
+    setWinners([]);
+    setBackups([]);
+    setTotal(0);
+    setCertCode("");
+    setResultUrl("");
+    setError("");
+    setInput("");
+    setRules({});
+    setWinnerCount(1);
+    setBackupCount(0);
+  }
+
   function toggle(rule: any) {
     const key = rule.key;
     const locked = !canUse(plan, rule.plan);
-
-    if (locked) {
-      setShowUpgrade(true);
-      return;
-    }
-
+    if (locked) { setShowUpgrade(true); return; }
     setRules((p: any) => {
       const next = !p[key];
-
-      const updated = {
-        ...p,
-        [key]: next,
-      };
-
-      if (!next) {
-        const inputDef = getRuleInput(key);
-        if (inputDef) delete updated[inputDef.field];
-      }
-
+      const updated = { ...p, [key]: next };
+      if (!next) { const inputDef = getRuleInput(key); if (inputDef) delete updated[inputDef.field]; }
       return updated;
     });
   }
@@ -162,39 +105,18 @@ export default function GiveawayPage({ config }: any) {
     const locked = !canUse(plan, rule.plan);
     const inputDef = getRuleInput(rule.key);
     const isActive = Boolean(rules[rule.key]);
-
     return (
       <div key={rule.key}>
-        <Rule
-          label={`${rule.icon || ""} ${t("r_" + rule.key)}`}
-          val={Boolean(rules[rule.key])}
-          toggle={() => toggle(rule)}
-          fixed={rule.fixed}
-          locked={locked}
-          plan={rule.plan || "free"}
-          onClass={a.ruleOn}
-          chkClass={a.chk}
-        />
-
+        <Rule label={`${rule.icon || ""} ${t("r_" + rule.key)}`} val={Boolean(rules[rule.key])} toggle={() => toggle(rule)} fixed={rule.fixed} locked={locked} plan={rule.plan || "free"} onClass={a.ruleOn} chkClass={a.chk} />
         {isActive && !locked && inputDef && (
-          <input
-            type={inputDef.type}
-            value={rules[inputDef.field] || ""}
-            onChange={(e) => setRuleValue(inputDef.field, e.target.value)}
-            placeholder={inputDef.placeholder}
-            className={`w-full mt-2 bg-[#0a0a0f] border border-white/10 rounded-xl px-3 py-2 text-sm outline-none ${a.ring} transition`}
-          />
+          <input type={inputDef.type} value={rules[inputDef.field] || ""} onChange={(e) => setRuleValue(inputDef.field, e.target.value)} placeholder={inputDef.placeholder} className={`w-full mt-2 bg-[#0a0a0f] border border-white/10 rounded-xl px-3 py-2 text-sm outline-none ${a.ring} transition`} />
         )}
       </div>
     );
   }
 
   async function startDraw() {
-    if (!user) {
-      window.location.href = "/auth/login";
-      return;
-    }
-
+    if (!user) { window.location.href = "/auth/login"; return; }
     setLoading(true);
     setError("");
     setWinners([]);
@@ -203,40 +125,16 @@ export default function GiveawayPage({ config }: any) {
     setCertCode("");
     setResultUrl("");
     setShowUpgrade(false);
-
     try {
       const res = await fetch("/api/draw", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          platform: config.platform,
-          input,
-          winnerCount,
-          backupCount,
-          rules,
-          excluded: [],
-        }),
+        body: JSON.stringify({ platform: config.platform, input, winnerCount, backupCount, rules, excluded: [] }),
       });
-
       const data = await res.json();
-
-      if (res.status === 401 || data.error === "login_required") {
-        window.location.href = "/auth/login";
-        return;
-      }
-
-      if (res.status === 403 || data.error === "upgrade_required") {
-        setShowUpgrade(true);
-        setLoading(false);
-        return;
-      }
-
-      if (!res.ok || !data.success) {
-        setError(data.error || t("apiErr"));
-        setLoading(false);
-        return;
-      }
-
+      if (res.status === 401 || data.error === "login_required") { window.location.href = "/auth/login"; return; }
+      if (res.status === 403 || data.error === "upgrade_required") { setShowUpgrade(true); setLoading(false); return; }
+      if (!res.ok || !data.success) { setError(data.error || t("apiErr")); setLoading(false); return; }
       setWinners(data.mainWinners || []);
       setBackups(data.backupWinners || []);
       setTotal(data.totalParticipants || 0);
@@ -270,61 +168,28 @@ export default function GiveawayPage({ config }: any) {
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center px-4">
           <div className="bg-[#16161f] border border-white/10 rounded-3xl p-8 max-w-md w-full text-center">
             <div className="text-5xl mb-4">🚀</div>
-            <h2 className="text-2xl font-black mb-2">
-              Paket yükseltmeniz gerekiyor
-            </h2>
-            <p className="text-zinc-400 text-sm mb-6">
-              Bu özellik mevcut paketinizde yok. Devam etmek için Starter, Pro
-              veya Business paketine geçin.
-            </p>
-
-            <a
-              href="/pricing"
-              className={`block w-full bg-gradient-to-r ${a.btn} py-3 rounded-xl font-bold text-sm mb-3 hover:opacity-90 transition`}
-            >
-              Paketleri Gör →
-            </a>
-
-            <button
-              onClick={() => setShowUpgrade(false)}
-              className="text-zinc-500 text-sm hover:text-white transition"
-            >
-              Şimdi değil
-            </button>
+            <h2 className="text-2xl font-black mb-2">Paket yükseltmeniz gerekiyor</h2>
+            <p className="text-zinc-400 text-sm mb-6">Bu özellik mevcut paketinizde yok.</p>
+            <a href="/pricing" className={`block w-full bg-gradient-to-r ${a.btn} py-3 rounded-xl font-bold text-sm mb-3 hover:opacity-90 transition`}>Paketleri Gör →</a>
+            <button onClick={() => setShowUpgrade(false)} className="text-zinc-500 text-sm hover:text-white transition">Şimdi değil</button>
           </div>
         </div>
       )}
 
       <div className="relative max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-8 gap-4">
-          <a
-            href="/"
-            className="text-zinc-400 text-sm hover:text-white transition whitespace-nowrap"
-          >
-            {t("back")}
-          </a>
-
+          <a href="/" className="text-zinc-400 text-sm hover:text-white transition whitespace-nowrap">{t("back")}</a>
           <div className="flex items-center gap-3">
             <div className="hidden sm:block text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-zinc-300">
               Plan: <span className={a.text}>{plan.toUpperCase()}</span>
             </div>
-
-            <LangPicker
-              lang={lang}
-              setLang={setLang}
-              accentHover={a.hover}
-              accentCheck={a.check}
-            />
+            <LangPicker lang={lang} setLang={setLang} accentHover={a.hover} accentCheck={a.check} />
           </div>
         </div>
 
         <div className="text-center mb-8">
           <div className="text-6xl mb-3">{config.icon}</div>
-
-          <h1 className="text-4xl sm:text-5xl font-black mb-3">
-            <span className={a.text}>{t(config.titleKey)}</span>
-          </h1>
-
+          <h1 className="text-4xl sm:text-5xl font-black mb-3"><span className={a.text}>{t(config.titleKey)}</span></h1>
           <p className="text-zinc-400 text-sm">{t(config.subKey)}</p>
         </div>
 
@@ -332,129 +197,60 @@ export default function GiveawayPage({ config }: any) {
           <div className="mb-6 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 text-center">
             <p className="text-amber-400 text-sm font-medium">
               ⚠️ Çekiliş yapabilmek için giriş yapmalısınız.{" "}
-              <a href="/auth/login" className="underline font-bold">
-                Giriş Yap →
-              </a>
+              <a href="/auth/login" className="underline font-bold">Giriş Yap →</a>
             </p>
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           <div className="bg-[#16161f]/90 border border-white/10 rounded-3xl p-6">
-            <div className="font-bold mb-4 text-sm">
-              🔗 {t(config.inputKey)}
-            </div>
-
-            <input
-              type="text"
-              placeholder={t(config.inputPhKey)}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition mb-6`}
-            />
+            <div className="font-bold mb-4 text-sm">🔗 {t(config.inputKey)}</div>
+            <input type="text" placeholder={t(config.inputPhKey)} value={input} onChange={(e) => setInput(e.target.value)} className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition mb-6`} />
 
             <div className="mb-6">
-              <div className="font-black mb-3 text-sm flex items-center gap-2">
-                <span>⚡</span>
-                <span>{t("quickRules")}</span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-                {quickRules.map((r: any) => renderRule(r))}
-              </div>
-
+              <div className="font-black mb-3 text-sm flex items-center gap-2"><span>⚡</span><span>{t("quickRules")}</span></div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">{quickRules.map((r: any) => renderRule(r))}</div>
               {advancedRules.length > 0 && (
                 <div className="bg-[#101018] border border-white/10 rounded-2xl overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={() => setShowGeneralRules(!showGeneralRules)}
-                    className="w-full flex items-center justify-between px-4 py-4 text-sm font-black hover:bg-white/5 transition"
-                  >
+                  <button type="button" onClick={() => setShowGeneralRules(!showGeneralRules)} className="w-full flex items-center justify-between px-4 py-4 text-sm font-black hover:bg-white/5 transition">
                     <span>⚙️ {t("generalRules")}</span>
-                    <span className={`${a.text} text-xl leading-none`}>
-                      {showGeneralRules ? "−" : "+"}
-                    </span>
+                    <span className={`${a.text} text-xl leading-none`}>{showGeneralRules ? "−" : "+"}</span>
                   </button>
-
-                  {showGeneralRules && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 pt-0">
-                      {advancedRules.map((r: any) => renderRule(r))}
-                    </div>
-                  )}
+                  {showGeneralRules && <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 pt-0">{advancedRules.map((r: any) => renderRule(r))}</div>}
                 </div>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-6">
               <div>
-                <label className="text-xs text-zinc-400 mb-1.5 block">
-                  {t("winnerCount")}
-                </label>
-
-                <input
-                  type="number"
-                  min={1}
-                  max={50}
-                  value={winnerCount}
-                  onChange={(e) => setWinnerCount(Number(e.target.value))}
-                  className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition`}
-                />
+                <label className="text-xs text-zinc-400 mb-1.5 block">{t("winnerCount")}</label>
+                <input type="number" min={1} max={50} value={winnerCount} onChange={(e) => setWinnerCount(Number(e.target.value))} className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition`} />
               </div>
-
               <div>
-                <label className="text-xs text-zinc-400 mb-1.5 block">
-                  {t("backupCount")}
-                </label>
-
-                <input
-                  type="number"
-                  min={0}
-                  max={50}
-                  value={backupCount}
-                  disabled={plan === "free"}
-                  onChange={(e) => setBackupCount(Number(e.target.value))}
-                  className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition ${
-                    plan === "free" ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                />
-
-                {plan === "free" && (
-                  <p className="text-[11px] text-amber-400 mt-1">
-                    Yedek kazanan Starter ve üzeri paketlerde aktif.
-                  </p>
-                )}
+                <label className="text-xs text-zinc-400 mb-1.5 block">{t("backupCount")}</label>
+                <input type="number" min={0} max={50} value={backupCount} disabled={plan === "free"} onChange={(e) => setBackupCount(Number(e.target.value))} className={`w-full bg-[#0a0a0f] border border-white/10 rounded-xl px-4 py-3 text-sm outline-none ${a.ring} transition ${plan === "free" ? "opacity-50 cursor-not-allowed" : ""}`} />
+                {plan === "free" && <p className="text-[11px] text-amber-400 mt-1">Yedek kazanan Starter ve üzeri paketlerde aktif.</p>}
               </div>
             </div>
 
-            <button
-              onClick={startDraw}
-              disabled={loading}
-              className={`w-full bg-gradient-to-r ${a.btn} hover:opacity-90 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-50 shadow-lg ${a.shadow}`}
-            >
+            <button onClick={startDraw} disabled={loading} className={`w-full bg-gradient-to-r ${a.btn} hover:opacity-90 text-white py-4 rounded-xl font-black text-lg transition disabled:opacity-50 shadow-lg ${a.shadow}`}>
               {loading ? `⏳ ${t("loading")}...` : `🎯 ${t("draw")}`}
             </button>
-
             {error && <p className="text-red-400 text-sm mt-3">❌ {error}</p>}
           </div>
 
           <div>
             {winners.length > 0 ? (
-              <ResultsPanel
-                t={t}
-                accent={a}
-                total={total}
-                winners={winners}
-                backups={backups}
-                certCode={certCode}
-                resultUrl={resultUrl}
-                onRedraw={startDraw}
-              />
+              <>
+                <ResultsPanel t={t} accent={a} total={total} winners={winners} backups={backups} certCode={certCode} resultUrl={resultUrl} onRedraw={startDraw} />
+                <button onClick={resetDraw} className="mt-3 w-full border border-white/10 hover:border-sky-500 py-3 rounded-xl font-bold text-sm text-zinc-400 hover:text-white transition">
+                  {NEW_DRAW_LABELS[lang] || "🎯 Yeni Çekiliş Başlat"}
+                </button>
+              </>
             ) : (
               <div className="bg-[#16161f]/70 border border-white/10 rounded-3xl p-8 text-center text-zinc-500">
                 <div className="text-5xl mb-3">🎁</div>
-                <div className="font-black text-white mb-1">
-                  {t("resultHere")}
-                </div>
+                <div className="font-black text-white mb-1">{t("resultHere")}</div>
                 <div className="text-sm text-zinc-500">{t(config.subKey)}</div>
               </div>
             )}
