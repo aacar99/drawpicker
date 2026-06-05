@@ -31,9 +31,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "İletişim & Destek", contactSub: "Sorularınız, önerileriniz veya teknik destek için bize ulaşın.", contactEmail: "✉️ Bize Yazın", contactNote: "support@drawpicker.io adresimizden 24 saat içinde yanıt veriyoruz.",
     features: {
       free: ["1 ücretsiz çekiliş", "200 katılımcıya kadar", "Temel filtreler", "Sonuç sertifikası"],
-      starter: ["Ayda 15 çekiliş", "2.000 katılımcıya kadar", "Yedek kazanan", "CSV export", "Sonuç sertifikası"],
-      pro: ["Ayda 60 çekiliş", "20.000 katılımcıya kadar", "Tüm özellikler", "Öncelikli destek"],
-      business: ["Sınırsız çekiliş", "Sınırsız katılımcı", "Tüm özellikler", "Özel destek"],
+      starter: ["Sınırsız çekiliş", "5.000 katılımcıya kadar", "Yedek kazanan", "CSV export", "Sonuç sertifikası"],
+      pro: ["Sınırsız çekiliş", "40.000 katılımcıya kadar", "Tüm özellikler", "Öncelikli destek"],
+      business: ["Sınırsız çekiliş", "300.000 katılımcıya kadar", "Tüm özellikler", "Özel destek"],
     },
   },
   en: {
@@ -50,9 +50,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Contact & Support", contactSub: "Contact us for questions, suggestions or technical support.", contactEmail: "✉️ Email Us", contactNote: "We respond within 24 hours at support@drawpicker.io.",
     features: {
       free: ["1 free giveaway", "Up to 200 participants", "Basic filters", "Result certificate"],
-      starter: ["15 giveaways/month", "Up to 2,000 participants", "Backup winners", "CSV export", "Result certificate"],
-      pro: ["60 giveaways/month", "Up to 20,000 participants", "All features", "Priority support"],
-      business: ["Unlimited giveaways", "Unlimited participants", "All features", "Dedicated support"],
+      starter: ["Unlimited giveaways", "Up to 5,000 participants", "Backup winners", "CSV export", "Result certificate"],
+      pro: ["Unlimited giveaways", "Up to 40,000 participants", "All features", "Priority support"],
+      business: ["Unlimited giveaways", "Up to 300,000 participants", "All features", "Dedicated support"],
     },
   },
   de: {
@@ -69,9 +69,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Kontakt & Support", contactSub: "Kontaktiere uns bei Fragen oder technischen Problemen.", contactEmail: "✉️ Schreib uns", contactNote: "Wir antworten innerhalb von 24 Stunden: support@drawpicker.io",
     features: {
       free: ["1 kostenloses Gewinnspiel", "Bis zu 200 Teilnehmer", "Grundfilter", "Ergebniszertifikat"],
-      starter: ["15 Gewinnspiele/Monat", "Bis zu 2.000 Teilnehmer", "Ersatzgewinner", "CSV Export", "Zertifikat"],
-      pro: ["60 Gewinnspiele/Monat", "Bis zu 20.000 Teilnehmer", "Alle Funktionen", "Priorisierter Support"],
-      business: ["Unbegrenzte Gewinnspiele", "Unbegrenzte Teilnehmer", "Alle Funktionen", "Premium-Support"],
+      starter: ["Unbegrenzte Gewinnspiele", "Bis zu 5.000 Teilnehmer", "Ersatzgewinner", "CSV Export", "Zertifikat"],
+      pro: ["Unbegrenzte Gewinnspiele", "Bis zu 40.000 Teilnehmer", "Alle Funktionen", "Priorisierter Support"],
+      business: ["Unbegrenzte Gewinnspiele", "Bis zu 300.000 Teilnehmer", "Alle Funktionen", "Premium-Support"],
     },
   },
   fr: {
@@ -88,9 +88,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Contact & Support", contactSub: "Contactez-nous pour vos questions ou support technique.", contactEmail: "✉️ Écrivez-nous", contactNote: "Nous répondons sous 24h à support@drawpicker.io",
     features: {
       free: ["1 tirage gratuit", "Jusqu'à 200 participants", "Filtres de base", "Certificat de résultat"],
-      starter: ["15 tirages/mois", "Jusqu'à 2.000 participants", "Gagnants suppléants", "Export CSV", "Certificat"],
-      pro: ["60 tirages/mois", "Jusqu'à 20.000 participants", "Toutes les fonctions", "Support prioritaire"],
-      business: ["Tirages illimités", "Participants illimités", "Toutes les fonctions", "Support dédié"],
+      starter: ["Tirages illimités", "Jusqu'à 5.000 participants", "Gagnants suppléants", "Export CSV", "Certificat"],
+      pro: ["Tirages illimités", "Jusqu'à 40.000 participants", "Toutes les fonctions", "Support prioritaire"],
+      business: ["Tirages illimités", "Jusqu'à 300.000 participants", "Toutes les fonctions", "Support dédié"],
     },
   },
   es: {
@@ -107,9 +107,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Contacto y Soporte", contactSub: "Contáctanos para preguntas o soporte técnico.", contactEmail: "✉️ Escríbenos", contactNote: "Respondemos en 24 horas en support@drawpicker.io",
     features: {
       free: ["1 sorteo gratis", "Hasta 200 participantes", "Filtros básicos", "Certificado de resultado"],
-      starter: ["15 sorteos/mes", "Hasta 2.000 participantes", "Ganadores suplentes", "Exportar CSV", "Certificado"],
-      pro: ["60 sorteos/mes", "Hasta 20.000 participantes", "Todas las funciones", "Soporte prioritario"],
-      business: ["Sorteos ilimitados", "Participantes ilimitados", "Todas las funciones", "Soporte dedicado"],
+      starter: ["Sorteos ilimitados", "Hasta 5.000 participantes", "Ganadores suplentes", "Exportar CSV", "Certificado"],
+      pro: ["Sorteos ilimitados", "Hasta 40.000 participantes", "Todas las funciones", "Soporte prioritario"],
+      business: ["Sorteos ilimitados", "Hasta 300.000 participantes", "Todas las funciones", "Soporte dedicado"],
     },
   },
   it: {
@@ -126,9 +126,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Contatto e Supporto", contactSub: "Contattaci per domande o supporto tecnico.", contactEmail: "✉️ Scrivici", contactNote: "Rispondiamo entro 24 ore a support@drawpicker.io",
     features: {
       free: ["1 sorteggio gratuito", "Fino a 200 partecipanti", "Filtri di base", "Certificato risultato"],
-      starter: ["15 sorteggi/mese", "Fino a 2.000 partecipanti", "Vincitori di riserva", "Export CSV", "Certificato"],
-      pro: ["60 sorteggi/mese", "Fino a 20.000 partecipanti", "Tutte le funzioni", "Supporto prioritario"],
-      business: ["Sorteggi illimitati", "Partecipanti illimitati", "Tutte le funzioni", "Supporto dedicato"],
+      starter: ["Sorteggi illimitati", "Fino a 5.000 partecipanti", "Vincitori di riserva", "Export CSV", "Certificato"],
+      pro: ["Sorteggi illimitati", "Fino a 40.000 partecipanti", "Tutte le funzioni", "Supporto prioritario"],
+      business: ["Sorteggi illimitati", "Fino a 300.000 partecipanti", "Tutte le funzioni", "Supporto dedicato"],
     },
   },
   ru: {
@@ -145,9 +145,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Контакты и поддержка", contactSub: "Свяжитесь с нами по вопросам или технической поддержке.", contactEmail: "✉️ Написать нам", contactNote: "Отвечаем в течение 24 часов: support@drawpicker.io",
     features: {
       free: ["1 розыгрыш бесплатно", "До 200 участников", "Базовые фильтры", "Сертификат результата"],
-      starter: ["15 розыгрышей/месяц", "До 2.000 участников", "Запасные победители", "CSV экспорт", "Сертификат"],
-      pro: ["60 розыгрышей/месяц", "До 20.000 участников", "Все функции", "Приоритетная поддержка"],
-      business: ["Неограниченные розыгрыши", "Неограниченные участники", "Все функции", "Выделенная поддержка"],
+      starter: ["Неограниченные розыгрыши", "До 5.000 участников", "Запасные победители", "CSV экспорт", "Сертификат"],
+      pro: ["Неограниченные розыгрыши", "До 40.000 участников", "Все функции", "Приоритетная поддержка"],
+      business: ["Неограниченные розыгрыши", "До 300.000 участников", "Все функции", "Выделенная поддержка"],
     },
   },
   zh: {
@@ -164,9 +164,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "联系与支持", contactSub: "如有问题或技术支持，请联系我们。", contactEmail: "✉️ 发送邮件", contactNote: "我们在 24 小时内回复 support@drawpicker.io",
     features: {
       free: ["1次免费抽奖", "最多200名参与者", "基本过滤器", "结果证书"],
-      starter: ["每月15次抽奖", "最多2,000名参与者", "备用获奖者", "CSV导出", "证书"],
-      pro: ["每月60次抽奖", "最多20,000名参与者", "所有功能", "优先支持"],
-      business: ["无限抽奖", "无限参与者", "所有功能", "专属支持"],
+      starter: ["无限抽奖", "最多5,000名参与者", "备用获奖者", "CSV导出", "证书"],
+      pro: ["无限抽奖", "最多40,000名参与者", "所有功能", "优先支持"],
+      business: ["无限抽奖", "最多300,000名参与者", "所有功能", "专属支持"],
     },
   },
   ko: {
@@ -183,9 +183,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "문의 및 지원", contactSub: "질문이나 기술 지원이 필요하시면 연락하세요.", contactEmail: "✉️ 이메일 보내기", contactNote: "support@drawpicker.io로 24시간 내에 답변드립니다.",
     features: {
       free: ["1회 무료 추첨", "최대 200명 참가자", "기본 필터", "결과 인증서"],
-      starter: ["월 15회 추첨", "최대 2,000명 참가자", "예비 당첨자", "CSV 내보내기", "인증서"],
-      pro: ["월 60회 추첨", "최대 20,000명 참가자", "모든 기능", "우선 지원"],
-      business: ["무제한 추첨", "무제한 참가자", "모든 기능", "전용 지원"],
+      starter: ["무제한 추첨", "최대 5,000명 참가자", "예비 당첨자", "CSV 내보내기", "인증서"],
+      pro: ["무제한 추첨", "최대 40,000명 참가자", "모든 기능", "우선 지원"],
+      business: ["무제한 추첨", "최대 300,000명 참가자", "모든 기능", "전용 지원"],
     },
   },
   pl: {
@@ -202,9 +202,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Kontakt i wsparcie", contactSub: "Skontaktuj się z nami w sprawie pytań lub wsparcia technicznego.", contactEmail: "✉️ Napisz do nas", contactNote: "Odpowiadamy w ciągu 24 godzin: support@drawpicker.io",
     features: {
       free: ["1 losowanie za darmo", "Do 200 uczestników", "Podstawowe filtry", "Certyfikat wyniku"],
-      starter: ["15 losowań/miesiąc", "Do 2.000 uczestników", "Zwycięzcy rezerwowi", "Eksport CSV", "Certyfikat"],
-      pro: ["60 losowań/miesiąc", "Do 20.000 uczestników", "Wszystkie funkcje", "Priorytetowe wsparcie"],
-      business: ["Nieograniczone losowania", "Nieograniczeni uczestnicy", "Wszystkie funkcje", "Dedykowane wsparcie"],
+      starter: ["Nieograniczone losowania", "Do 5.000 uczestników", "Zwycięzcy rezerwowi", "Eksport CSV", "Certyfikat"],
+      pro: ["Nieograniczone losowania", "Do 40.000 uczestników", "Wszystkie funkcje", "Priorytetowe wsparcie"],
+      business: ["Nieograniczone losowania", "Do 300.000 uczestników", "Wszystkie funkcje", "Dedykowane wsparcie"],
     },
   },
   ro: {
@@ -221,9 +221,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Contact și Suport", contactSub: "Contactați-ne pentru întrebări sau asistență tehnică.", contactEmail: "✉️ Scrie-ne", contactNote: "Răspundem în 24 de ore la support@drawpicker.io",
     features: {
       free: ["1 extragere gratuită", "Până la 200 participanți", "Filtre de bază", "Certificat rezultat"],
-      starter: ["15 extrageri/lună", "Până la 2.000 participanți", "Câștigători rezervă", "Export CSV", "Certificat"],
-      pro: ["60 extrageri/lună", "Până la 20.000 participanți", "Toate funcțiile", "Suport prioritar"],
-      business: ["Extrageri nelimitate", "Participanți nelimitați", "Toate funcțiile", "Suport dedicat"],
+      starter: ["Extrageri nelimitate", "Până la 5.000 participanți", "Câștigători rezervă", "Export CSV", "Certificat"],
+      pro: ["Extrageri nelimitate", "Până la 40.000 participanți", "Toate funcțiile", "Suport prioritar"],
+      business: ["Extrageri nelimitate", "Până la 300.000 participanți", "Toate funcțiile", "Suport dedicat"],
     },
   },
   el: {
@@ -240,9 +240,9 @@ const HOME_TEXT: Record<string, any> = {
     contactTitle: "Επικοινωνία & Υποστήριξη", contactSub: "Επικοινωνήστε μαζί μας για ερωτήσεις ή τεχνική υποστήριξη.", contactEmail: "✉️ Γράψτε μας", contactNote: "Απαντάμε εντός 24 ωρών στο support@drawpicker.io",
     features: {
       free: ["1 δωρεάν κλήρωση", "Έως 200 συμμετέχοντες", "Βασικά φίλτρα", "Πιστοποιητικό αποτελέσματος"],
-      starter: ["15 κληρώσεις/μήνα", "Έως 2.000 συμμετέχοντες", "Εφεδρικοί νικητές", "Εξαγωγή CSV", "Πιστοποιητικό"],
-      pro: ["60 κληρώσεις/μήνα", "Έως 20.000 συμμετέχοντες", "Όλες οι λειτουργίες", "Προτεραιότητα υποστήριξης"],
-      business: ["Απεριόριστες κληρώσεις", "Απεριόριστοι συμμετέχοντες", "Όλες οι λειτουργίες", "Αποκλειστική υποστήριξη"],
+      starter: ["Απεριόριστες κληρώσεις", "Έως 5.000 συμμετέχοντες", "Εφεδρικοί νικητές", "Εξαγωγή CSV", "Πιστοποιητικό"],
+      pro: ["Απεριόριστες κληρώσεις", "Έως 40.000 συμμετέχοντες", "Όλες οι λειτουργίες", "Προτεραιότητα υποστήριξης"],
+      business: ["Απεριόριστες κληρώσεις", "Έως 300.000 συμμετέχοντες", "Όλες οι λειτουργίες", "Αποκλειστική υποστήριξη"],
     },
   },
 };
