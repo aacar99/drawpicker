@@ -11,7 +11,7 @@ export const translations = {
       logout: "Çıkış",
     },
     hero: {
-      badge: "🛡️ %100  Şeffaf • Güvenilir",
+      badge: "🛡️ Şeffaf • Güvenilir",
       title1: "Sosyal Medya Çekilişinin",
       title2: "Tek Adresi!",
       desc: "X ve YouTube’da güvenilir, şeffaf ve profesyonel çekilişler düzenleyin.",
@@ -53,7 +53,7 @@ export const translations = {
       logout: "Logout",
     },
     hero: {
-      badge: "🛡️ 100% Transparent • Trusted",
+      badge: "🛡️ Transparent • Trusted",
       title1: "The Ultimate Social Media",
       title2: "Giveaway Platform!",
       desc: "Create secure, transparent and professional giveaways on X and YouTube.",
@@ -95,7 +95,7 @@ export const translations = {
       logout: "Abmelden",
     },
     hero: {
-      badge: "🛡️ 100% Transparent • Vertrauenswürdig",
+      badge: "🛡️ Transparent • Vertrauenswürdig",
       title1: "Die Plattform für",
       title2: "Social-Media-Gewinnspiele!",
       desc: "Erstellen Sie sichere, transparente und professionelle Gewinnspiele auf X und YouTube.",
@@ -137,7 +137,7 @@ export const translations = {
       logout: "退出",
     },
     hero: {
-      badge: "🛡️ 100% 透明 • 可信赖",
+      badge: "🛡️ 透明 • 可信赖",
       title1: "社交媒体抽奖",
       title2: "首选平台！",
       desc: "在 X 和 YouTube 上创建安全、透明、专业的抽奖活动。",
@@ -179,7 +179,7 @@ export const translations = {
       logout: "Выйти",
     },
     hero: {
-      badge: "🛡️ 100% Прозрачно • Надежно",
+      badge: "🛡️ Прозрачно • Надежно",
       title1: "Лучшая платформа",
       title2: "для розыгрышей в социальных сетях!",
       desc: "Создавайте безопасные, прозрачные и профессиональные розыгрыши в X и YouTube.",
@@ -221,7 +221,7 @@ export const translations = {
       logout: "로그아웃",
     },
     hero: {
-      badge: "🛡️ 100% 투명 • 신뢰 가능",
+      badge: "🛡️ 투명 • 신뢰 가능",
       title1: "소셜 미디어 추첨의",
       title2: "대표 플랫폼!",
       desc: "X와 YouTube에서 안전하고 투명한 전문 추첨을 만드세요.",
@@ -263,7 +263,7 @@ export const translations = {
       logout: "Cerrar sesión",
     },
     hero: {
-      badge: "🛡️ 100% Transparente • Confiable",
+      badge: "🛡️ Transparente • Confiable",
       title1: "La plataforma definitiva",
       title2: "para sorteos en redes sociales.",
       desc: "Crea sorteos seguros, transparentes y profesionales en X y YouTube.",
@@ -305,7 +305,7 @@ export const translations = {
       logout: "Esci",
     },
     hero: {
-      badge: "🛡️ 100% Trasparente • Affidabile",
+      badge: "🛡️ Trasparente • Affidabile",
       title1: "La piattaforma definitiva",
       title2: "per i giveaway sui social media!",
       desc: "Crea sorteggi sicuri, trasparenti e professionali su X e YouTube.",
@@ -347,7 +347,7 @@ export const translations = {
       logout: "Déconnexion",
     },
     hero: {
-      badge: "🛡️ 100% Transparent • Fiable",
+      badge: "🛡️ Transparent • Fiable",
       title1: "La plateforme incontournable",
       title2: "des tirages sur les réseaux sociaux !",
       desc: "Créez des tirages sécurisés, transparents et professionnels sur X et YouTube.",
@@ -389,7 +389,7 @@ export const translations = {
       logout: "Αποσύνδεση",
     },
     hero: {
-      badge: "🛡️ 100% Διαφανές • Αξιόπιστο",
+      badge: "🛡️ Διαφανές • Αξιόπιστο",
       title1: "Η κορυφαία πλατφόρμα",
       title2: "κληρώσεων στα κοινωνικά δίκτυα!",
       desc: "Δημιουργήστε ασφαλείς, διαφανείς και επαγγελματικές κληρώσεις σε X και YouTube.",
@@ -431,7 +431,7 @@ export const translations = {
       logout: "Wyloguj",
     },
     hero: {
-      badge: "🛡️ 100% Przejrzyste • Godne zaufania",
+      badge: "🛡️ Przejrzyste • Godne zaufania",
       title1: "Najlepsza platforma",
       title2: "do losowań w mediach społecznościowych!",
       desc: "Twórz bezpieczne, przejrzyste i profesjonalne losowania na X i YouTube.",
@@ -473,7 +473,7 @@ export const translations = {
       logout: "Ieșire",
     },
     hero: {
-      badge: "🛡️ 100% Transparent • De încredere",
+      badge: "🛡️ Transparent • De încredere",
       title1: "Platforma ideală",
       title2: "pentru extrageri pe rețelele sociale!",
       desc: "Creează extrageri sigure, transparente și profesionale pe X și YouTube.",
