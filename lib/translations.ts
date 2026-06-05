@@ -12,7 +12,7 @@ export const translations = {
     },
     hero: {
       badge: "🛡️ %100  Şeffaf • Güvenilir",
-      title1: "Sosyal Medya Çekilişin",
+      title1: "Sosyal Medya Çekilişinin",
       title2: "Tek Adresi!",
       desc: "X ve YouTube’da güvenilir, şeffaf ve profesyonel çekilişler düzenleyin.",
       start: "Hemen Çekiliş Yap →",
