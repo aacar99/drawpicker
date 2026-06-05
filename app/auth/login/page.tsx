@@ -65,6 +65,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center px-4">
       <div className="fixed top-4 left-4"><a href="/" className="text-zinc-500 text-sm hover:text-white transition border border-white/10 hover:border-white/30 px-3 py-2 rounded-xl">← Ana Sayfa</a></div>
+      <div className="fixed top-4 left-4"><a href="/" className="text-zinc-500 text-sm hover:text-white transition border border-white/10 hover:border-white/30 px-3 py-2 rounded-xl">← Ana Sayfa</a></div>
       <div className="w-full max-w-sm">
         <a href="/" className="block text-center text-zinc-500 text-sm mb-6 hover:text-white transition">
           {t.back}
