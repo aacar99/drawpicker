@@ -230,7 +230,7 @@ async function streamPaged(
 
     cursor = next;
     pages++;
-    await sleep(120);
+    //await sleep(120);
   }
 
   return truncated;
