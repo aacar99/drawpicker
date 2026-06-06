@@ -6,6 +6,23 @@ export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
+    const secret = process.env.WEBHOOK_SECRET;
+    const incomingSecret = req.headers.get("x-webhook-secret");
+
+    if (!secret) {
+      return NextResponse.json(
+        { error: "Webhook secret missing" },
+        { status: 500 }
+      );
+    }
+
+    if (incomingSecret !== secret) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const supabase = getSupabaseAdmin();
 
@@ -14,8 +31,10 @@ export async function POST(req: Request) {
     const userId = metadata.user_id;
     const plan = metadata.plan;
     const subscriptionId = body.data?.id || body.subscription_id;
+    const validPlans = ["starter", "pro", "business", "free"];
+    const normalizedPlan = typeof plan === "string" ? plan.toLowerCase().trim() : undefined;
 
-    if (!userId || !plan) {
+    if (!userId || !normalizedPlan || !validPlans.includes(normalizedPlan)) {
       return NextResponse.json({ received: true });
     }
 
@@ -36,7 +55,7 @@ export async function POST(req: Request) {
       }
 
       await supabase.from("users").update({
-        plan: plan,
+        plan: normalizedPlan,
         subscription_id: subscriptionId,
         subscription_status: "active",
         current_period_end: periodEnd.toISOString(),
