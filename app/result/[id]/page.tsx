@@ -12,18 +12,18 @@ type Winner = {
 };
 
 const R: Record<string, Record<string, string>> = {
-  tr: { back: "← Ana Sayfaya Dön", title: "Çekiliş Sonucu", drawInfo: "Çekiliş Bilgisi", platform: "Platform", date: "Tarih", drawTitle: "Çekiliş Gönderisi", rulesTitle: "Uygulanan Kurallar", viewPost: "Gönderiyi Gör", sParticipants: "Katılımcı", sWinners: "Kazanan", sBackups: "Yedek", cert: "Çekiliş Sertifikası", share: "Çekilişi Paylaş", copied: "Link Kopyalandı!", newDraw: "Yeni Çekiliş Başlat", winnersTitle: "Kazananlar", backupsTitle: "Yedek Kazananlar", notFound: "Sonuç Bulunamadı", loading: "Yükleniyor...", tagline: "Sosyal medyada güvenli & şeffaf çekilişler" },
-  en: { back: "← Back to Home", title: "Giveaway Result", drawInfo: "Giveaway Info", platform: "Platform", date: "Date", drawTitle: "Giveaway Post", rulesTitle: "Applied Rules", viewPost: "View Post", sParticipants: "Participants", sWinners: "Winners", sBackups: "Backups", cert: "Draw Certificate", share: "Share Result", copied: "Link Copied!", newDraw: "New Giveaway", winnersTitle: "Winners", backupsTitle: "Backup Winners", notFound: "Result Not Found", loading: "Loading...", tagline: "Secure & transparent social media giveaways" },
-  de: { back: "← Zur Startseite", title: "Gewinnspiel-Ergebnis", drawInfo: "Gewinnspiel-Info", platform: "Plattform", date: "Datum", drawTitle: "Gewinnspiel-Beitrag", rulesTitle: "Angewandte Regeln", viewPost: "Beitrag ansehen", sParticipants: "Teilnehmer", sWinners: "Gewinner", sBackups: "Ersatz", cert: "Verlosungszertifikat", share: "Ergebnis teilen", copied: "Link kopiert!", newDraw: "Neues Gewinnspiel", winnersTitle: "Gewinner", backupsTitle: "Ersatzgewinner", notFound: "Ergebnis nicht gefunden", loading: "Lädt...", tagline: "Sichere & transparente Social-Media-Gewinnspiele" },
-  zh: { back: "← 返回首页", title: "抽奖结果", drawInfo: "抽奖信息", platform: "平台", date: "日期", drawTitle: "抽奖帖子", rulesTitle: "适用规则", viewPost: "查看帖子", sParticipants: "参与者", sWinners: "获奖者", sBackups: "替补", cert: "抽奖证书", share: "分享结果", copied: "链接已复制！", newDraw: "新建抽奖", winnersTitle: "获奖名单", backupsTitle: "替补获奖者", notFound: "未找到结果", loading: "加载中...", tagline: "安全透明的社交媒体抽奖" },
-  ru: { back: "← На главную", title: "Результат розыгрыша", drawInfo: "О розыгрыше", platform: "Платформа", date: "Дата", drawTitle: "Пост розыгрыша", rulesTitle: "Применённые правила", viewPost: "Открыть пост", sParticipants: "Участники", sWinners: "Победители", sBackups: "Запасные", cert: "Сертификат розыгрыша", share: "Поделиться", copied: "Ссылка скопирована!", newDraw: "Новый розыгрыш", winnersTitle: "Победители", backupsTitle: "Запасные победители", notFound: "Результат не найден", loading: "Загрузка...", tagline: "Безопасные и прозрачные розыгрыши в соцсетях" },
-  ko: { back: "← 홈으로", title: "추첨 결과", drawInfo: "추첨 정보", platform: "플랫폼", date: "날짜", drawTitle: "추첨 게시물", rulesTitle: "적용된 규칙", viewPost: "게시물 보기", sParticipants: "참여자", sWinners: "당첨자", sBackups: "예비", cert: "추첨 인증서", share: "결과 공유", copied: "링크 복사됨!", newDraw: "새 추첨", winnersTitle: "당첨자", backupsTitle: "예비 당첨자", notFound: "결과를 찾을 수 없음", loading: "로딩 중...", tagline: "안전하고 투명한 소셜 미디어 추첨" },
-  es: { back: "← Volver al inicio", title: "Resultado del sorteo", drawInfo: "Información del sorteo", platform: "Plataforma", date: "Fecha", drawTitle: "Publicación del sorteo", rulesTitle: "Reglas aplicadas", viewPost: "Ver publicación", sParticipants: "Participantes", sWinners: "Ganadores", sBackups: "Suplentes", cert: "Certificado del sorteo", share: "Compartir resultado", copied: "¡Enlace copiado!", newDraw: "Nuevo sorteo", winnersTitle: "Ganadores", backupsTitle: "Ganadores suplentes", notFound: "Resultado no encontrado", loading: "Cargando...", tagline: "Sorteos seguros y transparentes en redes sociales" },
-  it: { back: "← Torna alla home", title: "Risultato del sorteo", drawInfo: "Info sorteo", platform: "Piattaforma", date: "Data", drawTitle: "Post del sorteggio", rulesTitle: "Regole applicate", viewPost: "Vedi post", sParticipants: "Partecipanti", sWinners: "Vincitori", sBackups: "Riserve", cert: "Certificato sorteggio", share: "Condividi risultato", copied: "Link copiato!", newDraw: "Nuovo sorteggio", winnersTitle: "Vincitori", backupsTitle: "Vincitori di riserva", notFound: "Risultato non trovato", loading: "Caricamento...", tagline: "Sorteggi sicuri e trasparenti sui social" },
-  fr: { back: "← Retour à l'accueil", title: "Résultat du tirage", drawInfo: "Infos du tirage", platform: "Plateforme", date: "Date", drawTitle: "Publication du tirage", rulesTitle: "Règles appliquées", viewPost: "Voir la publication", sParticipants: "Participants", sWinners: "Gagnants", sBackups: "Suppléants", cert: "Certificat du tirage", share: "Partager le résultat", copied: "Lien copié !", newDraw: "Nouveau tirage", winnersTitle: "Gagnants", backupsTitle: "Gagnants suppléants", notFound: "Résultat introuvable", loading: "Chargement...", tagline: "Tirages sûrs et transparents sur les réseaux" },
-  el: { back: "← Στην αρχική", title: "Αποτέλεσμα κλήρωσης", drawInfo: "Πληροφορίες κλήρωσης", platform: "Πλατφόρμα", date: "Ημερομηνία", drawTitle: "Ανάρτηση κλήρωσης", rulesTitle: "Εφαρμοσμένοι κανόνες", viewPost: "Προβολή ανάρτησης", sParticipants: "Συμμετέχοντες", sWinners: "Νικητές", sBackups: "Αναπληρωματικοί", cert: "Πιστοποιητικό κλήρωσης", share: "Κοινοποίηση", copied: "Ο σύνδεσμος αντιγράφηκε!", newDraw: "Νέα κλήρωση", winnersTitle: "Νικητές", backupsTitle: "Αναπληρωματικοί νικητές", notFound: "Δεν βρέθηκε αποτέλεσμα", loading: "Φόρτωση...", tagline: "Ασφαλείς & διαφανείς κληρώσεις στα social media" },
-  pl: { back: "← Strona główna", title: "Wynik losowania", drawInfo: "Informacje o losowaniu", platform: "Platforma", date: "Data", drawTitle: "Post losowania", rulesTitle: "Zastosowane zasady", viewPost: "Zobacz post", sParticipants: "Uczestnicy", sWinners: "Zwycięzcy", sBackups: "Rezerwowi", cert: "Certyfikat losowania", share: "Udostępnij wynik", copied: "Link skopiowany!", newDraw: "Nowe losowanie", winnersTitle: "Zwycięzcy", backupsTitle: "Zwycięzcy rezerwowi", notFound: "Nie znaleziono wyniku", loading: "Ładowanie...", tagline: "Bezpieczne i przejrzyste losowania w mediach społecznościowych" },
-  ro: { back: "← Înapoi acasă", title: "Rezultatul extragerii", drawInfo: "Informații extragere", platform: "Platformă", date: "Dată", drawTitle: "Postarea extragerii", rulesTitle: "Reguli aplicate", viewPost: "Vezi postarea", sParticipants: "Participanți", sWinners: "Câștigători", sBackups: "Rezerve", cert: "Certificat tragere", share: "Distribuie rezultatul", copied: "Link copiat!", newDraw: "Extragere nouă", winnersTitle: "Câștigători", backupsTitle: "Câștigători de rezervă", notFound: "Rezultat negăsit", loading: "Se încarcă...", tagline: "Extrageri sigure și transparente pe rețelele sociale" },
+  tr: { back: "← Ana Sayfaya Dön", title: "Çekiliş Sonucu", drawInfo: "Çekiliş Bilgisi", platform: "Platform", date: "Tarih", drawTitle: "Çekiliş Gönderisi", rulesTitle: "Uygulanan Kurallar", viewPost: "Gönderiyi Gör", sParticipants: "Katılımcı", sWinners: "Kazanan", sBackups: "Yedek", cert: "Çekiliş Sertifikası", share: "Çekilişi Paylaş", copied: "Link Kopyalandı!", newDraw: "Yeni Çekiliş Başlat", winnersTitle: "Kazananlar", backupsTitle: "Yedek Kazananlar", notFound: "Sonuç Bulunamadı", loading: "Yükleniyor...", redrawCancel: "🔄 Çekilişi İptal Et ve Tekrar Çek", redrawing: "Yeniden çekiliyor...", tagline: "Sosyal medyada güvenli & şeffaf çekilişler" },
+  en: { back: "← Back to Home", title: "Giveaway Result", drawInfo: "Giveaway Info", platform: "Platform", date: "Date", drawTitle: "Giveaway Post", rulesTitle: "Applied Rules", viewPost: "View Post", sParticipants: "Participants", sWinners: "Winners", sBackups: "Backups", cert: "Draw Certificate", share: "Share Result", copied: "Link Copied!", newDraw: "New Giveaway", winnersTitle: "Winners", backupsTitle: "Backup Winners", notFound: "Result Not Found", loading: "Loading...", redrawCancel: "🔄 Cancel & Redraw", redrawing: "Redrawing...", tagline: "Secure & transparent social media giveaways" },
+  de: { back: "← Zur Startseite", title: "Gewinnspiel-Ergebnis", drawInfo: "Gewinnspiel-Info", platform: "Plattform", date: "Datum", drawTitle: "Gewinnspiel-Beitrag", rulesTitle: "Angewandte Regeln", viewPost: "Beitrag ansehen", sParticipants: "Teilnehmer", sWinners: "Gewinner", sBackups: "Ersatz", cert: "Verlosungszertifikat", share: "Ergebnis teilen", copied: "Link kopiert!", newDraw: "Neues Gewinnspiel", winnersTitle: "Gewinner", backupsTitle: "Ersatzgewinner", notFound: "Ergebnis nicht gefunden", loading: "Lädt...", redrawCancel: "🔄 Abbrechen & Neu ziehen", redrawing: "Wird neu gezogen...", tagline: "Sichere & transparente Social-Media-Gewinnspiele" },
+  zh: { back: "← 返回首页", title: "抽奖结果", drawInfo: "抽奖信息", platform: "平台", date: "日期", drawTitle: "抽奖帖子", rulesTitle: "适用规则", viewPost: "查看帖子", sParticipants: "参与者", sWinners: "获奖者", sBackups: "替补", cert: "抽奖证书", share: "分享结果", copied: "链接已复制！", newDraw: "新建抽奖", winnersTitle: "获奖名单", backupsTitle: "替补获奖者", notFound: "未找到结果", loading: "加载中...", redrawCancel: "🔄 取消并重新抽奖", redrawing: "重新抽奖中...", tagline: "安全透明的社交媒体抽奖" },
+  ru: { back: "← На главную", title: "Результат розыгрыша", drawInfo: "О розыгрыше", platform: "Платформа", date: "Дата", drawTitle: "Пост розыгрыша", rulesTitle: "Применённые правила", viewPost: "Открыть пост", sParticipants: "Участники", sWinners: "Победители", sBackups: "Запасные", cert: "Сертификат розыгрыша", share: "Поделиться", copied: "Ссылка скопирована!", newDraw: "Новый розыгрыш", winnersTitle: "Победители", backupsTitle: "Запасные победители", notFound: "Результат не найден", loading: "Загрузка...", redrawCancel: "🔄 Отменить и перетянуть", redrawing: "Идёт перетяжка...", tagline: "Безопасные и прозрачные розыгрыши в соцсетях" },
+  ko: { back: "← 홈으로", title: "추첨 결과", drawInfo: "추첨 정보", platform: "플랫폼", date: "날짜", drawTitle: "추첨 게시물", rulesTitle: "적용된 규칙", viewPost: "게시물 보기", sParticipants: "참여자", sWinners: "당첨자", sBackups: "예비", cert: "추첨 인증서", share: "결과 공유", copied: "링크 복사됨!", newDraw: "새 추첨", winnersTitle: "당첨자", backupsTitle: "예비 당첨자", notFound: "결과를 찾을 수 없음", loading: "로딩 중...", redrawCancel: "🔄 취소하고 다시 추첨", redrawing: "다시 추첨 중...", tagline: "안전하고 투명한 소셜 미디어 추첨" },
+  es: { back: "← Volver al inicio", title: "Resultado del sorteo", drawInfo: "Información del sorteo", platform: "Plataforma", date: "Fecha", drawTitle: "Publicación del sorteo", rulesTitle: "Reglas aplicadas", viewPost: "Ver publicación", sParticipants: "Participantes", sWinners: "Ganadores", sBackups: "Suplentes", cert: "Certificado del sorteo", share: "Compartir resultado", copied: "¡Enlace copiado!", newDraw: "Nuevo sorteo", winnersTitle: "Ganadores", backupsTitle: "Ganadores suplentes", notFound: "Resultado no encontrado", loading: "Cargando...", redrawCancel: "🔄 Cancelar y volver a sortear", redrawing: "Volviendo a sortear...", tagline: "Sorteos seguros y transparentes en redes sociales" },
+  it: { back: "← Torna alla home", title: "Risultato del sorteo", drawInfo: "Info sorteo", platform: "Piattaforma", date: "Data", drawTitle: "Post del sorteggio", rulesTitle: "Regole applicate", viewPost: "Vedi post", sParticipants: "Partecipanti", sWinners: "Vincitori", sBackups: "Riserve", cert: "Certificato sorteggio", share: "Condividi risultato", copied: "Link copiato!", newDraw: "Nuovo sorteggio", winnersTitle: "Vincitori", backupsTitle: "Vincitori di riserva", notFound: "Risultato non trovato", loading: "Caricamento...", redrawCancel: "🔄 Annulla e riestrai", redrawing: "Nuova estrazione...", tagline: "Sorteggi sicuri e trasparenti sui social" },
+  fr: { back: "← Retour à l'accueil", title: "Résultat du tirage", drawInfo: "Infos du tirage", platform: "Plateforme", date: "Date", drawTitle: "Publication du tirage", rulesTitle: "Règles appliquées", viewPost: "Voir la publication", sParticipants: "Participants", sWinners: "Gagnants", sBackups: "Suppléants", cert: "Certificat du tirage", share: "Partager le résultat", copied: "Lien copié !", newDraw: "Nouveau tirage", winnersTitle: "Gagnants", backupsTitle: "Gagnants suppléants", notFound: "Résultat introuvable", loading: "Chargement...", redrawCancel: "🔄 Annuler et retirer", redrawing: "Nouveau tirage...", tagline: "Tirages sûrs et transparents sur les réseaux" },
+  el: { back: "← Στην αρχική", title: "Αποτέλεσμα κλήρωσης", drawInfo: "Πληροφορίες κλήρωσης", platform: "Πλατφόρμα", date: "Ημερομηνία", drawTitle: "Ανάρτηση κλήρωσης", rulesTitle: "Εφαρμοσμένοι κανόνες", viewPost: "Προβολή ανάρτησης", sParticipants: "Συμμετέχοντες", sWinners: "Νικητές", sBackups: "Αναπληρωματικοί", cert: "Πιστοποιητικό κλήρωσης", share: "Κοινοποίηση", copied: "Ο σύνδεσμος αντιγράφηκε!", newDraw: "Νέα κλήρωση", winnersTitle: "Νικητές", backupsTitle: "Αναπληρωματικοί νικητές", notFound: "Δεν βρέθηκε αποτέλεσμα", loading: "Φόρτωση...", redrawCancel: "🔄 Ακύρωση & επανάληψη", redrawing: "Επανάληψη κλήρωσης...", tagline: "Ασφαλείς & διαφανείς κληρώσεις στα social media" },
+  pl: { back: "← Strona główna", title: "Wynik losowania", drawInfo: "Informacje o losowaniu", platform: "Platforma", date: "Data", drawTitle: "Post losowania", rulesTitle: "Zastosowane zasady", viewPost: "Zobacz post", sParticipants: "Uczestnicy", sWinners: "Zwycięzcy", sBackups: "Rezerwowi", cert: "Certyfikat losowania", share: "Udostępnij wynik", copied: "Link skopiowany!", newDraw: "Nowe losowanie", winnersTitle: "Zwycięzcy", backupsTitle: "Zwycięzcy rezerwowi", notFound: "Nie znaleziono wyniku", loading: "Ładowanie...", redrawCancel: "🔄 Anuluj i losuj ponownie", redrawing: "Ponowne losowanie...", tagline: "Bezpieczne i przejrzyste losowania w mediach społecznościowych" },
+  ro: { back: "← Înapoi acasă", title: "Rezultatul extragerii", drawInfo: "Informații extragere", platform: "Platformă", date: "Dată", drawTitle: "Postarea extragerii", rulesTitle: "Reguli aplicate", viewPost: "Vezi postarea", sParticipants: "Participanți", sWinners: "Câștigători", sBackups: "Rezerve", cert: "Certificat tragere", share: "Distribuie rezultatul", copied: "Link copiat!", newDraw: "Extragere nouă", winnersTitle: "Câștigători", backupsTitle: "Câștigători de rezervă", notFound: "Rezultat negăsit", loading: "Se încarcă...", redrawCancel: "🔄 Anulează și reextrage", redrawing: "Se reextrage...", tagline: "Extrageri sigure și transparente pe rețelele sociale" },
 };
 
 const LOCALE_MAP: Record<string, string> = {
@@ -53,6 +53,7 @@ export default function ResultPage() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [redrawing, setRedrawing] = useState(false);
   const [lang, setLang] = useState("en");
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -140,6 +141,46 @@ export default function ResultPage() {
     } catch {}
   }
 
+  // Mevcut cekilisi ayni gonderi + ayni kurallarla yeniden cek
+  async function handleRedraw() {
+    if (!result) return;
+    const input =
+      result.input_url || result.source_url || result.tweet_url || result.input || result.url || "";
+    const platform = result.platform;
+    if (!input || !platform) {
+      window.location.href = platform === "twitter" ? "/twitter" : "/youtube";
+      return;
+    }
+    setRedrawing(true);
+    try {
+      const res = await fetch("/api/draw", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          platform,
+          input,
+          winnerCount: result.winners?.length || 1,
+          backupCount: result.backups?.length || 0,
+          rules: result.rules || {},
+          excluded: [],
+        }),
+      });
+      const data = await res.json();
+      if (res.status === 401 || data.error === "login_required") {
+        window.location.href = "/auth/login";
+        return;
+      }
+      const url = data.resultUrl || data.shareUrl;
+      if (data.success && url) {
+        window.location.href = url;
+        return;
+      }
+      setRedrawing(false);
+    } catch {
+      setRedrawing(false);
+    }
+  }
+
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center px-4 bg-[#080812]">
@@ -183,6 +224,16 @@ export default function ResultPage() {
 
   return (
     <main className="min-h-screen relative overflow-hidden bg-[#080812] text-white">
+      {/* Yeniden cekiliyor overlay */}
+      {redrawing && (
+        <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center px-4">
+          <div className="bg-[#16161f] border border-sky-500/30 rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl shadow-sky-500/20">
+            <div className="w-16 h-16 mx-auto mb-5 rounded-full border-4 border-sky-500/20 border-t-sky-400 animate-spin" />
+            <h2 className="text-xl font-black">{rt.redrawing}</h2>
+          </div>
+        </div>
+      )}
+
       {/* Ana sayfa arka plani: grid + radial parlama */}
       <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:42px_42px]" />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,#0ea5e926,transparent_38%),radial-gradient(circle_at_bottom_right,#a855f726,transparent_38%)]" />
@@ -296,9 +347,9 @@ export default function ResultPage() {
               {copied ? `✅ ${rt.copied}` : `🔗 ${rt.share}`}
             </button>
 
-            <a href={giveawayPath} className={`${btnBase} bg-white/10 hover:bg-white/15 border border-white/15 text-white`}>
-              {t("redraw")}
-            </a>
+            <button onClick={handleRedraw} disabled={redrawing} className={`${btnBase} bg-white/10 hover:bg-white/15 border border-white/15 text-white disabled:opacity-50`}>
+              {redrawing ? `⏳ ${rt.redrawing}` : rt.redrawCancel}
+            </button>
 
             <a href={giveawayPath} className={`${btnBase} bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300`}>
               🎯 {rt.newDraw}
@@ -364,3 +415,4 @@ export default function ResultPage() {
     </main>
   );
 }
+
