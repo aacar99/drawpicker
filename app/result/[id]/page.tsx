@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import { tr } from "@/lib/i18n";
+import LangPicker from "@/components/LangPicker";
 
 type Winner = {
   username?: string;
@@ -11,31 +12,24 @@ type Winner = {
 };
 
 const R: Record<string, Record<string, string>> = {
-  tr: { back: "← Ana Sayfaya Dön", title: "Çekiliş Sonucu", drawInfo: "Çekiliş Bilgisi", platform: "Platform", date: "Tarih", rulesTitle: "Uygulanan Kurallar", viewPost: "Gönderiyi Gör", sParticipants: "Katılımcı", sWinners: "Kazanan", sBackups: "Yedek", cert: "Çekiliş Sertifikası", share: "Çekilişi Paylaş", copied: "Link Kopyalandı!", newDraw: "Yeni Çekiliş Başlat", winnersTitle: "Kazananlar", backupsTitle: "Yedek Kazananlar", notFound: "Sonuç Bulunamadı", loading: "Yükleniyor...", tagline: "Sosyal medyada adil & şeffaf çekilişler" },
-  en: { back: "← Back to Home", title: "Giveaway Result", drawInfo: "Giveaway Info", platform: "Platform", date: "Date", rulesTitle: "Applied Rules", viewPost: "View Post", sParticipants: "Participants", sWinners: "Winners", sBackups: "Backups", cert: "Draw Certificate", share: "Share Result", copied: "Link Copied!", newDraw: "New Giveaway", winnersTitle: "Winners", backupsTitle: "Backup Winners", notFound: "Result Not Found", loading: "Loading...", tagline: "Fair & transparent social media giveaways" },
-  de: { back: "← Zur Startseite", title: "Gewinnspiel-Ergebnis", drawInfo: "Gewinnspiel-Info", platform: "Plattform", date: "Datum", rulesTitle: "Angewandte Regeln", viewPost: "Beitrag ansehen", sParticipants: "Teilnehmer", sWinners: "Gewinner", sBackups: "Ersatz", cert: "Verlosungszertifikat", share: "Ergebnis teilen", copied: "Link kopiert!", newDraw: "Neues Gewinnspiel", winnersTitle: "Gewinner", backupsTitle: "Ersatzgewinner", notFound: "Ergebnis nicht gefunden", loading: "Lädt...", tagline: "Faire & transparente Social-Media-Gewinnspiele" },
-  zh: { back: "← 返回首页", title: "抽奖结果", drawInfo: "抽奖信息", platform: "平台", date: "日期", rulesTitle: "适用规则", viewPost: "查看帖子", sParticipants: "参与者", sWinners: "获奖者", sBackups: "替补", cert: "抽奖证书", share: "分享结果", copied: "链接已复制！", newDraw: "新建抽奖", winnersTitle: "获奖名单", backupsTitle: "替补获奖者", notFound: "未找到结果", loading: "加载中...", tagline: "公平透明的社交媒体抽奖" },
-  ru: { back: "← На главную", title: "Результат розыгрыша", drawInfo: "О розыгрыше", platform: "Платформа", date: "Дата", rulesTitle: "Применённые правила", viewPost: "Открыть пост", sParticipants: "Участники", sWinners: "Победители", sBackups: "Запасные", cert: "Сертификат розыгрыша", share: "Поделиться", copied: "Ссылка скопирована!", newDraw: "Новый розыгрыш", winnersTitle: "Победители", backupsTitle: "Запасные победители", notFound: "Результат не найден", loading: "Загрузка...", tagline: "Честные и прозрачные розыгрыши в соцсетях" },
-  ko: { back: "← 홈으로", title: "추첨 결과", drawInfo: "추첨 정보", platform: "플랫폼", date: "날짜", rulesTitle: "적용된 규칙", viewPost: "게시물 보기", sParticipants: "참여자", sWinners: "당첨자", sBackups: "예비", cert: "추첨 인증서", share: "결과 공유", copied: "링크 복사됨!", newDraw: "새 추첨", winnersTitle: "당첨자", backupsTitle: "예비 당첨자", notFound: "결과를 찾을 수 없음", loading: "로딩 중...", tagline: "공정하고 투명한 소셜 미디어 추첨" },
-  es: { back: "← Volver al inicio", title: "Resultado del sorteo", drawInfo: "Información del sorteo", platform: "Plataforma", date: "Fecha", rulesTitle: "Reglas aplicadas", viewPost: "Ver publicación", sParticipants: "Participantes", sWinners: "Ganadores", sBackups: "Suplentes", cert: "Certificado del sorteo", share: "Compartir resultado", copied: "¡Enlace copiado!", newDraw: "Nuevo sorteo", winnersTitle: "Ganadores", backupsTitle: "Ganadores suplentes", notFound: "Resultado no encontrado", loading: "Cargando...", tagline: "Sorteos justos y transparentes en redes sociales" },
-  it: { back: "← Torna alla home", title: "Risultato del sorteo", drawInfo: "Info sorteo", platform: "Piattaforma", date: "Data", rulesTitle: "Regole applicate", viewPost: "Vedi post", sParticipants: "Partecipanti", sWinners: "Vincitori", sBackups: "Riserve", cert: "Certificato sorteggio", share: "Condividi risultato", copied: "Link copiato!", newDraw: "Nuovo sorteggio", winnersTitle: "Vincitori", backupsTitle: "Vincitori di riserva", notFound: "Risultato non trovato", loading: "Caricamento...", tagline: "Sorteggi equi e trasparenti sui social" },
-  fr: { back: "← Retour à l'accueil", title: "Résultat du tirage", drawInfo: "Infos du tirage", platform: "Plateforme", date: "Date", rulesTitle: "Règles appliquées", viewPost: "Voir la publication", sParticipants: "Participants", sWinners: "Gagnants", sBackups: "Suppléants", cert: "Certificat du tirage", share: "Partager le résultat", copied: "Lien copié !", newDraw: "Nouveau tirage", winnersTitle: "Gagnants", backupsTitle: "Gagnants suppléants", notFound: "Résultat introuvable", loading: "Chargement...", tagline: "Tirages équitables et transparents sur les réseaux" },
-  el: { back: "← Στην αρχική", title: "Αποτέλεσμα κλήρωσης", drawInfo: "Πληροφορίες κλήρωσης", platform: "Πλατφόρμα", date: "Ημερομηνία", rulesTitle: "Εφαρμοσμένοι κανόνες", viewPost: "Προβολή ανάρτησης", sParticipants: "Συμμετέχοντες", sWinners: "Νικητές", sBackups: "Αναπληρωματικοί", cert: "Πιστοποιητικό κλήρωσης", share: "Κοινοποίηση", copied: "Ο σύνδεσμος αντιγράφηκε!", newDraw: "Νέα κλήρωση", winnersTitle: "Νικητές", backupsTitle: "Αναπληρωματικοί νικητές", notFound: "Δεν βρέθηκε αποτέλεσμα", loading: "Φόρτωση...", tagline: "Δίκαιες & διαφανείς κληρώσεις στα social media" },
-  pl: { back: "← Strona główna", title: "Wynik losowania", drawInfo: "Informacje o losowaniu", platform: "Platforma", date: "Data", rulesTitle: "Zastosowane zasady", viewPost: "Zobacz post", sParticipants: "Uczestnicy", sWinners: "Zwycięzcy", sBackups: "Rezerwowi", cert: "Certyfikat losowania", share: "Udostępnij wynik", copied: "Link skopiowany!", newDraw: "Nowe losowanie", winnersTitle: "Zwycięzcy", backupsTitle: "Zwycięzcy rezerwowi", notFound: "Nie znaleziono wyniku", loading: "Ładowanie...", tagline: "Uczciwe i przejrzyste losowania w mediach społecznościowych" },
-  ro: { back: "← Înapoi acasă", title: "Rezultatul extragerii", drawInfo: "Informații extragere", platform: "Platformă", date: "Dată", rulesTitle: "Reguli aplicate", viewPost: "Vezi postarea", sParticipants: "Participanți", sWinners: "Câștigători", sBackups: "Rezerve", cert: "Certificat tragere", share: "Distribuie rezultatul", copied: "Link copiat!", newDraw: "Extragere nouă", winnersTitle: "Câștigători", backupsTitle: "Câștigători de rezervă", notFound: "Rezultat negăsit", loading: "Se încarcă...", tagline: "Extrageri corecte și transparente pe rețelele sociale" },
+  tr: { back: "← Ana Sayfaya Dön", title: "Çekiliş Sonucu", drawInfo: "Çekiliş Bilgisi", platform: "Platform", date: "Tarih", drawTitle: "Çekiliş Gönderisi", rulesTitle: "Uygulanan Kurallar", viewPost: "Gönderiyi Gör", sParticipants: "Katılımcı", sWinners: "Kazanan", sBackups: "Yedek", cert: "Çekiliş Sertifikası", share: "Çekilişi Paylaş", copied: "Link Kopyalandı!", newDraw: "Yeni Çekiliş Başlat", winnersTitle: "Kazananlar", backupsTitle: "Yedek Kazananlar", notFound: "Sonuç Bulunamadı", loading: "Yükleniyor...", tagline: "Sosyal medyada güvenli & şeffaf çekilişler" },
+  en: { back: "← Back to Home", title: "Giveaway Result", drawInfo: "Giveaway Info", platform: "Platform", date: "Date", drawTitle: "Giveaway Post", rulesTitle: "Applied Rules", viewPost: "View Post", sParticipants: "Participants", sWinners: "Winners", sBackups: "Backups", cert: "Draw Certificate", share: "Share Result", copied: "Link Copied!", newDraw: "New Giveaway", winnersTitle: "Winners", backupsTitle: "Backup Winners", notFound: "Result Not Found", loading: "Loading...", tagline: "Secure & transparent social media giveaways" },
+  de: { back: "← Zur Startseite", title: "Gewinnspiel-Ergebnis", drawInfo: "Gewinnspiel-Info", platform: "Plattform", date: "Datum", drawTitle: "Gewinnspiel-Beitrag", rulesTitle: "Angewandte Regeln", viewPost: "Beitrag ansehen", sParticipants: "Teilnehmer", sWinners: "Gewinner", sBackups: "Ersatz", cert: "Verlosungszertifikat", share: "Ergebnis teilen", copied: "Link kopiert!", newDraw: "Neues Gewinnspiel", winnersTitle: "Gewinner", backupsTitle: "Ersatzgewinner", notFound: "Ergebnis nicht gefunden", loading: "Lädt...", tagline: "Sichere & transparente Social-Media-Gewinnspiele" },
+  zh: { back: "← 返回首页", title: "抽奖结果", drawInfo: "抽奖信息", platform: "平台", date: "日期", drawTitle: "抽奖帖子", rulesTitle: "适用规则", viewPost: "查看帖子", sParticipants: "参与者", sWinners: "获奖者", sBackups: "替补", cert: "抽奖证书", share: "分享结果", copied: "链接已复制！", newDraw: "新建抽奖", winnersTitle: "获奖名单", backupsTitle: "替补获奖者", notFound: "未找到结果", loading: "加载中...", tagline: "安全透明的社交媒体抽奖" },
+  ru: { back: "← На главную", title: "Результат розыгрыша", drawInfo: "О розыгрыше", platform: "Платформа", date: "Дата", drawTitle: "Пост розыгрыша", rulesTitle: "Применённые правила", viewPost: "Открыть пост", sParticipants: "Участники", sWinners: "Победители", sBackups: "Запасные", cert: "Сертификат розыгрыша", share: "Поделиться", copied: "Ссылка скопирована!", newDraw: "Новый розыгрыш", winnersTitle: "Победители", backupsTitle: "Запасные победители", notFound: "Результат не найден", loading: "Загрузка...", tagline: "Безопасные и прозрачные розыгрыши в соцсетях" },
+  ko: { back: "← 홈으로", title: "추첨 결과", drawInfo: "추첨 정보", platform: "플랫폼", date: "날짜", drawTitle: "추첨 게시물", rulesTitle: "적용된 규칙", viewPost: "게시물 보기", sParticipants: "참여자", sWinners: "당첨자", sBackups: "예비", cert: "추첨 인증서", share: "결과 공유", copied: "링크 복사됨!", newDraw: "새 추첨", winnersTitle: "당첨자", backupsTitle: "예비 당첨자", notFound: "결과를 찾을 수 없음", loading: "로딩 중...", tagline: "안전하고 투명한 소셜 미디어 추첨" },
+  es: { back: "← Volver al inicio", title: "Resultado del sorteo", drawInfo: "Información del sorteo", platform: "Plataforma", date: "Fecha", drawTitle: "Publicación del sorteo", rulesTitle: "Reglas aplicadas", viewPost: "Ver publicación", sParticipants: "Participantes", sWinners: "Ganadores", sBackups: "Suplentes", cert: "Certificado del sorteo", share: "Compartir resultado", copied: "¡Enlace copiado!", newDraw: "Nuevo sorteo", winnersTitle: "Ganadores", backupsTitle: "Ganadores suplentes", notFound: "Resultado no encontrado", loading: "Cargando...", tagline: "Sorteos seguros y transparentes en redes sociales" },
+  it: { back: "← Torna alla home", title: "Risultato del sorteo", drawInfo: "Info sorteo", platform: "Piattaforma", date: "Data", drawTitle: "Post del sorteggio", rulesTitle: "Regole applicate", viewPost: "Vedi post", sParticipants: "Partecipanti", sWinners: "Vincitori", sBackups: "Riserve", cert: "Certificato sorteggio", share: "Condividi risultato", copied: "Link copiato!", newDraw: "Nuovo sorteggio", winnersTitle: "Vincitori", backupsTitle: "Vincitori di riserva", notFound: "Risultato non trovato", loading: "Caricamento...", tagline: "Sorteggi sicuri e trasparenti sui social" },
+  fr: { back: "← Retour à l'accueil", title: "Résultat du tirage", drawInfo: "Infos du tirage", platform: "Plateforme", date: "Date", drawTitle: "Publication du tirage", rulesTitle: "Règles appliquées", viewPost: "Voir la publication", sParticipants: "Participants", sWinners: "Gagnants", sBackups: "Suppléants", cert: "Certificat du tirage", share: "Partager le résultat", copied: "Lien copié !", newDraw: "Nouveau tirage", winnersTitle: "Gagnants", backupsTitle: "Gagnants suppléants", notFound: "Résultat introuvable", loading: "Chargement...", tagline: "Tirages sûrs et transparents sur les réseaux" },
+  el: { back: "← Στην αρχική", title: "Αποτέλεσμα κλήρωσης", drawInfo: "Πληροφορίες κλήρωσης", platform: "Πλατφόρμα", date: "Ημερομηνία", drawTitle: "Ανάρτηση κλήρωσης", rulesTitle: "Εφαρμοσμένοι κανόνες", viewPost: "Προβολή ανάρτησης", sParticipants: "Συμμετέχοντες", sWinners: "Νικητές", sBackups: "Αναπληρωματικοί", cert: "Πιστοποιητικό κλήρωσης", share: "Κοινοποίηση", copied: "Ο σύνδεσμος αντιγράφηκε!", newDraw: "Νέα κλήρωση", winnersTitle: "Νικητές", backupsTitle: "Αναπληρωματικοί νικητές", notFound: "Δεν βρέθηκε αποτέλεσμα", loading: "Φόρτωση...", tagline: "Ασφαλείς & διαφανείς κληρώσεις στα social media" },
+  pl: { back: "← Strona główna", title: "Wynik losowania", drawInfo: "Informacje o losowaniu", platform: "Platforma", date: "Data", drawTitle: "Post losowania", rulesTitle: "Zastosowane zasady", viewPost: "Zobacz post", sParticipants: "Uczestnicy", sWinners: "Zwycięzcy", sBackups: "Rezerwowi", cert: "Certyfikat losowania", share: "Udostępnij wynik", copied: "Link skopiowany!", newDraw: "Nowe losowanie", winnersTitle: "Zwycięzcy", backupsTitle: "Zwycięzcy rezerwowi", notFound: "Nie znaleziono wyniku", loading: "Ładowanie...", tagline: "Bezpieczne i przejrzyste losowania w mediach społecznościowych" },
+  ro: { back: "← Înapoi acasă", title: "Rezultatul extragerii", drawInfo: "Informații extragere", platform: "Platformă", date: "Dată", drawTitle: "Postarea extragerii", rulesTitle: "Reguli aplicate", viewPost: "Vezi postarea", sParticipants: "Participanți", sWinners: "Câștigători", sBackups: "Rezerve", cert: "Certificat tragere", share: "Distribuie rezultatul", copied: "Link copiat!", newDraw: "Extragere nouă", winnersTitle: "Câștigători", backupsTitle: "Câștigători de rezervă", notFound: "Rezultat negăsit", loading: "Se încarcă...", tagline: "Extrageri sigure și transparente pe rețelele sociale" },
 };
 
 const LOCALE_MAP: Record<string, string> = {
   tr: "tr-TR", en: "en-US", de: "de-DE", zh: "zh-CN", ru: "ru-RU", ko: "ko-KR",
   es: "es-ES", it: "it-IT", fr: "fr-FR", el: "el-GR", pl: "pl-PL", ro: "ro-RO",
 };
-
-const LANG_OPTIONS: { code: string; label: string }[] = [
-  { code: "tr", label: "🇹🇷 TR" }, { code: "en", label: "🇬🇧 EN" }, { code: "de", label: "🇩🇪 DE" },
-  { code: "zh", label: "🇨🇳 ZH" }, { code: "ru", label: "🇷🇺 RU" }, { code: "ko", label: "🇰🇷 KO" },
-  { code: "es", label: "🇪🇸 ES" }, { code: "it", label: "🇮🇹 IT" }, { code: "fr", label: "🇫🇷 FR" },
-  { code: "el", label: "🇬🇷 EL" }, { code: "pl", label: "🇵🇱 PL" }, { code: "ro", label: "🇷🇴 RO" },
-];
 
 const RULE_KEYS = [
   "mustLike", "mustRetweet", "mustComment", "mustFollow", "mustMention",
@@ -74,11 +68,6 @@ export default function ResultPage() {
     if (nav && R[nav]) setLang(nav);
   }, []);
 
-  function changeLang(code: string) {
-    setLang(code);
-    try { localStorage.setItem("dp_lang", code); } catch {}
-  }
-
   useEffect(() => {
     if (!id) return;
     fetch(`/api/result/${id}`)
@@ -97,7 +86,7 @@ export default function ResultPage() {
     canvas.height = window.innerHeight;
 
     const pieces: any[] = [];
-    const colors = ["#60a5fa", "#a78bfa", "#f472b6", "#34d399", "#fbbf24", "#f87171", "#e879f9"];
+    const colors = ["#38bdf8", "#a78bfa", "#f472b6", "#34d399", "#fbbf24", "#60a5fa", "#e879f9"];
 
     for (let i = 0; i < 120; i++) {
       pieces.push({
@@ -153,7 +142,7 @@ export default function ResultPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#1d4ed8,#7c3aed,#be185d)" }}>
+      <main className="min-h-screen flex items-center justify-center px-4 bg-[#080812]">
         <div className="text-white text-lg sm:text-xl font-black animate-pulse">⏳ {rt.loading}</div>
       </main>
     );
@@ -161,11 +150,11 @@ export default function ResultPage() {
 
   if (!result) {
     return (
-      <main className="min-h-screen flex items-center justify-center px-4" style={{ background: "linear-gradient(135deg,#1d4ed8,#7c3aed,#be185d)" }}>
+      <main className="min-h-screen flex items-center justify-center px-4 bg-[#080812]">
         <div className="text-center text-white">
           <div className="text-5xl mb-4">❌</div>
           <h1 className="text-2xl sm:text-3xl font-black mb-2">{rt.notFound}</h1>
-          <a href="/" className="text-white/70 hover:text-white text-sm underline">{rt.back}</a>
+          <a href="/" className="text-zinc-400 hover:text-white text-sm underline">{rt.back}</a>
         </div>
       </main>
     );
@@ -179,7 +168,7 @@ export default function ResultPage() {
     : "";
 
   const postUrl: string =
-    result.source_url || result.tweet_url || result.input || result.url || "";
+    result.input_url || result.source_url || result.tweet_url || result.input || result.url || "";
   const hasPostUrl = typeof postUrl === "string" && postUrl.startsWith("http");
 
   const rulesObj = result.rules || {};
@@ -187,91 +176,107 @@ export default function ResultPage() {
 
   const giveawayPath = isTwitter ? "/twitter" : "/youtube";
 
+  // Ortak kart ve buton stilleri (ana sayfa koyu temasi)
+  const cardStyle = { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" };
+  const innerStyle = { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" };
+  const btnBase = "w-full py-3.5 rounded-2xl font-bold text-sm text-center transition active:scale-95";
+
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ background: "linear-gradient(135deg,#1d4ed8,#7c3aed,#be185d)" }}>
+    <main className="min-h-screen relative overflow-hidden bg-[#080812] text-white">
+      {/* Ana sayfa arka plani: grid + radial parlama */}
+      <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:42px_42px]" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,#0ea5e926,transparent_38%),radial-gradient(circle_at_bottom_right,#a855f726,transparent_38%)]" />
+
+      {/* Konfeti */}
       <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-10" />
 
-      <div className="fixed -top-20 -left-20 w-72 h-72 sm:w-80 sm:h-80 rounded-full blur-3xl opacity-50 pointer-events-none" style={{ background: "#60a5fa" }} />
-      <div className="fixed -bottom-20 -right-20 w-80 h-80 sm:w-96 sm:h-96 rounded-full blur-3xl opacity-50 pointer-events-none" style={{ background: "#f472b6" }} />
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 sm:w-64 sm:h-64 rounded-full blur-3xl opacity-30 pointer-events-none" style={{ background: "#a78bfa" }} />
-
       <div className="relative z-20 max-w-6xl mx-auto px-3 sm:px-4 py-5 sm:py-8 min-h-screen flex flex-col">
+        {/* Ust bar: geri + dil (siteyle ayni LangPicker -> bayraklar) */}
         <div className="flex items-center justify-between gap-3 mb-4">
-          <a href="/" className="text-white/80 hover:text-white text-xs sm:text-sm transition px-3 py-2 rounded-xl whitespace-nowrap" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(10px)" }}>
+          <a href="/" className="text-zinc-300 hover:text-white text-xs sm:text-sm transition px-3 py-2 rounded-xl whitespace-nowrap border border-white/10 bg-white/5">
             {rt.back}
           </a>
-          <select
-            value={lang}
-            onChange={(e) => changeLang(e.target.value)}
-            className="text-xs sm:text-sm text-white rounded-xl px-2 py-2 outline-none cursor-pointer"
-            style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)" }}
-          >
-            {LANG_OPTIONS.map((o) => (
-              <option key={o.code} value={o.code} style={{ color: "#111" }}>{o.label}</option>
-            ))}
-          </select>
+          <LangPicker lang={lang} setLang={setLang} accentHover="hover:border-sky-500" accentCheck="text-sky-400" />
         </div>
 
+        {/* Branding / reklam */}
         <div className="text-center mb-5 sm:mb-8">
-          <a href="/" className="inline-flex items-center gap-2 text-white font-black text-xl sm:text-2xl hover:opacity-90 transition">
+          <a href="/" className="inline-flex items-center gap-2 font-black text-xl sm:text-2xl hover:opacity-90 transition">
             <span className="text-2xl sm:text-3xl">🎁</span>
-            <span>DrawPicker<span className="text-white/70">.io</span></span>
+            <span className="text-white">DrawPicker<span className="text-sky-400">.io</span></span>
           </a>
-          <p className="text-white/70 text-xs sm:text-sm mt-1">{rt.tagline}</p>
+          <p className="text-zinc-400 text-xs sm:text-sm mt-1">{rt.tagline}</p>
           <h1 className="text-xl sm:text-3xl font-black text-white mt-3 sm:mt-4">🎉 {rt.title}</h1>
         </div>
 
+        {/* Ana grid */}
         <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 flex-1">
-          <div className="rounded-3xl p-4 sm:p-6 flex flex-col gap-4" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.25)" }}>
+          {/* SOL — Cekilis bilgisi */}
+          <div className="rounded-3xl p-4 sm:p-6 flex flex-col gap-4" style={cardStyle}>
             <div className="text-white font-black text-base sm:text-lg flex items-center gap-2">
               <span>📋</span><span>{rt.drawInfo}</span>
             </div>
 
             <div>
-              <div className="text-white/60 text-[11px] uppercase tracking-widest mb-1">{rt.platform}</div>
+              <div className="text-zinc-500 text-[11px] uppercase tracking-widest mb-1">{rt.platform}</div>
               <div className="flex items-center gap-2">
                 <span className="text-xl sm:text-2xl">{isTwitter ? "𝕏" : "▶️"}</span>
                 <span className="text-white font-black text-base sm:text-lg">{isTwitter ? "Twitter / X" : "YouTube"}</span>
               </div>
             </div>
 
+            {/* Hangi gonderi icin cekilis */}
+            {result.title && (
+              <div>
+                <div className="text-zinc-500 text-[11px] uppercase tracking-widest mb-1">{rt.drawTitle}</div>
+                <div className="rounded-2xl p-3 text-zinc-200 text-sm leading-snug max-h-32 overflow-y-auto" style={innerStyle}>
+                  {result.author_username && (
+                    <span className="text-sky-400 font-semibold">@{result.author_username} · </span>
+                  )}
+                  {result.title}
+                </div>
+              </div>
+            )}
+
             {hasPostUrl && (
-              <a href={postUrl} target="_blank" rel="noopener noreferrer" className="text-white/90 hover:text-white text-sm underline underline-offset-4 break-all transition">
+              <a href={postUrl} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300 text-sm underline underline-offset-4 break-all transition">
                 🔗 {rt.viewPost}
               </a>
             )}
 
             {date && (
               <div>
-                <div className="text-white/60 text-[11px] uppercase tracking-widest mb-1">{rt.date}</div>
+                <div className="text-zinc-500 text-[11px] uppercase tracking-widest mb-1">{rt.date}</div>
                 <div className="text-white font-bold">{date}</div>
               </div>
             )}
 
+            {/* Istatistikler */}
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
-              <div className="rounded-2xl p-3 sm:p-4 text-center" style={{ background: "rgba(255,255,255,0.15)" }}>
+              <div className="rounded-2xl p-3 sm:p-4 text-center" style={innerStyle}>
                 <div className="text-white font-black text-xl sm:text-2xl">{result.total?.toLocaleString() || "—"}</div>
-                <div className="text-white/60 text-[10px] sm:text-xs mt-1">{rt.sParticipants}</div>
+                <div className="text-zinc-500 text-[10px] sm:text-xs mt-1">{rt.sParticipants}</div>
               </div>
-              <div className="rounded-2xl p-3 sm:p-4 text-center" style={{ background: "rgba(255,255,255,0.15)" }}>
-                <div className="text-white font-black text-xl sm:text-2xl">{winners.length}</div>
-                <div className="text-white/60 text-[10px] sm:text-xs mt-1">{rt.sWinners}</div>
+              <div className="rounded-2xl p-3 sm:p-4 text-center" style={innerStyle}>
+                <div className="text-sky-400 font-black text-xl sm:text-2xl">{winners.length}</div>
+                <div className="text-zinc-500 text-[10px] sm:text-xs mt-1">{rt.sWinners}</div>
               </div>
-              <div className="rounded-2xl p-3 sm:p-4 text-center" style={{ background: "rgba(255,255,255,0.15)" }}>
+              <div className="rounded-2xl p-3 sm:p-4 text-center" style={innerStyle}>
                 <div className="text-white font-black text-xl sm:text-2xl">{backups.length}</div>
-                <div className="text-white/60 text-[10px] sm:text-xs mt-1">{rt.sBackups}</div>
+                <div className="text-zinc-500 text-[10px] sm:text-xs mt-1">{rt.sBackups}</div>
               </div>
             </div>
 
+            {/* Uygulanan kurallar */}
             {activeRules.length > 0 && (
               <div>
-                <div className="text-white/60 text-[11px] uppercase tracking-widest mb-2">{rt.rulesTitle}</div>
+                <div className="text-zinc-500 text-[11px] uppercase tracking-widest mb-2">{rt.rulesTitle}</div>
                 <div className="flex flex-wrap gap-2">
                   {activeRules.map((k) => {
                     const valField = RULE_VALUE_FIELD[k];
                     const val = valField ? rulesObj[valField] : "";
                     return (
-                      <span key={k} className="text-white text-xs font-medium rounded-full px-3 py-1.5" style={{ background: "rgba(255,255,255,0.18)", border: "1px solid rgba(255,255,255,0.25)" }}>
+                      <span key={k} className="text-zinc-200 text-xs font-medium rounded-full px-3 py-1.5" style={{ background: "rgba(56,189,248,0.12)", border: "1px solid rgba(56,189,248,0.25)" }}>
                         ✓ {t("r_" + k)}{val ? `: ${val}` : ""}
                       </span>
                     );
@@ -280,40 +285,43 @@ export default function ResultPage() {
               </div>
             )}
 
-            <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(255,255,255,0.1)", border: "1px dashed rgba(255,255,255,0.3)" }}>
-              <div className="text-white/60 text-[11px] mb-1">📜 {rt.cert}</div>
+            {/* Sertifika */}
+            <div className="rounded-2xl p-4 text-center" style={{ background: "rgba(255,255,255,0.03)", border: "1px dashed rgba(255,255,255,0.18)" }}>
+              <div className="text-zinc-500 text-[11px] mb-1">📜 {rt.cert}</div>
               <div className="text-white font-black text-lg sm:text-xl tracking-widest break-all">{result.cert_code}</div>
             </div>
 
-            <button onClick={handleShare} className="w-full py-3.5 sm:py-4 rounded-2xl font-black text-sm sm:text-base transition hover:opacity-90 active:scale-95" style={{ background: "rgba(255,255,255,0.25)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.3)", color: "white" }}>
+            {/* Butonlar — hepsi ayni boyut */}
+            <button onClick={handleShare} className={`${btnBase} bg-gradient-to-r from-sky-600 to-sky-500 hover:opacity-90 text-white shadow-lg shadow-sky-500/20`}>
               {copied ? `✅ ${rt.copied}` : `🔗 ${rt.share}`}
             </button>
 
-            <a href={giveawayPath} className="w-full py-3.5 rounded-2xl font-black text-sm text-center transition hover:opacity-90 active:scale-95" style={{ background: "rgba(255,255,255,0.18)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.3)", color: "white" }}>
+            <a href={giveawayPath} className={`${btnBase} bg-white/10 hover:bg-white/15 border border-white/15 text-white`}>
               {t("redraw")}
             </a>
 
-            <a href={giveawayPath} className="w-full py-3 rounded-2xl font-bold text-sm text-center transition hover:opacity-90" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.85)" }}>
+            <a href={giveawayPath} className={`${btnBase} bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300`}>
               🎯 {rt.newDraw}
             </a>
           </div>
 
+          {/* SAG — Kazananlar */}
           <div className="flex flex-col gap-4">
-            <div className="rounded-3xl p-4 sm:p-6" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.25)" }}>
+            <div className="rounded-3xl p-4 sm:p-6" style={cardStyle}>
               <div className="text-white font-black text-lg sm:text-xl mb-4">🏆 {rt.winnersTitle}</div>
               <div className="space-y-3">
                 {winners.map((w, i) => (
-                  <div key={i} className="rounded-2xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4" style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.2)" }}>
+                  <div key={i} className="rounded-2xl p-3 sm:p-4 flex items-center gap-3 sm:gap-4" style={innerStyle}>
                     {w.profilePicture ? (
-                      <img src={w.profilePicture} alt={w.username} className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover flex-shrink-0" style={{ border: "2px solid rgba(255,255,255,0.4)" }} />
+                      <img src={w.profilePicture} alt={w.username} className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover flex-shrink-0" style={{ border: "2px solid rgba(56,189,248,0.4)" }} />
                     ) : (
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex-shrink-0 flex items-center justify-center text-white font-black text-lg sm:text-xl" style={{ background: `linear-gradient(135deg,hsl(${i * 80 + 200},70%,60%),hsl(${i * 80 + 240},70%,50%))` }}>
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex-shrink-0 flex items-center justify-center text-white font-black text-lg sm:text-xl" style={{ background: `linear-gradient(135deg,hsl(${i * 80 + 200},70%,55%),hsl(${i * 80 + 250},70%,45%))` }}>
                         {(w.username || "?")[0].toUpperCase()}
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
                       <div className="text-white font-black text-base sm:text-lg truncate">@{w.username}</div>
-                      {w.author && <div className="text-white/60 text-xs sm:text-sm truncate">{w.author}</div>}
+                      {w.author && <div className="text-zinc-400 text-xs sm:text-sm truncate">{w.author}</div>}
                     </div>
                     <div className="text-xl sm:text-2xl flex-shrink-0">🏆</div>
                   </div>
@@ -322,21 +330,21 @@ export default function ResultPage() {
             </div>
 
             {backups.length > 0 && (
-              <div className="rounded-3xl p-4 sm:p-6" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.15)" }}>
-                <div className="text-white/80 font-black text-base sm:text-lg mb-4">🥈 {rt.backupsTitle}</div>
+              <div className="rounded-3xl p-4 sm:p-6" style={cardStyle}>
+                <div className="text-zinc-300 font-black text-base sm:text-lg mb-4">🥈 {rt.backupsTitle}</div>
                 <div className="space-y-2">
                   {backups.map((w, i) => (
-                    <div key={i} className="rounded-xl p-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)" }}>
+                    <div key={i} className="rounded-xl p-3 flex items-center gap-3" style={innerStyle}>
                       {w.profilePicture ? (
                         <img src={w.profilePicture} alt={w.username} className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0" />
                       ) : (
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white font-black" style={{ background: "rgba(255,255,255,0.2)" }}>
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex-shrink-0 flex items-center justify-center text-white font-black" style={{ background: "rgba(255,255,255,0.12)" }}>
                           {(w.username || "?")[0].toUpperCase()}
                         </div>
                       )}
                       <div className="min-w-0">
                         <div className="text-white font-bold truncate">@{w.username}</div>
-                        {w.author && <div className="text-white/50 text-xs truncate">{w.author}</div>}
+                        {w.author && <div className="text-zinc-500 text-xs truncate">{w.author}</div>}
                       </div>
                     </div>
                   ))}
@@ -346,8 +354,9 @@ export default function ResultPage() {
           </div>
         </div>
 
+        {/* Alt branding */}
         <div className="text-center mt-6 sm:mt-8">
-          <a href="/" className="text-white/50 hover:text-white/80 text-xs transition">
+          <a href="/" className="text-zinc-600 hover:text-zinc-400 text-xs transition">
             🎁 DrawPicker.io — {rt.tagline}
           </a>
         </div>
