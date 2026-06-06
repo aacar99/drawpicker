@@ -276,15 +276,25 @@ export default function ResultPage() {
               </div>
             </div>
 
-            {/* Hangi gonderi icin cekilis */}
-            {result.title && (
+            {/* Hangi gonderi icin cekilis (yazar foto + adi + metin) */}
+            {(result.title || result.author_username) && (
               <div>
                 <div className="text-zinc-500 text-[11px] uppercase tracking-widest mb-1">{rt.drawTitle}</div>
-                <div className="rounded-2xl p-3 text-zinc-200 text-sm leading-snug max-h-32 overflow-y-auto" style={innerStyle}>
-                  {result.author_username && (
-                    <span className="text-sky-400 font-semibold">@{result.author_username} · </span>
+                <div className="rounded-2xl p-3" style={innerStyle}>
+                  {(result.author_avatar || result.author_username) && (
+                    <div className="flex items-center gap-2 mb-2">
+                      {result.author_avatar && (
+                        <img src={result.author_avatar} alt={result.author_username || ""} className="w-9 h-9 rounded-full object-cover flex-shrink-0" style={{ border: "1px solid rgba(255,255,255,0.15)" }} />
+                      )}
+                      <div className="min-w-0">
+                        {result.author_name && <div className="text-white text-sm font-bold truncate">{result.author_name}</div>}
+                        {result.author_username && <div className="text-sky-400 text-xs truncate">@{result.author_username}</div>}
+                      </div>
+                    </div>
                   )}
-                  {result.title}
+                  {result.title && (
+                    <div className="text-zinc-200 text-sm leading-snug max-h-28 overflow-y-auto">{result.title}</div>
+                  )}
                 </div>
               </div>
             )}
@@ -415,4 +425,3 @@ export default function ResultPage() {
     </main>
   );
 }
-
