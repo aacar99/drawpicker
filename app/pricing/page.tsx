@@ -11,7 +11,7 @@ const PT: Record<string, any> = {
     monthly: "Aylık", yearly: "Yıllık", discount: "%50'ye varan tasarruf", freeDesc: "Tek seferlik deneme",
     current: "Mevcut Plan", default: "Varsayılan", popular: "EN POPÜLER", perMonth: "ay", perYear: "yıl",
     yearlySave: "tasarruf", loading: "Yükleniyor...",
-    subBtn: "🔁 Abonelik (oto-yenilenir)", onceBtn: "💎 Tek Seferlik Al", onceNote: "Kripto ile ödenebilir · yenilenmez",
+    subBtn: "Abonelik Satın Al →", subNote: "Her ay otomatik yenilenir", onceBtn: "💎 Tek Seferlik Al", onceNote: "Kripto ile ödenebilir · yenilenmez",
     secure: "Güvenli ödeme · Dodo Payments",
     features: {
       free: ["200 katılımcıya kadar", "Ayda 1 çekiliş", "Tüm kurallar ve filtreler", "Sonuç sertifikası"],
@@ -26,7 +26,7 @@ const PT: Record<string, any> = {
     monthly: "Monthly", yearly: "Yearly", discount: "Save up to 50%", freeDesc: "One-time trial",
     current: "Current Plan", default: "Default", popular: "MOST POPULAR", perMonth: "month", perYear: "year",
     yearlySave: "saved", loading: "Loading...",
-    subBtn: "🔁 Subscription (auto-renew)", onceBtn: "💎 One-time Purchase", onceNote: "Crypto supported · no renewal",
+    subBtn: "Buy Subscription →", subNote: "Renews automatically every month", onceBtn: "💎 One-time Purchase", onceNote: "Crypto supported · no renewal",
     secure: "Secure payment · Dodo Payments",
     features: {
       free: ["Up to 200 participants", "1 giveaway / month", "All rules & filters", "Result certificate"],
@@ -41,7 +41,7 @@ const PT: Record<string, any> = {
     monthly: "Monatlich", yearly: "Jährlich", discount: "Bis zu 50% sparen", freeDesc: "Einmaliger Test",
     current: "Aktueller Plan", default: "Standard", popular: "BELIEBT", perMonth: "Monat", perYear: "Jahr",
     yearlySave: "gespart", loading: "Lädt...",
-    subBtn: "🔁 Abo (autom. Verlängerung)", onceBtn: "💎 Einmalkauf", onceNote: "Krypto möglich · keine Verlängerung",
+    subBtn: "Abo kaufen →", subNote: "Verlängert sich monatlich automatisch", onceBtn: "💎 Einmalkauf", onceNote: "Krypto möglich · keine Verlängerung",
     secure: "Sichere Zahlung · Dodo Payments",
     features: {
       free: ["Bis zu 200 Teilnehmer", "1 Gewinnspiel / Monat", "Alle Regeln & Filter", "Ergebniszertifikat"],
@@ -56,7 +56,7 @@ const PT: Record<string, any> = {
     monthly: "Mensual", yearly: "Anual", discount: "Ahorra hasta 50%", freeDesc: "Prueba única",
     current: "Plan actual", default: "Predeterminado", popular: "MÁS POPULAR", perMonth: "mes", perYear: "año",
     yearlySave: "ahorro", loading: "Cargando...",
-    subBtn: "🔁 Suscripción (auto-renovable)", onceBtn: "💎 Compra única", onceNote: "Cripto disponible · sin renovación",
+    subBtn: "Comprar suscripción →", subNote: "Se renueva automáticamente cada mes", onceBtn: "💎 Compra única", onceNote: "Cripto disponible · sin renovación",
     secure: "Pago seguro · Dodo Payments",
     features: {
       free: ["Hasta 200 participantes", "1 sorteo / mes", "Todas las reglas y filtros", "Certificado de resultado"],
@@ -71,7 +71,7 @@ const PT: Record<string, any> = {
     monthly: "Mensuel", yearly: "Annuel", discount: "Économisez jusqu’à 50%", freeDesc: "Essai unique",
     current: "Plan actuel", default: "Par défaut", popular: "LE PLUS POPULAIRE", perMonth: "mois", perYear: "an",
     yearlySave: "économisé", loading: "Chargement...",
-    subBtn: "🔁 Abonnement (renouv. auto)", onceBtn: "💎 Achat unique", onceNote: "Crypto possible · sans renouvellement",
+    subBtn: "Acheter l’abonnement →", subNote: "Renouvellement automatique chaque mois", onceBtn: "💎 Achat unique", onceNote: "Crypto possible · sans renouvellement",
     secure: "Paiement sécurisé · Dodo Payments",
     features: {
       free: ["Jusqu’à 200 participants", "1 tirage / mois", "Toutes les règles et filtres", "Certificat de résultat"],
@@ -86,7 +86,7 @@ const PT: Record<string, any> = {
     monthly: "Mensile", yearly: "Annuale", discount: "Risparmia fino al 50%", freeDesc: "Prova singola",
     current: "Piano attuale", default: "Predefinito", popular: "PIÙ POPOLARE", perMonth: "mese", perYear: "anno",
     yearlySave: "risparmio", loading: "Caricamento...",
-    subBtn: "🔁 Abbonamento (rinnovo auto)", onceBtn: "💎 Acquisto singolo", onceNote: "Cripto supportato · nessun rinnovo",
+    subBtn: "Acquista abbonamento →", subNote: "Si rinnova automaticamente ogni mese", onceBtn: "💎 Acquisto singolo", onceNote: "Cripto supportato · nessun rinnovo",
     secure: "Pagamento sicuro · Dodo Payments",
     features: {
       free: ["Fino a 200 partecipanti", "1 estrazione / mese", "Tutte le regole e i filtri", "Certificato dei risultati"],
@@ -101,7 +101,7 @@ const PT: Record<string, any> = {
     monthly: "月付", yearly: "年付", discount: "最高节省 50%", freeDesc: "一次性试用",
     current: "当前方案", default: "默认", popular: "最受欢迎", perMonth: "月", perYear: "年",
     yearlySave: "节省", loading: "加载中...",
-    subBtn: "🔁 订阅（自动续费）", onceBtn: "💎 一次性购买", onceNote: "支持加密货币 · 不续费",
+    subBtn: "购买订阅 →", subNote: "每月自动续订", onceBtn: "💎 一次性购买", onceNote: "支持加密货币 · 不续费",
     secure: "安全支付 · Dodo Payments",
     features: {
       free: ["最多 200 名参与者", "每月 1 次抽奖", "全部规则与筛选", "结果证书"],
@@ -116,7 +116,7 @@ const PT: Record<string, any> = {
     monthly: "Месяц", yearly: "Год", discount: "Экономия до 50%", freeDesc: "Разовая проба",
     current: "Текущий план", default: "По умолчанию", popular: "ПОПУЛЯРНЫЙ", perMonth: "мес", perYear: "год",
     yearlySave: "экономия", loading: "Загрузка...",
-    subBtn: "🔁 Подписка (автопродление)", onceBtn: "💎 Разовая покупка", onceNote: "Крипто · без продления",
+    subBtn: "Купить подписку →", subNote: "Автоматически продлевается каждый месяц", onceBtn: "💎 Разовая покупка", onceNote: "Крипто · без продления",
     secure: "Безопасная оплата · Dodo Payments",
     features: {
       free: ["До 200 участников", "1 розыгрыш в месяц", "Все правила и фильтры", "Сертификат результата"],
@@ -131,7 +131,7 @@ const PT: Record<string, any> = {
     monthly: "월간", yearly: "연간", discount: "최대 50% 절약", freeDesc: "1회 체험",
     current: "현재 플랜", default: "기본", popular: "가장 인기", perMonth: "월", perYear: "년",
     yearlySave: "절약", loading: "로딩 중...",
-    subBtn: "🔁 구독 (자동 갱신)", onceBtn: "💎 일회성 구매", onceNote: "암호화폐 가능 · 갱신 없음",
+    subBtn: "구독 구매 →", subNote: "매월 자동 갱신됩니다", onceBtn: "💎 일회성 구매", onceNote: "암호화폐 가능 · 갱신 없음",
     secure: "안전 결제 · Dodo Payments",
     features: {
       free: ["최대 200명 참가", "월 1회 추첨", "모든 규칙 및 필터", "결과 인증서"],
@@ -146,7 +146,7 @@ const PT: Record<string, any> = {
     monthly: "Μηνιαίο", yearly: "Ετήσιο", discount: "Εξοικονομήστε έως 50%", freeDesc: "Μία δοκιμή",
     current: "Τρέχον πλάνο", default: "Προεπιλογή", popular: "ΔΗΜΟΦΙΛΕΣ", perMonth: "μήνα", perYear: "έτος",
     yearlySave: "εξοικονόμηση", loading: "Φόρτωση...",
-    subBtn: "🔁 Συνδρομή (αυτόμ. ανανέωση)", onceBtn: "💎 Εφάπαξ αγορά", onceNote: "Κρύπτο · χωρίς ανανέωση",
+    subBtn: "Αγορά συνδρομής →", subNote: "Ανανεώνεται αυτόματα κάθε μήνα", onceBtn: "💎 Εφάπαξ αγορά", onceNote: "Κρύπτο · χωρίς ανανέωση",
     secure: "Ασφαλής πληρωμή · Dodo Payments",
     features: {
       free: ["Έως 200 συμμετέχοντες", "1 κλήρωση / μήνα", "Όλοι οι κανόνες & φίλτρα", "Πιστοποιητικό αποτελέσματος"],
@@ -161,7 +161,7 @@ const PT: Record<string, any> = {
     monthly: "Miesięcznie", yearly: "Rocznie", discount: "Oszczędź do 50%", freeDesc: "Jednorazowy test",
     current: "Aktualny plan", default: "Domyślny", popular: "NAJPOPULARNIEJSZY", perMonth: "mies.", perYear: "rok",
     yearlySave: "oszczędzasz", loading: "Ładowanie...",
-    subBtn: "🔁 Subskrypcja (auto-odnawianie)", onceBtn: "💎 Zakup jednorazowy", onceNote: "Krypto · bez odnawiania",
+    subBtn: "Kup subskrypcję →", subNote: "Odnawia się automatycznie co miesiąc", onceBtn: "💎 Zakup jednorazowy", onceNote: "Krypto · bez odnawiania",
     secure: "Bezpieczna płatność · Dodo Payments",
     features: {
       free: ["Do 200 uczestników", "1 losowanie / miesiąc", "Wszystkie reguły i filtry", "Certyfikat wyniku"],
@@ -176,7 +176,7 @@ const PT: Record<string, any> = {
     monthly: "Lunar", yearly: "Anual", discount: "Economisești până la 50%", freeDesc: "Test unic",
     current: "Plan curent", default: "Implicit", popular: "CEL MAI POPULAR", perMonth: "lună", perYear: "an",
     yearlySave: "economisești", loading: "Se încarcă...",
-    subBtn: "🔁 Abonament (reînnoire auto)", onceBtn: "💎 Achiziție unică", onceNote: "Cripto · fără reînnoire",
+    subBtn: "Cumpără abonament →", subNote: "Se reînnoiește automat lunar", onceBtn: "💎 Achiziție unică", onceNote: "Cripto · fără reînnoire",
     secure: "Plată securizată · Dodo Payments",
     features: {
       free: ["Până la 200 participanți", "1 extragere / lună", "Toate regulile și filtrele", "Certificat de rezultat"],
@@ -320,6 +320,8 @@ export default function PricingPage() {
                 >
                   {subLoading ? `⏳ ${txt.loading}` : isCurrentPlan ? `✓ ${txt.current}` : txt.subBtn}
                 </button>
+
+                <p className="text-center text-zinc-400 text-xs mt-1">{txt.subNote}</p>
 
                 {/* Tek seferlik (kripto) */}
                 <button
