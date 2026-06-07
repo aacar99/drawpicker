@@ -55,11 +55,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "DODO_API_KEY eksik" }, { status: 500 });
     }
 
-    // Abonelik -> /subscriptions, Tek seferlik -> /checkouts
-    const endpoint =
-      billingMode === "subscription"
-        ? "https://live.dodopayments.com/subscriptions"
-        : "https://live.dodopayments.com/checkouts";
+    const endpoint = "https://live.dodopayments.com/checkouts";
 
     const payload: any = {
       customer: {
@@ -67,6 +63,7 @@ export async function POST(req: Request) {
         name: user.email?.split("@")[0] || "Customer",
         create_new_customer: false,
       },
+      product_cart: [{ product_id: productId, quantity: 1 }],
       return_url: "https://drawpicker.io/dashboard?payment=success",
       metadata: {
         user_id: user.id,
@@ -75,13 +72,6 @@ export async function POST(req: Request) {
         mode: billingMode,
       },
     };
-
-    if (billingMode === "subscription") {
-      payload.product_id = productId;
-      payload.quantity = 1;
-    } else {
-      payload.product_cart = [{ product_id: productId, quantity: 1 }];
-    }
 
     const dodoRes = await fetch(endpoint, {
       method: "POST",
