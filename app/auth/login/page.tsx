@@ -34,38 +34,37 @@ export default function LoginPage() {
   }, []);
 
   const t = T[lang] || T.en;
-  const supabase = createClient();
 
   async function handleEmail() {
     setLoading(true);
     setError("");
     setMessage("");
+    const supabase = createClient();
     if (isSignUp) {
       const { error } = await supabase.auth.signUp({
         email, password,
-        options: { emailRedirectTo: `${location.origin}/auth/callback` },
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
       });
       if (error) setError(error.message);
       else setMessage(t.verified);
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) setError(error.message);
-      else location.href = "/";
+      else window.location.href = "/";
     }
     setLoading(false);
   }
 
   async function handleGoogle() {
+    const supabase = createClient();
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${location.origin}/auth/callback` },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
   }
 
   return (
     <main className="min-h-screen bg-[#0a0a0f] text-white flex items-center justify-center px-4">
-      <div className="fixed top-4 left-4"><a href="/" className="text-zinc-500 text-sm hover:text-white transition border border-white/10 hover:border-white/30 px-3 py-2 rounded-xl">← Ana Sayfa</a></div>
-      <div className="fixed top-4 left-4"><a href="/" className="text-zinc-500 text-sm hover:text-white transition border border-white/10 hover:border-white/30 px-3 py-2 rounded-xl">← Ana Sayfa</a></div>
       <div className="w-full max-w-sm">
         <a href="/" className="block text-center text-zinc-500 text-sm mb-6 hover:text-white transition">
           {t.back}
@@ -78,7 +77,7 @@ export default function LoginPage() {
         </p>
         <button onClick={handleGoogle}
           className="w-full flex items-center justify-center gap-3 bg-white text-gray-800 font-bold py-3 rounded-xl mb-4 hover:bg-gray-100 transition">
-          <img src="https://www.google.com/favicon.ico" className="w-5 h-5" />
+          <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
           {t.google}
         </button>
         <div className="flex items-center gap-3 mb-4">

@@ -34,6 +34,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Sınırsız çekiliş", "5.000 katılımcıya kadar", "Yedek kazanan", "CSV export", "Sonuç sertifikası"],
       pro: ["Sınırsız çekiliş", "40.000 katılımcıya kadar", "Tüm özellikler", "Öncelikli destek"],
       business: ["Sınırsız çekiliş", "300.000 katılımcıya kadar", "Tüm özellikler", "Özel destek"],
+      diamond: ["1.000.000 katılımcıya kadar", "Sınırsız çekiliş", "Tüm kurallar ve filtreler", "AI bot / spam filtresi", "Yedek kazanan & CSV export", "Doğrulanabilir sonuç sertifikası", "Marka kaldırma & API erişimi", "7/24 destek"],
     },
   },
   en: {
@@ -53,6 +54,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Unlimited giveaways", "Up to 5,000 participants", "Backup winners", "CSV export", "Result certificate"],
       pro: ["Unlimited giveaways", "Up to 40,000 participants", "All features", "Priority support"],
       business: ["Unlimited giveaways", "Up to 300,000 participants", "All features", "Dedicated support"],
+      diamond: ["Up to 1,000,000 participants", "Unlimited giveaways", "All rules & filters", "AI bot / spam filter", "Backup winners & CSV export", "Verifiable result certificate", "Branding removal & API access", "24/7 support"],
     },
   },
   de: {
@@ -72,6 +74,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Unbegrenzte Gewinnspiele", "Bis zu 5.000 Teilnehmer", "Ersatzgewinner", "CSV Export", "Zertifikat"],
       pro: ["Unbegrenzte Gewinnspiele", "Bis zu 40.000 Teilnehmer", "Alle Funktionen", "Priorisierter Support"],
       business: ["Unbegrenzte Gewinnspiele", "Bis zu 300.000 Teilnehmer", "Alle Funktionen", "Premium-Support"],
+      diamond: ["Bis zu 1.000.000 Teilnehmer", "Unbegrenzte Gewinnspiele", "Alle Regeln & Filter", "KI Bot- / Spam-Filter", "Ersatzgewinner & CSV-Export", "Überprüfbares Ergebniszertifikat", "Branding-Entfernung & API-Zugang", "24/7 Support"],
     },
   },
   fr: {
@@ -91,6 +94,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Tirages illimités", "Jusqu'à 5.000 participants", "Gagnants suppléants", "Export CSV", "Certificat"],
       pro: ["Tirages illimités", "Jusqu'à 40.000 participants", "Toutes les fonctions", "Support prioritaire"],
       business: ["Tirages illimités", "Jusqu'à 300.000 participants", "Toutes les fonctions", "Support dédié"],
+      diamond: ["Jusqu'à 1 000 000 participants", "Tirages illimités", "Toutes les règles et filtres", "Filtre anti-bot / spam IA", "Gagnants de secours & export CSV", "Certificat de résultat vérifiable", "Suppression du branding & accès API", "Support 24/7"],
     },
   },
   es: {
@@ -110,6 +114,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Sorteos ilimitados", "Hasta 5.000 participantes", "Ganadores suplentes", "Exportar CSV", "Certificado"],
       pro: ["Sorteos ilimitados", "Hasta 40.000 participantes", "Todas las funciones", "Soporte prioritario"],
       business: ["Sorteos ilimitados", "Hasta 300.000 participantes", "Todas las funciones", "Soporte dedicado"],
+      diamond: ["Hasta 1.000.000 participantes", "Sorteos ilimitados", "Todas las reglas y filtros", "Filtro de bots / spam con IA", "Ganadores de reserva y exportación CSV", "Certificado de resultado verificable", "Eliminación de marca y acceso API", "Soporte 24/7"],
     },
   },
   it: {
@@ -129,6 +134,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Sorteggi illimitati", "Fino a 5.000 partecipanti", "Vincitori di riserva", "Export CSV", "Certificato"],
       pro: ["Sorteggi illimitati", "Fino a 40.000 partecipanti", "Tutte le funzioni", "Supporto prioritario"],
       business: ["Sorteggi illimitati", "Fino a 300.000 partecipanti", "Tutte le funzioni", "Supporto dedicato"],
+      diamond: ["Fino a 1.000.000 partecipanti", "Sorteggi illimitati", "Tutte le regole e i filtri", "Filtro bot / spam IA", "Vincitori di riserva ed esportazione CSV", "Certificato dei risultati verificabile", "Rimozione branding e accesso API", "Supporto 24/7"],
     },
   },
   ru: {
@@ -148,6 +154,7 @@ const HOME_TEXT: Record<string, any> = {
       starter: ["Неограниченные розыгрыши", "До 5.000 участников", "Запасные победители", "CSV экспорт", "Сертификат"],
       pro: ["Неограниченные розыгрыши", "До 40.000 участников", "Все функции", "Приоритетная поддержка"],
       business: ["Неограниченные розыгрыши", "До 300.000 участников", "Все функции", "Выделенная поддержка"],
+      diamond: ["До 1 000 000 участников", "Безлимитные розыгрыши", "Все правила и фильтры", "ИИ фильтр ботов / спама", "Запасные победители и экспорт CSV", "Проверяемый сертификат результата", "Удаление брендинга и доступ к API", "Поддержка 24/7"],
     },
   },
   zh: {
@@ -470,8 +477,8 @@ export default function Home() {
           <a href="/auth/login" className="bg-white/10 hover:bg-white/20 px-6 py-3 rounded-xl font-bold text-sm transition">{h.startFree}</a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          {(["starter", "pro", "business"] as const).map((key) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+          {(["starter", "pro", "business", "diamond"] as const).map((key) => {
             const plan = PLANS[key];
             const price = pricingInterval === "yearly" ? plan.yearlyPrice : plan.monthlyPrice;
             const isPopular = key === "pro";
@@ -486,7 +493,7 @@ export default function Home() {
                     <li key={i} className="text-zinc-400 text-sm flex items-center gap-2"><span className="text-green-400">✓</span> {f}</li>
                   ))}
                 </ul>
-                <a href="/pricing" className={`block w-full text-center py-3 rounded-xl font-bold text-sm transition ${isPopular ? "bg-purple-600 hover:bg-purple-500" : "bg-sky-600 hover:bg-sky-500"}`}>{h.buy}</a>
+                <a href="/pricing" className={`block w-full text-center py-3 rounded-xl font-bold text-sm transition ${isPopular ? "bg-purple-600 hover:bg-purple-500" : "bg-sky-600 hover:bg-sky-500"}`}>{h.details}</a>
               </div>
             );
           })}
