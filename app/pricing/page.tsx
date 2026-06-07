@@ -12,6 +12,7 @@ const PT: Record<string, any> = {
     current: "Mevcut Plan", default: "Varsayılan", popular: "EN POPÜLER", perMonth: "ay", perYear: "yıl",
     yearlySave: "tasarruf", loading: "Yükleniyor...",
     subBtn: "Abonelik Satın Al →", subNote: "Her ay otomatik yenilenir", onceBtn: "💎 Tek Seferlik Al", onceNote: "Kripto ile ödenebilir · yenilenmez",
+    planNames: { free: "Ücretsiz", starter: "Bronz", pro: "Gümüş", business: "Altın", diamond: "Pırlanta" },
     secure: "Güvenli ödeme · Dodo Payments",
     features: {
       free: ["200 katılımcıya kadar", "Ayda 1 çekiliş", "Tüm kurallar ve filtreler", "Sonuç sertifikası"],
@@ -27,6 +28,7 @@ const PT: Record<string, any> = {
     current: "Current Plan", default: "Default", popular: "MOST POPULAR", perMonth: "month", perYear: "year",
     yearlySave: "saved", loading: "Loading...",
     subBtn: "Buy Subscription →", subNote: "Renews automatically every month", onceBtn: "💎 One-time Purchase", onceNote: "Crypto supported · no renewal",
+    planNames: { free: "Free", starter: "Bronze", pro: "Silver", business: "Gold", diamond: "Diamond" },
     secure: "Secure payment · Dodo Payments",
     features: {
       free: ["Up to 200 participants", "1 giveaway / month", "All rules & filters", "Result certificate"],
@@ -42,6 +44,7 @@ const PT: Record<string, any> = {
     current: "Aktueller Plan", default: "Standard", popular: "BELIEBT", perMonth: "Monat", perYear: "Jahr",
     yearlySave: "gespart", loading: "Lädt...",
     subBtn: "Abo kaufen →", subNote: "Verlängert sich monatlich automatisch", onceBtn: "💎 Einmalkauf", onceNote: "Krypto möglich · keine Verlängerung",
+    planNames: { free: "Kostenlos", starter: "Bronze", pro: "Silber", business: "Gold", diamond: "Diamant" },
     secure: "Sichere Zahlung · Dodo Payments",
     features: {
       free: ["Bis zu 200 Teilnehmer", "1 Gewinnspiel / Monat", "Alle Regeln & Filter", "Ergebniszertifikat"],
@@ -57,6 +60,7 @@ const PT: Record<string, any> = {
     current: "Plan actual", default: "Predeterminado", popular: "MÁS POPULAR", perMonth: "mes", perYear: "año",
     yearlySave: "ahorro", loading: "Cargando...",
     subBtn: "Comprar suscripción →", subNote: "Se renueva automáticamente cada mes", onceBtn: "💎 Compra única", onceNote: "Cripto disponible · sin renovación",
+    planNames: { free: "Gratis", starter: "Bronce", pro: "Plata", business: "Oro", diamond: "Diamante" },
     secure: "Pago seguro · Dodo Payments",
     features: {
       free: ["Hasta 200 participantes", "1 sorteo / mes", "Todas las reglas y filtros", "Certificado de resultado"],
@@ -71,8 +75,7 @@ const PT: Record<string, any> = {
     monthly: "Mensuel", yearly: "Annuel", discount: "Économisez jusqu’à 50%", freeDesc: "Essai unique",
     current: "Plan actuel", default: "Par défaut", popular: "LE PLUS POPULAIRE", perMonth: "mois", perYear: "an",
     yearlySave: "économisé", loading: "Chargement...",
-    subBtn: "Acheter l’abonnement →", subNote: "Renouvellement automatique chaque mois", onceBtn: "💎 Achat unique", onceNote: "Crypto possible · sans renouvellement",
-    secure: "Paiement sécurisé · Dodo Payments",
+    subBtn: "Acheter l’abonnement →", subNote: "Renouvellement automatique chaque mois", onceBtn: "💎 Achat unique", onceNote: "Crypto possible · sans renouvellement",    planNames: { free: "Gratuit", starter: "Bronze", pro: "Argent", business: "Or", diamond: "Diamant" },    secure: "Paiement sécurisé · Dodo Payments",
     features: {
       free: ["Jusqu’à 200 participants", "1 tirage / mois", "Toutes les règles et filtres", "Certificat de résultat"],
       starter: ["Jusqu’à 5 000 participants", "Tirages illimités", "Toutes les règles et filtres", "Filtre anti-bot / spam IA", "Gagnants de secours & export CSV", "Certificat de résultat vérifiable", "Suppression du branding & accès API", "Support 24/7"],
@@ -87,6 +90,7 @@ const PT: Record<string, any> = {
     current: "Piano attuale", default: "Predefinito", popular: "PIÙ POPOLARE", perMonth: "mese", perYear: "anno",
     yearlySave: "risparmio", loading: "Caricamento...",
     subBtn: "Acquista abbonamento →", subNote: "Si rinnova automaticamente ogni mese", onceBtn: "💎 Acquisto singolo", onceNote: "Cripto supportato · nessun rinnovo",
+    planNames: { free: "Gratuito", starter: "Bronzo", pro: "Argento", business: "Oro", diamond: "Diamante" },
     secure: "Pagamento sicuro · Dodo Payments",
     features: {
       free: ["Fino a 200 partecipanti", "1 estrazione / mese", "Tutte le regole e i filtri", "Certificato dei risultati"],
@@ -102,6 +106,7 @@ const PT: Record<string, any> = {
     current: "当前方案", default: "默认", popular: "最受欢迎", perMonth: "月", perYear: "年",
     yearlySave: "节省", loading: "加载中...",
     subBtn: "购买订阅 →", subNote: "每月自动续订", onceBtn: "💎 一次性购买", onceNote: "支持加密货币 · 不续费",
+    planNames: { free: "免费", starter: "青铜", pro: "白银", business: "黄金", diamond: "钻石" },
     secure: "安全支付 · Dodo Payments",
     features: {
       free: ["最多 200 名参与者", "每月 1 次抽奖", "全部规则与筛选", "结果证书"],
@@ -117,6 +122,7 @@ const PT: Record<string, any> = {
     current: "Текущий план", default: "По умолчанию", popular: "ПОПУЛЯРНЫЙ", perMonth: "мес", perYear: "год",
     yearlySave: "экономия", loading: "Загрузка...",
     subBtn: "Купить подписку →", subNote: "Автоматически продлевается каждый месяц", onceBtn: "💎 Разовая покупка", onceNote: "Крипто · без продления",
+    planNames: { free: "Бесплатный", starter: "Бронза", pro: "Серебро", business: "Золото", diamond: "Алмаз" },
     secure: "Безопасная оплата · Dodo Payments",
     features: {
       free: ["До 200 участников", "1 розыгрыш в месяц", "Все правила и фильтры", "Сертификат результата"],
@@ -132,6 +138,7 @@ const PT: Record<string, any> = {
     current: "현재 플랜", default: "기본", popular: "가장 인기", perMonth: "월", perYear: "년",
     yearlySave: "절약", loading: "로딩 중...",
     subBtn: "구독 구매 →", subNote: "매월 자동 갱신됩니다", onceBtn: "💎 일회성 구매", onceNote: "암호화폐 가능 · 갱신 없음",
+    planNames: { free: "무료", starter: "청동", pro: "은", business: "금", diamond: "다이아몬드" },
     secure: "안전 결제 · Dodo Payments",
     features: {
       free: ["최대 200명 참가", "월 1회 추첨", "모든 규칙 및 필터", "결과 인증서"],
@@ -147,6 +154,7 @@ const PT: Record<string, any> = {
     current: "Τρέχον πλάνο", default: "Προεπιλογή", popular: "ΔΗΜΟΦΙΛΕΣ", perMonth: "μήνα", perYear: "έτος",
     yearlySave: "εξοικονόμηση", loading: "Φόρτωση...",
     subBtn: "Αγορά συνδρομής →", subNote: "Ανανεώνεται αυτόματα κάθε μήνα", onceBtn: "💎 Εφάπαξ αγορά", onceNote: "Κρύπτο · χωρίς ανανέωση",
+    planNames: { free: "Δωρεάν", starter: "Χάλκινο", pro: "Ασημένιο", business: "Χρυσό", diamond: "Διαμάντι" },
     secure: "Ασφαλής πληρωμή · Dodo Payments",
     features: {
       free: ["Έως 200 συμμετέχοντες", "1 κλήρωση / μήνα", "Όλοι οι κανόνες & φίλτρα", "Πιστοποιητικό αποτελέσματος"],
@@ -162,6 +170,7 @@ const PT: Record<string, any> = {
     current: "Aktualny plan", default: "Domyślny", popular: "NAJPOPULARNIEJSZY", perMonth: "mies.", perYear: "rok",
     yearlySave: "oszczędzasz", loading: "Ładowanie...",
     subBtn: "Kup subskrypcję →", subNote: "Odnawia się automatycznie co miesiąc", onceBtn: "💎 Zakup jednorazowy", onceNote: "Krypto · bez odnawiania",
+    planNames: { free: "Darmowy", starter: "Brąż", pro: "Srebro", business: "Złoto", diamond: "Diament" },
     secure: "Bezpieczna płatność · Dodo Payments",
     features: {
       free: ["Do 200 uczestników", "1 losowanie / miesiąc", "Wszystkie reguły i filtry", "Certyfikat wyniku"],
@@ -177,6 +186,7 @@ const PT: Record<string, any> = {
     current: "Plan curent", default: "Implicit", popular: "CEL MAI POPULAR", perMonth: "lună", perYear: "an",
     yearlySave: "economisești", loading: "Se încarcă...",
     subBtn: "Cumpără abonament →", subNote: "Se reînnoiește automat lunar", onceBtn: "💎 Achiziție unică", onceNote: "Cripto · fără reînnoire",
+    planNames: { free: "Gratuit", starter: "Bronz", pro: "Argint", business: "Aur", diamond: "Diamant" },
     secure: "Plată securizată · Dodo Payments",
     features: {
       free: ["Până la 200 participanți", "1 extragere / lună", "Toate regulile și filtrele", "Certificat de rezultat"],
@@ -298,7 +308,7 @@ export default function PricingPage() {
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-xs font-black px-4 py-1 rounded-full">{txt.popular}</div>
                 )}
 
-                <div className="font-black text-2xl mb-1">{plan.name}</div>
+                <div className="font-black text-2xl mb-1">{txt.planNames[plan.key]}</div>
                 <div className="text-4xl font-black mb-1">
                   ${price}<span className="text-zinc-500 text-base font-normal">/{interval === "yearly" ? txt.perYear : txt.perMonth}</span>
                 </div>
@@ -321,7 +331,7 @@ export default function PricingPage() {
                   {subLoading ? `⏳ ${txt.loading}` : isCurrentPlan ? `✓ ${txt.current}` : txt.subBtn}
                 </button>
 
-                <p className="text-center text-zinc-400 text-xs mt-1">{txt.subNote}</p>
+                <p className="text-center text-blue-300 bg-blue-500/15 px-3 py-1.5 rounded-full text-xs font-medium mt-2 border border-blue-500/30">{txt.subNote}</p>
 
                 {/* Tek seferlik (kripto) */}
                 <button
